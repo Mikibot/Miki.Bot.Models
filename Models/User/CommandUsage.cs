@@ -21,14 +21,6 @@ namespace Miki.Models
 
 		public static async Task<CommandUsage> GetAsync(MikiContext context, long userId, string name)
 		{
-			string key = $"commandusage:{userId}:{name}";
-
-			if (await Global.RedisClient.ExistsAsync(key))
-			{
-				var usage = await Global.RedisClient.GetAsync<CommandUsage>(key);
-				return context.Attach(usage).Entity;
-			}
-
 			CommandUsage achievement = await context.CommandUsages.FindAsync(userId, name);
 
 			if (achievement == null)
@@ -42,14 +34,7 @@ namespace Miki.Models
 				await context.SaveChangesAsync();
 			}
 
-			await Global.RedisClient.UpsertAsync(key, achievement);
 			return achievement;
-		}
-
-		public static async Task UpdateCacheAsync(long userId, string name, CommandUsage usage)
-		{
-			string key = $"commandusage:{userId}:{name}";
-			await Global.RedisClient.UpsertAsync(key, usage);
 		}
     }
 }

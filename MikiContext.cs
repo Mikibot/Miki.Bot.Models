@@ -1,8 +1,5 @@
-using Miki.Framework;
-using Miki.Framework.FileHandling;
 using Microsoft.EntityFrameworkCore;
 using Miki.Models.Objects.Guild;
-using Newtonsoft.Json;
 using System;
 using Microsoft.Extensions.Logging;
 using Miki.Models.Objects.User;
@@ -34,12 +31,6 @@ namespace Miki.Models
 		public MikiContext() 
 			: base()
 		{ }	
-
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			optionsBuilder.UseNpgsql(Global.Config.ConnString);
-			base.OnConfiguring(optionsBuilder);
-		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

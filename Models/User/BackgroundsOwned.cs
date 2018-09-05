@@ -1,5 +1,4 @@
-﻿using Miki.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ namespace Miki.Models.Objects.User
 		public int BackgroundId { get; set; }
 
 		public static Task<BackgroundsOwned> GetAsync(ulong userId, int backgroundId, MikiContext context)
-			=> GetAsync(userId.ToDbLong(), backgroundId, context);
+			=> GetAsync((long)userId, backgroundId, context);
 		public static async Task<BackgroundsOwned> GetAsync(long userId, int backgroundId, MikiContext context)
 		{
 			var bg = await context.BackgroundsOwned.FindAsync(userId, backgroundId);

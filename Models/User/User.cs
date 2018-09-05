@@ -1,20 +1,10 @@
-﻿using Miki.Framework;
-using Microsoft.EntityFrameworkCore;
-using Miki.Accounts.Achievements;
+﻿using Microsoft.EntityFrameworkCore;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Miki.Framework.Events;
-using Miki.Common;
-using StatsdClient;
 using Miki.Exceptions;
-using Miki.Framework.Events.Filters;
-using Miki.Discord.Common;
 
 namespace Miki.Models
 {
@@ -46,36 +36,6 @@ namespace Miki.Models
 
 		public int Level => CalculateLevel(Total_Experience);
 
-        public async Task AddCurrencyAsync(int amount, IDiscordChannel channel = null, User fromUser = null)
-        {
-			if (Banned) return;
-
-			if (amount < 0)
-			{
-				if (Currency < Math.Abs(amount))
-				{
-					throw new InsufficientCurrencyException(Currency, Math.Abs(amount));
-				}
-			}
-
-			DogStatsd.Counter("currency.change", amount);
-
-            Currency += amount;
-
-            if (channel is IDiscordGuildChannel guildchannel)
-            {
-                await AchievementManager.Instance.CallTransactionMadeEventAsync(guildchannel, this, fromUser, Currency);
-            }
-        }
-
-        public static async Task<User> CreateAsync(IDiscordMessage e)
-        {
-			return await CreateAsync(e.Author.Id.ToDbLong(), e.Author.Username);
-        }
-		public static async Task<User> CreateAsync(IDiscordUser u)
-		{
-			return await CreateAsync(u.Id.ToDbLong(), u.Username);
-		}
 		public static async Task<User> CreateAsync(long id, string name = "use >syncname")
 		{
 			using (var context = new MikiContext())
@@ -86,7 +46,7 @@ namespace Miki.Models
 					Currency = 0,
 					AvatarUrl = "default",
 					HeaderUrl = "default",
-					LastDailyTime = Utils.MinDbValue,
+					LastDailyTime = DateTime.UtcNow - TimeSpan.FromDays(1),
 					MarriageSlots = 5,
 					Name = name,
 					Title = "",
@@ -102,17 +62,15 @@ namespace Miki.Models
 			}
 		}
 
-		public static async Task<User> GetAsync(MikiContext context, IDiscordUser u)
+		public static async Task<User> GetAsync(MikiContext context, long id)
 		{
-			long id = u.Id.ToDbLong();
-
 			User user = null;
 
 			user = await context.Users.FindAsync(id);
 
 			if(user == null)
 			{
-				return await CreateAsync(u);
+				return await CreateAsync(id);
 			}
 			return user;
 		}
@@ -186,40 +144,6 @@ namespace Miki.Models
 			IsDonator d = await context.IsDonator.FindAsync(Id);
 			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
 			return b;
-		}
-
-		public static async Task BanAsync(long id)
-		{
-			using (var context = new MikiContext())
-			{
-				User u = await context.Users.FindAsync(id);
-
-				await Marriage.DivorceAllMarriagesAsync(context, id);
-				await Marriage.DeclineAllProposalsAsync(context, id);
-
-				context.CommandUsages.RemoveRange(
-					await context.CommandUsages.Where(x => x.UserId == id).ToListAsync()
-				);
-
-				context.Achievements.RemoveRange(
-					await context.Achievements.Where(x => x.Id == id).ToListAsync()
-				);
-
-				context.LocalExperience.RemoveRange(
-					await context.LocalExperience.Where(x => x.UserId == id).ToListAsync()
-				);
-
-				Bot.Instance.GetAttachedObject<EventSystem>().MessageFilter.Get<UserFilter>().Users.Add(id.FromDbLong());
-
-				u.Banned = true;
-				u.Total_Commands = 0;
-				u.Total_Experience = 0;
-				u.MarriageSlots = 0;
-				u.Currency = 0;
-				u.Reputation = 0;
-
-				await context.SaveChangesAsync();
-			}
 		}
 
 		private static int CalculateNextLevelIteration(int output, int level)
