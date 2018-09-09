@@ -1,10 +1,7 @@
-﻿using Miki.Framework;
-using Miki.Common;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
-using Miki.Discord.Common;
 
 namespace Miki.Models
 {
@@ -13,14 +10,12 @@ namespace Miki.Models
         public long GuildId { get; set; }
         public long RoleId { get; set; }
 
-        public int RequiredLevel { get; set; }
-		public bool Automatic { get; set; }
-		public bool Optable { get; set; }
-		public long RequiredRole { get; set; }
-		public int Price { get; set; }
+		public int RequiredLevel { get; set; } = 0;
+		public bool Automatic { get; set; } = false;
+		public bool Optable { get; set; } = false;
+		public long RequiredRole { get; set; } = 0;
+		public int Price { get; set; } = 0;
 
-		[NotMapped]
-		public IDiscordRole Role => Bot.Instance.Client.GetRoleAsync((ulong)GuildId, (ulong)RoleId).Result;
 		public static async Task<LevelRole> CreateAsync(long guildId, long roleId)
 		{
 			using (MikiContext context = new MikiContext())
@@ -30,7 +25,9 @@ namespace Miki.Models
 					GuildId = guildId,
 					RoleId = roleId
 				})).Entity;
+
 				await context.SaveChangesAsync();
+
 				return role;
 			}
 		}
@@ -41,7 +38,9 @@ namespace Miki.Models
 			{
 				LevelRole role = await context.LevelRoles.FindAsync(guildId, roleId);
 				if (role == null)
+				{
 					role = await CreateAsync(guildId, roleId);
+				}
 				return role;
 			}
 		}

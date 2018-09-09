@@ -1,5 +1,4 @@
-﻿using Miki.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace Miki.Models.Objects.User
 		public string BackgroundColor { get; set; } = "#000000";
 
 		public static async Task<ProfileVisuals> GetAsync(ulong userId, MikiContext context)
-			=> await GetAsync(userId.ToDbLong(), context);
+			=> await GetAsync((long)userId, context);
 		public static async Task<ProfileVisuals> GetAsync(long userId, MikiContext context)
 		{
 			ProfileVisuals visuals = await context.ProfileVisuals.FindAsync(userId);

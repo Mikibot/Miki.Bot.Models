@@ -36,7 +36,7 @@ namespace Miki.Models
 
 		public int Level => CalculateLevel(Total_Experience);
 
-		public static async Task<User> CreateAsync(long id, string name = "use >syncname")
+		public static async Task<User> CreateAsync(long id, string name)
 		{
 			using (var context = new MikiContext())
 			{
@@ -62,7 +62,9 @@ namespace Miki.Models
 			}
 		}
 
-		public static async Task<User> GetAsync(MikiContext context, long id)
+		public static async Task<User> GetAsync(MikiContext context, ulong id, string name)
+			=> await GetAsync(context, id, name);
+		public static async Task<User> GetAsync(MikiContext context, long id, string name)
 		{
 			User user = null;
 
@@ -70,7 +72,7 @@ namespace Miki.Models
 
 			if(user == null)
 			{
-				return await CreateAsync(id);
+				return await CreateAsync(id, name);
 			}
 			return user;
 		}

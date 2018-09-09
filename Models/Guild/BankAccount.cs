@@ -1,6 +1,4 @@
-﻿using Miki.Discord.Common;
-using Miki.Framework;
-using ProtoBuf;
+﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,15 +23,9 @@ namespace Miki.Models.Objects.Guild
 		[ProtoMember(4)]
 		public long TotalDeposited { get; set; }
 
-		public static async Task<BankAccount> GetAsync(MikiContext context, IDiscordUser user, IDiscordGuild guild)
+		public static async Task<BankAccount> GetAsync(MikiContext context, ulong userId, ulong guildId)
 		{
-			if (await Global.RedisClient.ExistsAsync($"bankaccount:{guild.Id}:{user.Id}"))
-			{
-				return context.BankAccounts.Attach(await Global.RedisClient.GetAsync<BankAccount>($"bankaccount:{guild.Id}:{user.Id}")).Entity;
-			}
-			BankAccount account = await context.BankAccounts.FindAsync(guild.Id.ToString(), user.Id.ToDbLong());
-			await Global.RedisClient.UpsertAsync<BankAccount>($"bankaccount:{guild.Id}:{user.Id}", account);
-			return account;
+			return await context.BankAccounts.FindAsync(guildId, userId);
 		}
     }
 }

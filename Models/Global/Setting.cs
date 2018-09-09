@@ -3,8 +3,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
-using Miki.Discord.Common;
-using Miki.Modules;
 
 namespace Miki.Models
 {
@@ -77,8 +75,5 @@ namespace Miki.Models
 		}
 		public static async Task UpdateAsync(ulong id, DatabaseSettingId settingId, int value)
 			=> await UpdateAsync((long)id, settingId, value);
-
-		private static string GetKey(long id, DatabaseSettingId setting)
-			=> $"miki:settings:{id}:{(int)setting}";
 	}
 }

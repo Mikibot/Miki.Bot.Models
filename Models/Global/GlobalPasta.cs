@@ -1,9 +1,7 @@
-﻿using Miki.Framework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Miki.Framework.Events;
 using System.Text.RegularExpressions;
 using Miki.Exceptions;
 
@@ -19,29 +17,6 @@ namespace Miki.Models
 		public int TimesUsed { get; set; }
 
 		public User User { get; set; }
-
-		public static async Task AddAsync(MikiContext context, string id, string text, long creator)
-		{
-			if (Regex.IsMatch(text, "(http[s]://)?((discord.gg)|(discordapp.com/invite))/([A-Za-z0-9]+)", RegexOptions.IgnoreCase))
-			{
-				throw new Exception("You can't add discord invites!");
-			}
-
-			GlobalPasta pasta = await context.Pastas.FindAsync(id);
-
-			if (pasta != null)
-			{
-				throw new DuplicatePastaException(pasta);
-			}
-
-			await context.Pastas.AddAsync(new GlobalPasta()
-			{
-				Id = id,
-				Text = text,
-				CreatorId = creator,
-				CreatedAt = DateTime.Now
-			});
-		}
 
 		public async Task<int> GetScoreAsync()
 		{

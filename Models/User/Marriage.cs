@@ -1,5 +1,4 @@
-﻿using Miki.Framework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +18,7 @@ namespace Miki.Models
         public DateTime TimeOfProposal { get; set; }
 
         public ulong GetOther(ulong id) 
-			=> GetOther(id.ToDbLong()).FromDbLong();
+			=> (ulong)GetOther((long)id);
         public long GetOther(long id)
         {
 			return Participants.AskerId == id ? Participants.ReceiverId : Participants.AskerId;

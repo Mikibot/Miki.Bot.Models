@@ -76,7 +76,7 @@ namespace Miki.Models
 
 			var donatorKey = modelBuilder.Entity<DonatorKey>();
 			donatorKey.HasKey(x => x.Key);
-			donatorKey.Property("Key").HasDefaultValueSql("uuid_generate_v4()");
+			donatorKey.Property(x => x.Key).HasDefaultValueSql("uuid_generate_v4()");
 			donatorKey.Property("StatusTime").HasDefaultValueSql("interval '31 days'");
 
 			#endregion
@@ -267,7 +267,6 @@ namespace Miki.Models
 				.HasKey(c => new { c.Id, c.UserId });
 			#endregion
 
-			modelBuilder.HasDefaultSchema("dbo");
 		}
 	}
 }

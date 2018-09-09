@@ -1,5 +1,4 @@
-﻿using Miki.Framework;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Miki.Models
 {
@@ -13,7 +12,7 @@ namespace Miki.Models
 		public Marriage Marriage { get; set; }
 
 		public ulong GetOther(ulong id)
-			=> GetOther(id.ToDbLong()).FromDbLong();
+			=> (ulong)GetOther((long)id);
 		public long GetOther(long id)
 		{
 			return AskerId == id ? ReceiverId : AskerId;

@@ -1,4 +1,6 @@
-﻿using Miki.Models;
+﻿using Miki.Localization;
+using Miki.Localization.Exceptions;
+using Miki.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +9,8 @@ namespace Miki.Exceptions
 {
 	class InsufficientCurrencyException : LocalizedException
 	{
-		public override string Resource => "error_insufficient_currency";
-		public override object[] Parameters => new object[] { mekos };
+		public override IResource LocaleResource 
+			=> new LanguageResource("error_insufficient_currency", mekos);
 
 		private long mekos = 0;
 
