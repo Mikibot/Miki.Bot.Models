@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.2" />
     <PackageReference Include="protobuf-net" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Miki.Localization\Miki.Localization.csproj" />
+    <ProjectReference Include="..\..\Miki\Miki.Localization\Miki.Localization.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Miki.Exceptions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Miki.Models
 {
@@ -26,13 +27,14 @@ namespace Miki.Models
 		public bool Banned { get; set; }
 
 		public List<Achievement> Achievements { get; set; }
-		public List<UserMarriedTo> Marriages { get; set; }
 		public List<CommandUsage> CommandsUsed { get; set; }
 		public List<GlobalPasta> Pastas { get; set; }
 		public List<LocalExperience> LocalExperience { get; set; }
-		public Connection Connections { get; set; }
 
-		public uint DblVotes { get; set; }
+		[NotMapped]
+		public Connection Connections { get; set; }
+		
+		public int DblVotes { get; set; }
 
 		public int Level => CalculateLevel(Total_Experience);
 
