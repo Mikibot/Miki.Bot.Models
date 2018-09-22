@@ -31,6 +31,13 @@ namespace Miki.Models
 		public MikiContext() 
 			: base()
 		{ }	
+		public MikiContext(DbContextOptions options)
+			: base(options)
+		{ }
+
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -62,14 +69,11 @@ namespace Miki.Models
 			commandUsage
 				.Property(x => x.Amount)
 				.HasDefaultValue(1);
-
 			#endregion
 
 			#region Connections
 			var conn = modelBuilder.Entity<Connection>();
-
-			conn.HasKey(x => x.DiscordUserId);
-
+			conn.HasKey(x => x.UserId);
 			#endregion
 
 			#region DonatorKey
@@ -165,11 +169,6 @@ namespace Miki.Models
 			globalPasta
 				.Property(x => x.CreatedAt)
 				.HasDefaultValueSql("now()");
-
-			globalPasta.HasOne(x => x.User)
-				.WithMany(x => x.Pastas)
-				.HasForeignKey(x => x.CreatorId)
-				.HasPrincipalKey(x => x.Id);
 			#endregion
 
 			#region ProfileVisuals
@@ -199,8 +198,6 @@ namespace Miki.Models
 			var user = modelBuilder.Entity<User>();
 
 			user.HasKey(c => c.Id);
-
-			user.Property(x => x.Id);
 
 			user.Property(x => x.AvatarUrl)
 				.HasDefaultValue("default");
@@ -235,6 +232,23 @@ namespace Miki.Models
 			user.Property(x => x.Total_Experience)
 				.HasDefaultValue(0);
 
+			user.Property(X => X.DblVotes)
+				.HasDefaultValue(0);
+
+			user.HasMany(x => x.CommandsUsed)
+				.WithOne(x => x.User)
+				.HasForeignKey(x => x.UserId)
+				.HasPrincipalKey(x => x.Id);
+
+			user.HasMany(x => x.LocalExperience)
+				.WithOne(x => x.User)
+				.HasForeignKey(x => x.UserId)
+				.HasPrincipalKey(x => x.Id);
+
+			user.HasMany(x => x.Pastas)
+				.WithOne(x => x.User)
+				.HasForeignKey(x => x.CreatorId)
+				.HasPrincipalKey(x => x.Id);
 			#endregion
 
 			#region IsDonator
@@ -253,11 +267,6 @@ namespace Miki.Models
 
 			usermarried.HasKey(x => new { x.AskerId, x.ReceiverId });
 
-			usermarried.HasOne(x => x.User)
-				.WithMany(x => x.Marriages)
-				.HasForeignKey(x => x.AskerId)
-				.HasPrincipalKey(x => x.Id);
-
 			usermarried.HasOne(x => x.Marriage)
 				.WithOne(x => x.Participants);
 			#endregion
@@ -267,6 +276,7 @@ namespace Miki.Models
 				.HasKey(c => new { c.Id, c.UserId });
 			#endregion
 
+			modelBuilder.HasDefaultSchema("dbo");
 		}
 	}
 }

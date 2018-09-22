@@ -8,7 +8,6 @@ namespace Miki.Models
 		public long ReceiverId { get; set; }
 		public long MarriageId { get; set; }
 
-		public User User { get; set; }
 		public Marriage Marriage { get; set; }
 
 		public ulong GetOther(ulong id)
