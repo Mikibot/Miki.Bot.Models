@@ -20,5 +20,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Miki.Localization\Miki.Localization.csproj" />
   </ItemGroup>
-
 </Project>
