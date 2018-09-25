@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories
 {
-	class MarriageRepository : IAsyncReadOnlyRepository<Marriage>
+	public class MarriageRepository : IAsyncReadOnlyRepository<Marriage>, IDisposable
 	{
-		private readonly MikiContext _dbContext;
+		private readonly DbContext _dbContext;
 		private readonly DbSet<Marriage> _marriageSet;
 		private readonly DbSet<UserMarriedTo> _userMarriedSet;
 
-		public MarriageRepository(MikiContext context)
+		public MarriageRepository(DbContext context)
 		{
 			_dbContext = context;
-			_marriageSet = context.Marriages;
-			_userMarriedSet = context.UsersMarriedTo;
+			_marriageSet = context.Set<Marriage>();
+			_userMarriedSet = context.Set<UserMarriedTo>();
 		}
 
 		public async Task DeclineAllProposalsAsync(long me)
@@ -65,30 +65,30 @@ namespace Miki.Bot.Models.Repositories
 		}
 
 		public async Task<List<UserMarriedTo>> GetMarriagesAsync(long userid)
-		{
-			return await InternalGetMarriagesAsync(userid);
-		}
+			=> await InternalGetMarriagesAsync(userid);
 
 		public async Task<UserMarriedTo> GetEntryAsync(ulong receiver, ulong asker)
 			=> await GetEntryAsync((long)receiver, (long)asker);
 		public async Task<UserMarriedTo> GetEntryAsync(long receiver, long asker)
 		{
 			UserMarriedTo m = null;
-			m = await _dbContext.UsersMarriedTo
-				.Include(x => x.Marriage).FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver) || (x.AskerId == receiver && x.ReceiverId == asker));
+			m = await _userMarriedSet
+				.Include(x => x.Marriage)
+				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver) 
+					|| (x.AskerId == receiver && x.ReceiverId == asker));
 			return m;
 		}
 
 		public async Task ProposeAsync(long asker, long receiver)
 		{
-			Marriage m = _dbContext.Marriages.Add(new Marriage()
+			Marriage m = _dbContext.Set<Marriage>().Add(new Marriage()
 			{
 				IsProposing = true,
 				TimeOfProposal = DateTime.Now,
 				TimeOfMarriage = DateTime.Now,
 			}).Entity;
 
-			_dbContext.UsersMarriedTo.Add(new UserMarriedTo()
+			_userMarriedSet.Add(new UserMarriedTo()
 			{
 				MarriageId = m.MarriageId,
 				ReceiverId = receiver,
@@ -105,7 +105,7 @@ namespace Miki.Bot.Models.Repositories
 		/// <param name="askerid"></param>
 		/// <param name="userid"></param>
 		/// <returns></returns>
-		private async Task<UserMarriedTo> InternalGetProposalAsync(MikiContext context, long askerid, long userid)
+		private async Task<UserMarriedTo> InternalGetProposalAsync(DbContext context, long askerid, long userid)
 		{
 			return await _userMarriedSet
 				.Include(x => x.Marriage)
@@ -181,6 +181,11 @@ namespace Miki.Bot.Models.Repositories
 			return await _marriageSet
 				.Include(x => x.Participants)
 				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]);
+		}
+
+		public void Dispose()
+		{
+			_dbContext.Dispose();
 		}
 	}
 }

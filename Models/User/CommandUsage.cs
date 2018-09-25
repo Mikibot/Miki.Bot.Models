@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Microsoft.EntityFrameworkCore;
+using ProtoBuf;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
@@ -19,13 +20,14 @@ namespace Miki.Models
 
 		public User User { get; set; }
 
-		public static async Task<CommandUsage> GetAsync(MikiContext context, long userId, string name)
+		public static async Task<CommandUsage> GetAsync(DbContext context, long userId, string name)
 		{
-			CommandUsage achievement = await context.CommandUsages.FindAsync(userId, name);
+			CommandUsage achievement = await context.Set<CommandUsage>().FindAsync(userId, name);
 
 			if (achievement == null)
 			{
-				achievement = (await context.CommandUsages.AddAsync(new CommandUsage()
+				achievement = (await context.Set<CommandUsage>()
+					.AddAsync(new CommandUsage()
 				{
 					UserId = userId,
 					Amount = 0,

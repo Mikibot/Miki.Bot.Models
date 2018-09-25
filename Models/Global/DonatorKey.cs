@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Miki.Models
 {
@@ -10,17 +12,15 @@ namespace Miki.Models
 
 		public TimeSpan StatusTime { get; set; }
 
-		public static DonatorKey GenerateNew(TimeSpan? time = null)
+		public static async Task<DonatorKey> GenerateNewAsync(DbContext context, TimeSpan? time = null)
 		{
-			using (var context = new MikiContext())
+			var key = await context.Set<DonatorKey>()
+				.AddAsync(new DonatorKey()
 			{
-				var key = context.DonatorKey.Add(new DonatorKey()
-				{
-					StatusTime = time ?? new TimeSpan(31, 0, 0, 0),
-				}).Entity;
-				context.SaveChanges();
-				return key;
-			}
+				StatusTime = time ?? new TimeSpan(31, 0, 0, 0),
+			});
+
+			return key.Entity;
 		}
 	}
 }

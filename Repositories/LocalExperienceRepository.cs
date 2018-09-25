@@ -10,17 +10,17 @@ namespace Miki.Bot.Models.Repositories
 {
 	public class LocalExperienceRepository : IAsyncRepository<LocalExperience>
 	{
-		private readonly MikiContext _dbContext;
+		private readonly DbContext _dbContext;
 		private readonly DbSet<LocalExperience> _dbSet;
 
 		private readonly long? _guildId;
 
-		public LocalExperienceRepository(MikiContext context)
+		public LocalExperienceRepository(DbContext context)
 		{
 			_dbContext = context;
 			_dbSet = context.Set<LocalExperience>();
 		}
-		public LocalExperienceRepository(MikiContext context, long guildId)
+		public LocalExperienceRepository(DbContext context, long guildId)
 			: this(context)
 		{
 			_guildId = guildId;

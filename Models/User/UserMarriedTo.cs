@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Miki.Models
 {
@@ -17,9 +18,9 @@ namespace Miki.Models
 			return AskerId == id ? ReceiverId : AskerId;
 		}
 
-		public void Remove(MikiContext context)
+		public void Remove(DbContext context)
 		{
-			context.UsersMarriedTo.Remove(this);
+			context.Set<UserMarriedTo>().Remove(this);
 		}
 	}
 }

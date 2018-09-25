@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
@@ -16,33 +17,26 @@ namespace Miki.Models
 		public long RequiredRole { get; set; } = 0;
 		public int Price { get; set; } = 0;
 
-		public static async Task<LevelRole> CreateAsync(long guildId, long roleId)
+		public static async Task<LevelRole> CreateAsync(DbContext context, long guildId, long roleId)
 		{
-			using (MikiContext context = new MikiContext())
+			var role = (await context.Set<LevelRole>()
+				.AddAsync(new LevelRole()
 			{
-				var role = (await context.LevelRoles.AddAsync(new LevelRole()
-				{
-					GuildId = guildId,
-					RoleId = roleId
-				})).Entity;
+				GuildId = guildId,
+				RoleId = roleId
+			})).Entity;
 
-				await context.SaveChangesAsync();
-
-				return role;
-			}
+			return role;
 		}
 
-		public static async Task<LevelRole> GetAsync(long guildId, long roleId)
+		public static async Task<LevelRole> GetAsync(DbContext context, long guildId, long roleId)
 		{
-			using(MikiContext context = new MikiContext())
+			LevelRole role = await context.Set<LevelRole>().FindAsync(guildId, roleId);
+			if (role == null)
 			{
-				LevelRole role = await context.LevelRoles.FindAsync(guildId, roleId);
-				if (role == null)
-				{
-					role = await CreateAsync(guildId, roleId);
-				}
-				return role;
+				role = await CreateAsync(context, guildId, roleId);
 			}
+			return role;
 		}
     }
 }

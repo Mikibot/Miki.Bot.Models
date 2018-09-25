@@ -38,50 +38,47 @@ namespace Miki.Models
 
 		public int Level => CalculateLevel(Total_Experience);
 
-		public static async Task<User> CreateAsync(long id, string name)
+		public static async Task<User> CreateAsync(DbContext context, long id, string name)
 		{
-			using (var context = new MikiContext())
+			User user = new User()
 			{
-				User user = new User()
-				{
-					Id = id,
-					Currency = 0,
-					AvatarUrl = "default",
-					HeaderUrl = "default",
-					LastDailyTime = DateTime.UtcNow - TimeSpan.FromDays(1),
-					MarriageSlots = 5,
-					Name = name,
-					Title = "",
-					Total_Commands = 0,
-					Total_Experience = 0,
-					Reputation = 0
-				};
+				Id = id,
+				Currency = 0,
+				AvatarUrl = "default",
+				HeaderUrl = "default",
+				LastDailyTime = DateTime.UtcNow - TimeSpan.FromDays(1),
+				MarriageSlots = 5,
+				Name = name,
+				Title = "",
+				Total_Commands = 0,
+				Total_Experience = 0,
+				Reputation = 0
+			};
 
-				await context.Users.AddAsync(user);
-				await context.SaveChangesAsync();
+			await context.Set<User>().AddAsync(user);
+			await context.SaveChangesAsync();
 
-				return user;
-			}
+			return user;
 		}
 
-		public static async Task<User> GetAsync(MikiContext context, ulong id, string name)
+		public static async Task<User> GetAsync(DbContext context, ulong id, string name)
 			=> await GetAsync(context, id, name);
-		public static async Task<User> GetAsync(MikiContext context, long id, string name)
+		public static async Task<User> GetAsync(DbContext context, long id, string name)
 		{
 			User user = null;
 
-			user = await context.Users.FindAsync(id);
+			user = await context.Set<User>().FindAsync(id);
 
 			if(user == null)
 			{
-				return await CreateAsync(id, name);
+				return await CreateAsync(context, id, name);
 			}
 			return user;
 		}
 
-		public static async Task<List<User>> SearchUserAsync(MikiContext context, string name)
+		public static async Task<List<User>> SearchUserAsync(DbContext context, string name)
 		{
-			return await context.Users
+			return await context.Set<User>()
 				.Where(x => x.Name.ToLower() == name.ToLower())
 				.ToListAsync();
 		}
@@ -95,57 +92,53 @@ namespace Miki.Models
 			return (level * level * 10);
 		}
 
-		public async Task<int> GetGlobalReputationRankAsync()
+		public async Task<int> GetGlobalReputationRankAsync(DbContext context)
 		{
 			int x = 0;
-			using (var context = new MikiContext())
-			{
-				x = await context.Users
-					.Where(u => u.Reputation > Reputation)
-					.CountAsync();
-			}
+
+			x = await context.Set<User>()
+				.Where(u => u.Reputation > Reputation)
+				.CountAsync();
+
 			return x + 1;
 		}
 
-		public async Task<int> GetGlobalCommandsRankAsync()
+		public async Task<int> GetGlobalCommandsRankAsync(DbContext context)
 		{
 			int x = 0;
-			using (var context = new MikiContext())
-			{
-				x = await context.Users
-					.Where(u => u.Total_Commands > Total_Commands)
-					.CountAsync();
-			}
+
+			x = await context.Set<User>()
+				.Where(u => u.Total_Commands > Total_Commands)
+				.CountAsync();
+
 			return x + 1;
 		}
 
-		public async Task<int> GetGlobalMekosRankAsync()
+		public async Task<int> GetGlobalMekosRankAsync(DbContext context)
 		{
 			int x = 0;
-			using (var context = new MikiContext())
-			{
-				x = await context.Users
-					.Where(u => u.Currency > Currency)
-					.CountAsync();
-			}
+
+			x = await context.Set<User>()
+				.Where(u => u.Currency > Currency)
+				.CountAsync();
+
 			return x + 1;
 		}
 
-        public async Task<int> GetGlobalRankAsync()
-        {
-            int x = 0;
-            using (var context = new MikiContext())
-            {
-                x = await context.Users
-                    .Where(u => u.Total_Experience > Total_Experience)
-                    .CountAsync();
-            }
-            return x + 1;
-        }
-
-		public async Task<bool> IsDonatorAsync(MikiContext context)
+		public async Task<int> GetGlobalRankAsync(DbContext context)
 		{
-			IsDonator d = await context.IsDonator.FindAsync(Id);
+			int x = 0;
+
+			x = await context.Set<User>()
+				.Where(u => u.Total_Experience > Total_Experience)
+				.CountAsync();
+
+			return x + 1;
+		}
+
+		public async Task<bool> IsDonatorAsync(DbContext context)
+		{
+			IsDonator d = await context.Set<IsDonator>().FindAsync(Id);
 			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
 			return b;
 		}

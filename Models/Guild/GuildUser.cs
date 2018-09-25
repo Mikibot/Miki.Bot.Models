@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -67,28 +68,23 @@ namespace Miki.Models
 			return 10 + (output + (level * 20));
 		}
 
-		public int GetGlobalRank()
+		public int GetGlobalRank(DbContext context)
 		{
-			using (var context = new MikiContext())
-			{
-				int rank = context.GuildUsers
-					.Where(x => x.Experience > Experience)
-					.Count();
-				return rank;
-			}
+			int rank = context.Set<GuildUser>()
+				.Where(x => x.Experience > Experience)
+				.Count();
+			return rank;
 		}
 
-		public async Task<GuildUser> GetRival()
+		public async Task<GuildUser> GetRival(DbContext context)
 		{
 			if (RivalId == 0)
 			{
 				return null;
 			}
 
-			using (MikiContext context = new MikiContext())
-			{
-				return await context.GuildUsers.FindAsync(RivalId);
-			}
+			return await context.Set<GuildUser>()
+				.FindAsync(RivalId);
 		}
 	}
 }

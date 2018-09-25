@@ -17,7 +17,7 @@ namespace Miki.Models
 		public DateTime TimeOfMarriage { get; set; }
 		public DateTime TimeOfProposal { get; set; }
 
-		public void AcceptProposal(MikiContext context)
+		public void AcceptProposal()
 		{
 			TimeOfMarriage = DateTime.Now;
 			IsProposing = false;

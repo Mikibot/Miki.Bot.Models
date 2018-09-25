@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,54 +27,43 @@ namespace Miki.Models
 		[Column("Value")]
 		public int Value { get; set; }
 
-		public static async Task<int> GetAsync(ulong id, DatabaseSettingId settingId)
-		=> await GetAsync((long)id, settingId);
-		public static async Task<int> GetAsync(long id, DatabaseSettingId settingId)
+		public static async Task<int> GetAsync(DbContext context, ulong id, DatabaseSettingId settingId)
+		=> await GetAsync(context, (long)id, settingId);
+		public static async Task<int> GetAsync(DbContext context, long id, DatabaseSettingId settingId)
 		{
-			using (var context = new MikiContext())
+			Setting s = await context.Set<Setting>()
+				.FindAsync(id, settingId);
+			if (s == null)
 			{
-				Setting s = await context.Settings.FindAsync(id, settingId);
-				if (s == null)
+				s = (await context.Set<Setting>()
+					.AddAsync(new Setting()
 				{
-					s = (await context.Settings.AddAsync(new Setting()
-					{
-						EntityId = id,
-						SettingId = settingId,
-						Value = 0
-					})).Entity;
-				}
-				return s.Value;
+					EntityId = id,
+					SettingId = settingId,
+					Value = 0
+				})).Entity;
 			}
+			return s.Value;
 		}
 
-		public static async Task<T> GetAsync<T>(long id, DatabaseSettingId settingId) where T : struct, IConvertible
-			=> (T)(object)await GetAsync(id, settingId);
-		public static async Task<T> GetAsync<T>(ulong id, DatabaseSettingId settingId) where T : struct, IConvertible
-			=> (T)(object)await GetAsync((long)id, settingId);
-
-		public static async Task UpdateAsync(long id, DatabaseSettingId settingId, int value)
+		public static async Task UpdateAsync(DbContext context, long id, DatabaseSettingId settingId, int value)
 		{
-			using (var context = new MikiContext())
+			Setting s = await context.Set<Setting>().FindAsync(id, settingId);
+			if (s == null)
 			{
-				Setting s = await context.Settings.FindAsync(id, settingId);
-				if (s == null)
+				await context.AddAsync(new Setting()
 				{
-					await context.AddAsync(new Setting()
-					{
-						EntityId = id,
-						SettingId = settingId,
-						Value = value
-					});
-				}
-				else
-				{
-					s.Value = value;
-				}
-
-				await context.SaveChangesAsync();
+					EntityId = id,
+					SettingId = settingId,
+					Value = value
+				});
+			}
+			else
+			{
+				s.Value = value;
 			}
 		}
-		public static async Task UpdateAsync(ulong id, DatabaseSettingId settingId, int value)
-			=> await UpdateAsync((long)id, settingId, value);
+		public static async Task UpdateAsync(DbContext context, ulong id, DatabaseSettingId settingId, int value)
+			=> await UpdateAsync(context, (long)id, settingId, value);
 	}
 }

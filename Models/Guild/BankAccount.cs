@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Microsoft.EntityFrameworkCore;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace Miki.Models.Objects.Guild
 		[ProtoMember(4)]
 		public long TotalDeposited { get; set; }
 
-		public static async Task<BankAccount> GetAsync(MikiContext context, ulong userId, ulong guildId)
+		public static async Task<BankAccount> GetAsync(DbContext context, ulong userId, ulong guildId)
 		{
-			return await context.BankAccounts.FindAsync(guildId, userId);
+			return await context.Set<BankAccount>()
+				.FindAsync(guildId, userId);
 		}
     }
 }

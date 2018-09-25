@@ -12,7 +12,7 @@ namespace Miki.Models
 
 		public User User { get; set; }
 
-		public static async Task<LocalExperience> CreateAsync(MikiContext context, long ServerId, long userId, string name)
+		public static async Task<LocalExperience> CreateAsync(DbContext context, long ServerId, long userId, string name)
         {
             LocalExperience experience = null;
 
@@ -21,11 +21,11 @@ namespace Miki.Models
             experience.UserId = userId;
             experience.Experience = 0;
 
-			experience = (await context.LocalExperience.AddAsync(experience)).Entity;
+			experience = (await context.Set<LocalExperience>().AddAsync(experience)).Entity;
 
-			if (await context.Users.FindAsync(userId) == null)
+			if (await context.Set<User>().FindAsync(userId) == null)
 			{
-				await User.CreateAsync(userId, name);
+				await User.CreateAsync(context, userId, name);
 			}
 
             await context.SaveChangesAsync();
@@ -33,11 +33,11 @@ namespace Miki.Models
             return experience;
         }
 
-		public static async Task<LocalExperience> GetAsync(MikiContext context, ulong guildId, ulong userId, string name)
+		public static async Task<LocalExperience> GetAsync(DbContext context, ulong guildId, ulong userId, string name)
 			=> await GetAsync(context, (long)guildId, (long)userId, name);
-		public static async Task<LocalExperience> GetAsync(MikiContext context, long serverId, long userId, string name)
+		public static async Task<LocalExperience> GetAsync(DbContext context, long serverId, long userId, string name)
 		{
-			var localExperience = await context.LocalExperience.FindAsync(serverId, userId);
+			var localExperience = await context.Set<LocalExperience>().FindAsync(serverId, userId);
 			if (localExperience == null)
 			{
 				return await CreateAsync(context, serverId, userId, name);
@@ -45,12 +45,11 @@ namespace Miki.Models
 			return localExperience;
 		}
 
-		public async Task<int> GetRankAsync(MikiContext context)
+		public async Task<int> GetRankAsync(DbContext context)
 		{
-			int x = await context.LocalExperience
+			int x = await context.Set<LocalExperience>()
 				.Where(e => e.ServerId == ServerId && e.Experience > Experience)
 				.CountAsync();
-			
 			return x + 1;
 		}
 	}	

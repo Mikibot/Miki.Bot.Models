@@ -18,22 +18,39 @@ namespace Miki.Models
 
 		public User User { get; set; }
 
-		public async Task<int> GetScoreAsync()
+		public static async Task AddAsync(DbContext context, string id, string text, long creator)
 		{
-			using (var c = new MikiContext())
+			GlobalPasta pasta = await context.Set<GlobalPasta>()
+				.FindAsync(id);
+
+			if (pasta != null)
 			{
-				var votes = await GetVotesAsync(c);
-				return votes.Upvotes - votes.Downvotes;
+				throw new DuplicatePastaException(pasta);
 			}
+
+			await context.Set<GlobalPasta>()
+				.AddAsync(new GlobalPasta()
+			{
+				Id = id,
+				Text = text,
+				CreatorId = creator,
+				CreatedAt = DateTime.Now
+			});
 		}
 
-        public async Task<VoteCount> GetVotesAsync(MikiContext context)
+		public async Task<int> GetScoreAsync(DbContext context)
+		{
+			var votes = await GetVotesAsync(context);
+			return votes.Upvotes - votes.Downvotes;
+		}
+
+        public async Task<VoteCount> GetVotesAsync(DbContext context)
         {
             VoteCount c = new VoteCount();
-            c.Upvotes = await context.Votes
+            c.Upvotes = await context.Set<PastaVote>()
 				.Where(x => x.Id == Id && x.PositiveVote == true)
 				.CountAsync();
-            c.Downvotes = await context.Votes
+            c.Downvotes = await context.Set<PastaVote>()
 				.Where(x => x.Id == Id && x.PositiveVote == false)
 				.CountAsync();
             return c;

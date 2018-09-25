@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,25 +31,23 @@ namespace Miki.Models
         [Column("Message")]
         public string Message { get; set; }
 
-		public static async Task<string> GetAsync(long channelId, short eventType)
+		public static async Task<string> GetAsync(DbContext context, long channelId, short eventType)
 		{
-			if(eventMessages.TryGetValue(new Tuple<long, short>(channelId, eventType), out string x))
+			if (eventMessages.TryGetValue(new Tuple<long, short>(channelId, eventType), out string x))
 			{
 				return x;
 			}
 			else
 			{
-				using (var context = new MikiContext())
+				var eventMsg = await context.Set<EventMessage>()
+					.FindAsync(channelId, eventType);
+
+				if (eventMsg != null)
 				{
-					var eventMsg = await context.EventMessages.FindAsync(channelId, eventType);
-
-					if (eventMsg != null)
-					{
-						eventMessages.Add(new Tuple<long, short>(channelId, eventType), eventMsg.Message);
-					}
-
-					return eventMsg.Message;
+					eventMessages.Add(new Tuple<long, short>(channelId, eventType), eventMsg.Message);
 				}
+
+				return eventMsg.Message;
 			}
 		}
 	}

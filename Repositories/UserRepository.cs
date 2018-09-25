@@ -11,12 +11,12 @@ namespace Miki.Bot.Models.Repositories
 {
 	public class UserRepository : IAsyncRepository<User>
 	{
-		private readonly MikiContext _dbContext;
+		private readonly DbContext _dbContext;
 		private readonly DbSet<User> _dbSet;
 
-		public UserRepository(MikiContext context)
+		public UserRepository(DbContext context)
 		{
-			_dbSet = context.Users;
+			_dbSet = context.Set<User>();
 			_dbContext = context;
 		}
 
