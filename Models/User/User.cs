@@ -62,7 +62,7 @@ namespace Miki.Models
 		}
 
 		public static async Task<User> GetAsync(DbContext context, ulong id, string name)
-			=> await GetAsync(context, id, name);
+			=> await GetAsync(context, (long)id, name);
 		public static async Task<User> GetAsync(DbContext context, long id, string name)
 		{
 			User user = null;
