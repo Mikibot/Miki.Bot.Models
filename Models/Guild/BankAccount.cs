@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Exceptions;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -26,8 +27,37 @@ namespace Miki.Models.Objects.Guild
 
 		public static async Task<BankAccount> GetAsync(DbContext context, ulong userId, ulong guildId)
 		{
-			return await context.Set<BankAccount>()
-				.FindAsync(guildId, userId);
+			return await GetAsync(context, (long)userId, (long)guildId);
 		}
-    }
+		public static async Task<BankAccount> GetAsync(DbContext context, long userId, long guildId)
+		{
+			var account = await context.Set<BankAccount>()
+				.FindAsync(guildId, userId);
+
+			if(account == null)
+			{
+				account = new BankAccount();
+				account.GuildId = guildId;
+				account.UserId = userId;
+			}
+
+			return account;
+		}
+
+		public void Deposit(int amount)
+		{
+			Currency += amount;
+			TotalDeposited += amount;
+		}
+
+		public void Withdraw(int amount)
+		{
+			if(Currency < amount)
+			{
+				throw new InsufficientCurrencyException(Currency, amount);
+			}
+
+			Currency -= amount;
+		}
+	}
 }
