@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProtoBuf;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
 namespace Miki.Models
 {
 	[ProtoContract]
-    public class CommandUsage
+	public class CommandUsage
 	{
 		[ProtoMember(1)]
-        public long UserId { get; set; }
+		public long UserId { get; set; }
 
 		[ProtoMember(2)]
 		public string Name { get; set; }
@@ -28,15 +26,15 @@ namespace Miki.Models
 			{
 				achievement = (await context.Set<CommandUsage>()
 					.AddAsync(new CommandUsage()
-				{
-					UserId = userId,
-					Amount = 0,
-					Name = name
-				})).Entity;
+					{
+						UserId = userId,
+						Amount = 0,
+						Name = name
+					})).Entity;
 				await context.SaveChangesAsync();
 			}
 
 			return achievement;
 		}
-    }
+	}
 }

@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Exceptions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using Miki.Exceptions;
 
 namespace Miki.Models
 {
@@ -30,12 +29,12 @@ namespace Miki.Models
 
 			await context.Set<GlobalPasta>()
 				.AddAsync(new GlobalPasta()
-			{
-				Id = id,
-				Text = text,
-				CreatorId = creator,
-				CreatedAt = DateTime.Now
-			});
+				{
+					Id = id,
+					Text = text,
+					CreatorId = creator,
+					CreatedAt = DateTime.Now
+				});
 		}
 
 		public async Task<int> GetScoreAsync(DbContext context)
@@ -44,18 +43,18 @@ namespace Miki.Models
 			return votes.Upvotes - votes.Downvotes;
 		}
 
-        public async Task<VoteCount> GetVotesAsync(DbContext context)
-        {
-            VoteCount c = new VoteCount();
-            c.Upvotes = await context.Set<PastaVote>()
+		public async Task<VoteCount> GetVotesAsync(DbContext context)
+		{
+			VoteCount c = new VoteCount();
+			c.Upvotes = await context.Set<PastaVote>()
 				.Where(x => x.Id == Id && x.PositiveVote == true)
 				.CountAsync();
-            c.Downvotes = await context.Set<PastaVote>()
+			c.Downvotes = await context.Set<PastaVote>()
 				.Where(x => x.Id == Id && x.PositiveVote == false)
 				.CountAsync();
-            return c;
-        }
-    }
+			return c;
+		}
+	}
 
 	public class PastaSearchResult
 	{

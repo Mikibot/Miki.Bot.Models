@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Miki.Models
 {
-    public class ProfileVisuals
-    {
+	public class ProfileVisuals
+	{
 		public long UserId { get; set; }
 		public int BackgroundId { get; set; } = 0;
 		public string ForegroundColor { get; set; } = "#000000";
@@ -15,6 +12,7 @@ namespace Miki.Models
 
 		public static async Task<ProfileVisuals> GetAsync(ulong userId, DbContext context)
 			=> await GetAsync((long)userId, context);
+
 		public static async Task<ProfileVisuals> GetAsync(long userId, DbContext context)
 		{
 			ProfileVisuals visuals = await context.Set<ProfileVisuals>().FindAsync(userId);

@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Miki.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories
@@ -20,6 +16,7 @@ namespace Miki.Bot.Models.Repositories
 			_dbContext = context;
 			_dbSet = context.Set<LocalExperience>();
 		}
+
 		public LocalExperienceRepository(DbContext context, long guildId)
 			: this(context)
 		{
@@ -34,7 +31,7 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<int> CountAsync()
 		{
-			if(_guildId == null)
+			if (_guildId == null)
 			{
 				return await _dbSet.CountAsync();
 			}

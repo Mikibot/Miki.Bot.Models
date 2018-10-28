@@ -2,28 +2,52 @@
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Miki.Exceptions;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Miki.Models
 {
-    public class User
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public int Total_Commands { get; set; }
-        public int Total_Experience { get; set; }
-        public int Currency { get; set; }
-        public int MarriageSlots { get; set; }
-        public string AvatarUrl { get; set; }
-		public string HeaderUrl { get; set; }
-        public DateTime LastDailyTime { get; set; }
+	[ProtoContract]
+	public class User
+	{
+		[ProtoMember(1)]
+		public long Id { get; set; }
 
-        public DateTime DateCreated { get; set; }
-		public int Reputation { get; set; } 
+		[ProtoMember(2)]
+		public string Name { get; set; }
+
+		[ProtoMember(3)]
+		public string Title { get; set; }
+
+		[ProtoMember(4)]
+		public int Total_Commands { get; set; }
+
+		[ProtoMember(5)]
+		public int Total_Experience { get; set; }
+
+		[ProtoMember(6)]
+		public int Currency { get; set; }
+
+		[ProtoMember(7)]
+		public int MarriageSlots { get; set; }
+
+		[ProtoMember(8)]
+		public string AvatarUrl { get; set; }
+
+		[ProtoMember(9)]
+		public string HeaderUrl { get; set; }
+
+		[ProtoMember(10)]
+		public DateTime LastDailyTime { get; set; }
+
+		[ProtoMember(11)]
+		public DateTime DateCreated { get; set; }
+
+		[ProtoMember(12)]
+		public int Reputation { get; set; }
+
+		[ProtoMember(13)]
 		public bool Banned { get; set; }
 
 		public List<Achievement> Achievements { get; set; }
@@ -33,7 +57,8 @@ namespace Miki.Models
 
 		[NotMapped]
 		public Connection Connections { get; set; }
-		
+
+		[ProtoMember(14)]
 		public int DblVotes { get; set; }
 
 		public int Level => CalculateLevel(Total_Experience);
@@ -63,13 +88,14 @@ namespace Miki.Models
 
 		public static async Task<User> GetAsync(DbContext context, ulong id, string name)
 			=> await GetAsync(context, (long)id, name);
+
 		public static async Task<User> GetAsync(DbContext context, long id, string name)
 		{
 			User user = null;
 
 			user = await context.Set<User>().FindAsync(id);
 
-			if(user == null)
+			if (user == null)
 			{
 				return await CreateAsync(context, id, name);
 			}
@@ -83,10 +109,11 @@ namespace Miki.Models
 				.ToListAsync();
 		}
 
-        public static int CalculateLevel(int exp)
-        {
+		public static int CalculateLevel(int exp)
+		{
 			return (int)Math.Sqrt(exp / 10) + 1;
 		}
+
 		public static int CalculateLevelExperience(int level)
 		{
 			return (level * level * 10);
@@ -141,11 +168,6 @@ namespace Miki.Models
 			IsDonator d = await context.Set<IsDonator>().FindAsync(Id);
 			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
 			return b;
-		}
-
-		private static int CalculateNextLevelIteration(int output, int level)
-		{
-			return 10 + (output + (level * 20));
 		}
 	}
 

@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
 namespace Miki.Models
 {
-    public class LevelRole
-    {
-        public long GuildId { get; set; }
-        public long RoleId { get; set; }
+	public class LevelRole
+	{
+		public long GuildId { get; set; }
+		public long RoleId { get; set; }
 
 		public int RequiredLevel { get; set; } = 0;
 		public bool Automatic { get; set; } = false;
@@ -21,10 +18,10 @@ namespace Miki.Models
 		{
 			var role = (await context.Set<LevelRole>()
 				.AddAsync(new LevelRole()
-			{
-				GuildId = guildId,
-				RoleId = roleId
-			})).Entity;
+				{
+					GuildId = guildId,
+					RoleId = roleId
+				})).Entity;
 
 			return role;
 		}
@@ -38,5 +35,5 @@ namespace Miki.Models
 			}
 			return role;
 		}
-    }
+	}
 }

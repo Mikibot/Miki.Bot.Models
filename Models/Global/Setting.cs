@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
@@ -8,9 +6,9 @@ using System.Threading.Tasks;
 namespace Miki.Models
 {
 	public enum DatabaseSettingId
-    {
+	{
 		LEVEL_NOTIFICATIONS = 0
-    };
+	};
 
 	[Table("Settings")]
 	public class Setting
@@ -29,6 +27,7 @@ namespace Miki.Models
 
 		public static async Task<int> GetAsync(DbContext context, ulong id, DatabaseSettingId settingId)
 		=> await GetAsync(context, (long)id, settingId);
+
 		public static async Task<int> GetAsync(DbContext context, long id, DatabaseSettingId settingId)
 		{
 			Setting s = await context.Set<Setting>()
@@ -37,11 +36,11 @@ namespace Miki.Models
 			{
 				s = (await context.Set<Setting>()
 					.AddAsync(new Setting()
-				{
-					EntityId = id,
-					SettingId = settingId,
-					Value = 0
-				})).Entity;
+					{
+						EntityId = id,
+						SettingId = settingId,
+						Value = 0
+					})).Entity;
 			}
 			return s.Value;
 		}
@@ -63,6 +62,7 @@ namespace Miki.Models
 				s.Value = value;
 			}
 		}
+
 		public static async Task UpdateAsync(DbContext context, ulong id, DatabaseSettingId settingId, int value)
 			=> await UpdateAsync(context, (long)id, settingId, value);
 	}

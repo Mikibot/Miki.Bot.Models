@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Miki.Models
 {
-    public class UserMarriedTo
-    {
+	public class UserMarriedTo
+	{
 		public long AskerId { get; set; }
 		public long ReceiverId { get; set; }
 		public long MarriageId { get; set; }
@@ -13,6 +12,7 @@ namespace Miki.Models
 
 		public ulong GetOther(ulong id)
 			=> (ulong)GetOther((long)id);
+
 		public long GetOther(long id)
 		{
 			return AskerId == id ? ReceiverId : AskerId;

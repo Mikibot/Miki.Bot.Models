@@ -3,7 +3,6 @@ using Miki.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories
@@ -42,6 +41,7 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<bool> ExistsAsync(ulong id1, ulong id2)
 			=> await ExistsAsync((long)id1, (long)id2);
+
 		public async Task<bool> ExistsAsync(long id1, long id2)
 			=> await GetEntryAsync(id1, id2) != null;
 
@@ -56,6 +56,7 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<UserMarriedTo> GetMarriageAsync(ulong receiver, ulong asker)
 			=> await GetMarriageAsync((long)receiver, (long)asker);
+
 		public async Task<UserMarriedTo> GetMarriageAsync(long receiver, long asker)
 		{
 			UserMarriedTo m = null;
@@ -69,12 +70,13 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<UserMarriedTo> GetEntryAsync(ulong receiver, ulong asker)
 			=> await GetEntryAsync((long)receiver, (long)asker);
+
 		public async Task<UserMarriedTo> GetEntryAsync(long receiver, long asker)
 		{
 			UserMarriedTo m = null;
 			m = await _userMarriedSet
 				.Include(x => x.Marriage)
-				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver) 
+				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver)
 					|| (x.AskerId == receiver && x.ReceiverId == asker));
 			return m;
 		}

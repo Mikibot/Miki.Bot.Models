@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Miki.Models
@@ -13,6 +10,7 @@ namespace Miki.Models
 
 		public static Task<BackgroundsOwned> GetAsync(ulong userId, int backgroundId, DbContext context)
 			=> GetAsync((long)userId, backgroundId, context);
+
 		public static async Task<BackgroundsOwned> GetAsync(long userId, int backgroundId, DbContext context)
 		{
 			var bg = await context.Set<BackgroundsOwned>()

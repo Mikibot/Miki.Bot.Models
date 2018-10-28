@@ -7,29 +7,29 @@ using System.Threading.Tasks;
 
 namespace Miki.Models
 {
-    // TODO: add more event types
-    public enum EventMessageType
-    {
-        JOINSERVER = 0,
-        LEAVESERVER = 1,
-    }
+	// TODO: add more event types
+	public enum EventMessageType
+	{
+		JOINSERVER = 0,
+		LEAVESERVER = 1,
+	}
 
-    [Table("EventMessages")]
-    public class EventMessage
-    {
-		static Dictionary<Tuple<long, short>, string> eventMessages = new Dictionary<Tuple<long, short>, string>();
+	[Table("EventMessages")]
+	public class EventMessage
+	{
+		private static Dictionary<Tuple<long, short>, string> eventMessages = new Dictionary<Tuple<long, short>, string>();
 
-        [Key]
-        [Column("ChannelId", Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long ChannelId { get; set; }
+		[Key]
+		[Column("ChannelId", Order = 0)]
+		[DatabaseGenerated(DatabaseGeneratedOption.None)]
+		public long ChannelId { get; set; }
 
-        [Key]
-        [Column("EventType", Order = 1)]
-        public short EventType { get; set; }
+		[Key]
+		[Column("EventType", Order = 1)]
+		public EventMessageType EventType { get; set; }
 
-        [Column("Message")]
-        public string Message { get; set; }
+		[Column("Message")]
+		public string Message { get; set; }
 
 		public static async Task<string> GetAsync(DbContext context, long channelId, short eventType)
 		{
