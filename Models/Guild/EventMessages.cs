@@ -26,7 +26,7 @@ namespace Miki.Models
 
 		[Key]
 		[Column("EventType", Order = 1)]
-		public EventMessageType EventType { get; set; }
+		public int EventType { get; set; }
 
 		[Column("Message")]
 		public string Message { get; set; }
