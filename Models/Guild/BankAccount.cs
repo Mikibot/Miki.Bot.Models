@@ -32,9 +32,11 @@ namespace Miki.Models.Objects.Guild
 
 			if (account == null)
 			{
-				account = new BankAccount();
-				account.GuildId = guildId;
-				account.UserId = userId;
+				account = new BankAccount
+				{
+					GuildId = guildId,
+					UserId = userId
+				};
 			}
 
 			return account;
