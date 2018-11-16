@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Queries;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
@@ -154,23 +155,8 @@ namespace Miki.Models
 
 		public async Task<int> GetGlobalRankAsync(DbContext context)
 		{
-			int x = 0;
-
-			using (var conn = context.Database.GetDbConnection())
-			using (var cmd = conn.CreateCommand())
-			{
-				await conn.OpenAsync();
-				cmd.CommandText = string.Format("SELECT count_estimate('SELECT 1 FROM dbo.\"Users\" WHERE \"Total_Experience\" >= {0}')", Total_Experience);
-				using (var reader = await cmd.ExecuteReaderAsync())
-				{
-					if (await reader.ReadAsync())
-					{
-						x = reader.GetInt32(0);
-					}
-				}
-			}
-
-			return x + 1;
+			var rank = await context.Query<RankObject>().FirstOrDefaultAsync(x => x.Id == Id);
+			return rank.Rank;
 		}
 
 		public async Task<bool> IsDonatorAsync(DbContext context)
