@@ -260,6 +260,10 @@ namespace Miki.Bot.Models
 
 			#endregion Pasta Vote
 
+			#region Queries
+			modelBuilder.Query<RankObject>().ToView("mview_glob_rank_exp");
+			#endregion
+
 			modelBuilder.HasDefaultSchema("dbo");
 		}
 	}
