@@ -156,9 +156,19 @@ namespace Miki.Models
 		{
 			int x = 0;
 
-			x = await context.Set<User>()
-				.Where(u => u.Total_Experience > Total_Experience)
-				.CountAsync();
+			using (var conn = context.Database.GetDbConnection())
+			using (var cmd = conn.CreateCommand())
+			{
+				await conn.OpenAsync();
+				cmd.CommandText = string.Format("SELECT count_estimate('SELECT 1 FROM dbo.\"Users\" WHERE \"Total_Experience\" >= {0}')", Total_Experience);
+				using (var reader = await cmd.ExecuteReaderAsync())
+				{
+					if (await reader.ReadAsync())
+					{
+						x = reader.GetInt32(0);
+					}
+				}
+			}
 
 			return x + 1;
 		}
