@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Queries;
 using Miki.Models;
 using System;
 using System.Collections.Generic;
