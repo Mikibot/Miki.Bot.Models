@@ -32,11 +32,11 @@ namespace Miki.Models.Objects.Guild
 
 			if (account == null)
 			{
-				account = new BankAccount
+				account = (await context.Set<BankAccount>().AddAsync(new BankAccount
 				{
 					GuildId = guildId,
 					UserId = userId
-				};
+				})).Entity;
 			}
 
 			return account;
