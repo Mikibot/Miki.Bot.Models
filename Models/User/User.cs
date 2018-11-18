@@ -153,10 +153,10 @@ namespace Miki.Models
 			return x + 1;
 		}
 
-		public async Task<int> GetGlobalRankAsync(DbContext context)
+		public async Task<int?> GetGlobalRankAsync(DbContext context)
 		{
 			var rank = await context.Query<RankObject>().FirstOrDefaultAsync(x => x.Id == Id);
-			return rank.Rank;
+			return rank?.Rank;
 		}
 
 		public async Task<bool> IsDonatorAsync(DbContext context)
