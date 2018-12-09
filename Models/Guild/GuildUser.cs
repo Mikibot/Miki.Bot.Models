@@ -116,15 +116,24 @@ namespace Miki.Models
 				.Where(x => x.Experience > Experience)
 				.CountAsync();
 
-		public async Task<GuildUser> GetRival(DbContext context)
+		public async Task<GuildUser> GetRivalOrDefaultAsync(DbContext context)
 		{
 			if (RivalId == 0)
 			{
-				throw new GuildRivalNullException();
+				return null;
 			}
 
 			return await context.Set<GuildUser>()
 				.FindAsync(RivalId);
 		}
+
+		/// <summary>
+		/// Gets the guild rival or throws an exception if not found!
+		/// </summary>
+		/// <param name="context">A Database context which holds your guildUser data</param>
+		/// <returns>GuildUser</returns>
+		public async Task<GuildUser> GetRivalAsync(DbContext context)
+			=> await GetRivalOrDefaultAsync(context)
+				?? throw new GuildRivalNullException();
 	}
 }
