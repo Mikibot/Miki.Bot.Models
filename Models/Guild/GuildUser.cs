@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,11 @@ namespace Miki.Models
 
 		public DateTime LastRivalRenewed { get; set; }
 
+		public int GuildHouseLevel { get; set; }
+
+		public float GuildHouseMultiplier => GuildHouseRates[GuildHouseLevel];
+		public long GuildHouseUpgradePrice => GuildHousePrices?[GuildHouseLevel] ?? -1L;
+
 		[Column("banned")]
 		public bool Banned { get; set; } = false;
 
@@ -36,6 +42,28 @@ namespace Miki.Models
 		public bool VisibleOnLeaderboards { get; set; } = true;
 
 		#endregion Config
+
+		// move to db?
+		private long[] GuildHousePrices = new[]
+		{
+			10000, 50000, 200000, 800000, 2000000, 8000000, 20000000,
+			100000000, 1000000000, 5000000000, 15000000000
+		};
+
+		private float[] GuildHouseRates = new[]
+		{
+			1f, 1.5f, 2f, 2.4f, 2.8f, 3.1f, 3.4f, 3.7f, 4f, 4.2f, 4.4f, 4.6f
+		};
+
+		public void AddCurrency(long amount)
+		{
+			if(amount < 0)
+			{
+				throw new ArgumentLessThanZeroException();
+			}
+
+			Currency += amount;
+		}
 
 		public int CalculateLevel(int exp)
 		{
@@ -68,19 +96,31 @@ namespace Miki.Models
 			return 10 + (output + (level * 20));
 		}
 
-		public int GetGlobalRank(DbContext context)
+		public void RemoveCurrency(long amount)
 		{
-			int rank = context.Set<GuildUser>()
-				.Where(x => x.Experience > Experience)
-				.Count();
-			return rank;
+			if(amount < 0)
+			{
+				throw new ArgumentLessThanZeroException();
+			}
+
+			if(amount > Currency)
+			{
+				throw new InsufficientCurrencyException(Currency, amount);
+			}
+
+			Currency -= amount;
 		}
+
+		public async Task<int> GetGlobalRankAsync(DbContext context)
+			=> await context.Set<GuildUser>()
+				.Where(x => x.Experience > Experience)
+				.CountAsync();
 
 		public async Task<GuildUser> GetRival(DbContext context)
 		{
 			if (RivalId == 0)
 			{
-				return null;
+				throw new GuildRivalNullException();
 			}
 
 			return await context.Set<GuildUser>()

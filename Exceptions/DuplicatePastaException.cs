@@ -1,7 +1,8 @@
-﻿using Miki.Localization;
+﻿using Miki.Exceptions;
+using Miki.Localization;
 using Miki.Models;
 
-namespace Miki.Exceptions
+namespace Miki.Bot.Models.Exceptions
 {
 	public class DuplicatePastaException : PastaException
 	{

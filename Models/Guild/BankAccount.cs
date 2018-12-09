@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
 using Miki.Exceptions;
 using ProtoBuf;
 using System.Threading.Tasks;

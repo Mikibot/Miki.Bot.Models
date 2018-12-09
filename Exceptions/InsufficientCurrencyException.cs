@@ -1,18 +1,18 @@
 ﻿using Miki.Localization;
 using Miki.Localization.Exceptions;
 
-namespace Miki.Exceptions
+namespace Miki.Bot.Models.Exceptions
 {
-	internal class InsufficientCurrencyException : LocalizedException
+	public class InsufficientCurrencyException : LocalizedException
 	{
 		public override IResource LocaleResource
-			=> new LanguageResource("error_insufficient_currency", mekos);
+			=> new LanguageResource("error_insufficient_currency", mekos.ToString("N0"));
 
 		private long mekos = 0;
 
-		public InsufficientCurrencyException(object currencyOwned, int mekosRequired) : base()
+		public InsufficientCurrencyException(long currencyOwned, long mekosRequired) : base()
 		{
-			mekos = mekosRequired - (long)currencyOwned;
+			mekos = mekosRequired - currencyOwned;
 		}
 	}
 }

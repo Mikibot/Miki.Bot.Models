@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
 using Miki.Exceptions;
 using System;
 using System.Linq;
@@ -6,15 +7,45 @@ using System.Threading.Tasks;
 
 namespace Miki.Models
 {
+	/// <summary>
+	/// Pasta model.
+	/// Keeps track all pasta data, transformations and accessors.
+	/// </summary>
 	public class GlobalPasta
 	{
+		/// <summary>
+		/// The tag of the pasta.
+		/// </summary>
 		public string Id { get; set; }
+
+		/// <summary>
+		/// The content of the pasta.
+		/// </summary>
 		public string Text { get; set; }
+
+		/// <summary>
+		/// The creator their discord Id.
+		/// </summary>
 		public long CreatorId { get; set; }
+
+		/// <summary>
+		/// Time of creation.
+		/// </summary>
 		public DateTime CreatedAt { get; set; }
+
+		/// <summary>
+		/// Total up- and downvotes.
+		/// </summary>
 		public int Score { get; set; }
+
+		/// <summary>
+		/// Global usage counter.
+		/// </summary>
 		public int TimesUsed { get; set; }
 
+		/// <summary>
+		/// Many to One database connection to User
+		/// </summary>
 		public User User { get; set; }
 
 		public static async Task AddAsync(DbContext context, string id, string text, long creator)

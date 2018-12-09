@@ -155,7 +155,8 @@ namespace Miki.Models
 
 		public async Task<int?> GetGlobalRankAsync(DbContext context)
 		{
-			var rank = await context.Query<RankObject>().FirstOrDefaultAsync(x => x.Id == Id);
+			var rank = await context.Query<RankObject>()
+				.FirstOrDefaultAsync(x => x.Id == Id);
 			return rank?.Rank;
 		}
 

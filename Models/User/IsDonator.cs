@@ -1,4 +1,5 @@
-﻿using Miki.Exceptions;
+﻿using Miki.Bot.Models.Exceptions;
+using Miki.Exceptions;
 using System;
 
 namespace Miki.Models
