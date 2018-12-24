@@ -16,7 +16,7 @@ namespace Miki.Bot.Models
 
 			var achievement = modelBuilder.Entity<Achievement>();
 
-			achievement.HasKey(c => new { c.Id, c.Name });
+			achievement.HasKey(c => new { c.UserId, c.Name });
 			achievement.Property(x => x.UnlockedAt).HasDefaultValueSql("now()");
 
             #endregion Achievements

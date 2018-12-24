@@ -44,13 +44,13 @@ namespace Miki.Models
 		#endregion Config
 
 		// move to db?
-		private long[] GuildHousePrices = new[]
+		private readonly long[] GuildHousePrices = new[]
 		{
 			10000, 50000, 200000, 800000, 2000000, 8000000, 20000000,
 			100000000, 1000000000, 5000000000, 15000000000
 		};
 
-		private float[] GuildHouseRates = new[]
+        private readonly float[] GuildHouseRates = new[]
 		{
 			1f, 1.5f, 2f, 2.4f, 2.8f, 3.1f, 3.4f, 3.7f, 4f, 4.2f, 4.4f, 4.6f
 		};
