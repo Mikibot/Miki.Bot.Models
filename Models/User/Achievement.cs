@@ -7,7 +7,7 @@ namespace Miki.Models
 	public class Achievement
 	{
 		[ProtoMember(1)]
-		public long Id { get; set; }
+		public long UserId { get; set; }
 
 		[ProtoMember(2)]
 		public string Name { get; set; }

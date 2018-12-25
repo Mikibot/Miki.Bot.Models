@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Queries;
 using Miki.Models;
 using System;
@@ -15,46 +16,42 @@ namespace Miki.Bot.Models
 
 			var achievement = modelBuilder.Entity<Achievement>();
 
-			achievement.HasKey(c => new { c.Id, c.Name });
+			achievement.HasKey(c => new { c.UserId, c.Name });
 			achievement.Property(x => x.UnlockedAt).HasDefaultValueSql("now()");
 
-			#endregion Achievements
+            #endregion Achievements
 
-			#region BackgroundsOwned
+            #region APIToken
+            var apiToken = modelBuilder.Entity<APIToken>();
+            apiToken.HasKey(x => x.UserId);
+            apiToken.Property(x => x.LastTimeReset)
+                .HasDefaultValue(DateTime.UtcNow); 
+            #endregion
 
-			var backgroundsOwned = modelBuilder.Entity<BackgroundsOwned>();
-
+            #region BackgroundsOwned
+            var backgroundsOwned = modelBuilder.Entity<BackgroundsOwned>();
 			backgroundsOwned.HasKey(x => new { x.UserId, x.BackgroundId });
-
 			#endregion BackgroundsOwned
 
 			#region Command Usage
-
 			var commandUsage = modelBuilder.Entity<CommandUsage>();
-
 			commandUsage
 				.HasKey(c => new { c.UserId, c.Name });
-
 			commandUsage
 				.Property(x => x.Amount)
 				.HasDefaultValue(1);
-
 			#endregion Command Usage
 
 			#region Connections
-
 			var conn = modelBuilder.Entity<Connection>();
 			conn.HasKey(x => x.UserId);
-
 			#endregion Connections
 
 			#region DonatorKey
-
 			var donatorKey = modelBuilder.Entity<DonatorKey>();
 			donatorKey.HasKey(x => x.Key);
 			donatorKey.Property(x => x.Key).HasDefaultValueSql("uuid_generate_v4()");
 			donatorKey.Property("StatusTime").HasDefaultValueSql("interval '31 days'");
-
 			#endregion DonatorKey
 
 			#region Event Message
@@ -136,26 +133,25 @@ namespace Miki.Bot.Models
 			Marriage.HasKey(x => x.MarriageId);
 
 			Marriage.Property(x => x.TimeOfProposal)
-				.HasDefaultValueSql("now()");
+               .HasDefaultValue(DateTime.UtcNow);
 
-			#endregion Marriage
+            #endregion Marriage
 
-			#region Global Pasta
+            #region Global Pasta
 
-			var globalPasta = modelBuilder.Entity<GlobalPasta>();
+            var globalPasta = modelBuilder.Entity<GlobalPasta>();
 
 			globalPasta
 				.HasKey(c => c.Id);
 
 			globalPasta
 				.Property(x => x.CreatedAt)
-				.HasDefaultValueSql("now()");
+                .HasDefaultValue(DateTime.UtcNow);
+            #endregion Global Pasta
 
-			#endregion Global Pasta
+            #region ProfileVisuals
 
-			#region ProfileVisuals
-
-			var profileVisuals = modelBuilder.Entity<ProfileVisuals>();
+            var profileVisuals = modelBuilder.Entity<ProfileVisuals>();
 
 			profileVisuals.Property(x => x.UserId).HasDefaultValue(0);
 			profileVisuals.HasKey(x => x.UserId);
@@ -189,13 +185,13 @@ namespace Miki.Bot.Models
 				.HasDefaultValue(0);
 
 			user.Property(x => x.DateCreated)
-				.HasDefaultValueSql("now()");
+                .HasDefaultValue(DateTime.UtcNow);
 
-			user.Property(x => x.HeaderUrl)
+            user.Property(x => x.HeaderUrl)
 				.HasDefaultValue("default");
 
 			user.Property(x => x.LastDailyTime)
-				.HasDefaultValueSql("now() - interval '1 day'");
+				.HasDefaultValue(DateTime.MinValue);
 
 			user.Property(x => x.MarriageSlots)
 				.HasDefaultValue(0);
@@ -239,7 +235,7 @@ namespace Miki.Bot.Models
 			isDonator.Property(x => x.UserId).ValueGeneratedNever();
 
 			isDonator.Property(x => x.TotalPaidCents).HasDefaultValue(0);
-			isDonator.Property(x => x.ValidUntil).HasDefaultValueSql("now()");
+			isDonator.Property(x => x.ValidUntil).HasDefaultValue(DateTime.UtcNow);
 
 			#endregion IsDonator
 

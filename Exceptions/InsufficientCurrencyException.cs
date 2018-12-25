@@ -8,7 +8,7 @@ namespace Miki.Bot.Models.Exceptions
 		public override IResource LocaleResource
 			=> new LanguageResource("error_insufficient_currency", mekos.ToString("N0"));
 
-		private long mekos = 0;
+		private readonly long mekos = 0;
 
 		public InsufficientCurrencyException(long currencyOwned, long mekosRequired) : base()
 		{
