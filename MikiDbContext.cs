@@ -2,6 +2,7 @@
 using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Queries;
 using Miki.Models;
+using Miki.Models.Objects.Guild;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,38 @@ namespace Miki.Bot.Models
 {
 	public class MikiDbContext : DbContext
 	{
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<APIApplication> Applications { get; set; }
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<BackgroundsOwned> BackgroundsOwned { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<CommandUsage> CommandUsages { get; set; }
+        public DbSet<Connection> Connections { get; set; }
+        public DbSet<IsDonator> IsDonator { get; set; }
+        public DbSet<DonatorKey> DonatorKey { get; set; }
+        public DbSet<EventMessage> EventMessages { get; set; }
+        public DbSet<LocalExperience> LocalExperience { get; set; }
+        public DbSet<GuildUser> GuildUsers { get; set; }
+        public DbSet<LevelRole> LevelRoles { get; set; }
+        public DbSet<Marriage> Marriages { get; set; }
+        public DbSet<GlobalPasta> Pastas { get; set; }
+        public DbSet<ProfileVisuals> ProfileVisuals { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
+        public DbSet<PastaVote> Votes { get; set; }
+
+        public MikiDbContext()
+            : base()
+        { }
+        public MikiDbContext(DbContextOptions options)
+            : base(options)
+        { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			#region Achievements
 
@@ -22,10 +54,28 @@ namespace Miki.Bot.Models
             #endregion Achievements
 
             #region APIToken
-            var apiToken = modelBuilder.Entity<APIToken>();
-            apiToken.HasKey(x => x.UserId);
-            apiToken.Property(x => x.LastTimeReset)
-                .HasDefaultValue(DateTime.UtcNow); 
+            modelBuilder.Entity<APIApplication>(model =>
+            {
+                model.HasKey(x => x.ApplicationId);
+                model.Property(x => x.ApplicationSecret)
+                    .HasDefaultValue(Guid.NewGuid());
+                model.HasOne(x => x.Data);
+            });
+            #endregion
+
+            #region APIApplicationData
+            modelBuilder.Entity<APIApplicationData>(model =>
+            {
+                model.HasKey(x => x.ApplicationId);
+
+                model.Property(x => x.ApplicationId)
+                    .ValueGeneratedNever();
+            });
+            #endregion
+
+            #region BankAccounts
+            var bankAccount = modelBuilder.Entity<BankAccount>();
+            bankAccount.HasKey(x => new { x.UserId, x.GuildId });
             #endregion
 
             #region BackgroundsOwned
