@@ -7,7 +7,8 @@ namespace Miki.Models
 {
 	public enum DatabaseSettingId
 	{
-		LEVEL_NOTIFICATIONS = 0
+		LevelUps = 0,
+        Achievements = 1
 	};
 
 	[Table("Settings")]
