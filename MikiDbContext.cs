@@ -38,10 +38,6 @@ namespace Miki.Bot.Models
             : base(options)
         { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			#region Achievements
