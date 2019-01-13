@@ -6,9 +6,10 @@ namespace Miki.Bot.Models.Models.Authorization
 {
     public enum APIPermissions : long
     {
-        None = 0,
+        Default = 0,
         ManageMetrics = 1,
-        ManageApplications = 2
+        ManageApplications = 2,
+        WriteDefault = 4
     }
 
     public class APIApplication
