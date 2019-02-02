@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Queries;
-using Miki.Models;
-using Miki.Models.Objects.Guild;
+using Miki.Bot.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Miki.Models.Objects.Guild;
+using Miki.Models;
 
 namespace Miki.Bot.Models
 {

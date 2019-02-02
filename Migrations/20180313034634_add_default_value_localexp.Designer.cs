@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
-using Miki.Models;
+using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using System;
 
 namespace Miki.Core.Migrations
 {
-    [DbContext(typeof(MikiContext))]
+    [DbContext(typeof(MikiDbContext))]
     [Migration("20180313034634_add_default_value_localexp")]
     partial class add_default_value_localexp
     {

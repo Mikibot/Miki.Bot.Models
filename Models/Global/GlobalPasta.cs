@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
 	/// <summary>
 	/// Pasta model.

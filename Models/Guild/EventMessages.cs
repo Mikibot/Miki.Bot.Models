@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
 	// TODO: add more event types
 	public enum EventMessageType

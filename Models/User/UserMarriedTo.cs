@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
 	public class UserMarriedTo
 	{

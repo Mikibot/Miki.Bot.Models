@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
-	[ProtoContract]
+    [ProtoContract]
 	public class User
 	{
 		[ProtoMember(1)]

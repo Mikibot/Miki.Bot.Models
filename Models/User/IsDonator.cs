@@ -2,9 +2,9 @@
 using Miki.Exceptions;
 using System;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
-	public class IsDonator
+    public class IsDonator
 	{
 		public long UserId { get; set; }
 

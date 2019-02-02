@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
-	public class BackgroundsOwned
+    public class BackgroundsOwned
 	{
 		public long UserId { get; set; }
 		public int BackgroundId { get; set; }

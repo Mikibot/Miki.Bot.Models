@@ -1,4 +1,4 @@
-﻿namespace Miki.Models
+﻿namespace Miki.Bot.Models
 {
 	public class VoteCount
 	{

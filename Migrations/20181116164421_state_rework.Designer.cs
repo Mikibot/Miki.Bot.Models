@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Miki.Models;
+using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Miki.Core.Migrations
 {
-    [DbContext(typeof(MikiContext))]
+    [DbContext(typeof(MikiDbContext))]
     [Migration("20181116164421_state_rework")]
     partial class state_rework
     {

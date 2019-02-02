@@ -1,6 +1,6 @@
 ﻿using ProtoBuf;
 
-namespace Miki.Framework.Models
+namespace Miki.Bot.Models
 {
 	[ProtoContract]
 	public class ModuleState

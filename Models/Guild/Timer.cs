@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Miki.Models.Objects.Guild
+namespace Miki.Bot.Models
 {
 	[Table("Timers")]
 	public class Timer

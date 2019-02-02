@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Miki.Framework.Models
+namespace Miki.Bot.Models
 {
 	[Table("ChannelLanguage")]
 	public class ChannelLanguage

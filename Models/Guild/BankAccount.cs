@@ -4,7 +4,7 @@ using Miki.Exceptions;
 using ProtoBuf;
 using System.Threading.Tasks;
 
-namespace Miki.Models.Objects.Guild
+namespace Miki.Bot.Models
 {
 	[ProtoContract]
 	public class BankAccount
