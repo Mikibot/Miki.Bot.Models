@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Queries;
-using Miki.Bot.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
