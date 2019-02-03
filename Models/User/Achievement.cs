@@ -1,7 +1,7 @@
 ﻿using ProtoBuf;
 using System;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
 	[ProtoContract]
 	public class Achievement

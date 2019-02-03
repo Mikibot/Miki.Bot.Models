@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Miki.Models;
 using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories

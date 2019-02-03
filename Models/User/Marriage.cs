@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
-	public class Marriage
+    public class Marriage
 	{
 		public long MarriageId { get; set; }
 		public UserMarriedTo Participants { get; set; }

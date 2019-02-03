@@ -1,6 +1,6 @@
-﻿namespace Miki.Models
+﻿namespace Miki.Bot.Models
 {
-	public class Connection
+    public class Connection
 	{
 		public ulong UserId { get; set; }
 

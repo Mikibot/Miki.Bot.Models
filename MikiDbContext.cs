@@ -5,8 +5,6 @@ using Miki.Bot.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Miki.Models.Objects.Guild;
-using Miki.Models;
 
 namespace Miki.Bot.Models
 {
@@ -33,7 +31,6 @@ namespace Miki.Bot.Models
         public DbSet<PastaVote> Votes { get; set; }
 
         public MikiDbContext()
-            : base()
         { }
         public MikiDbContext(DbContextOptions options)
             : base(options)

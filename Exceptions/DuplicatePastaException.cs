@@ -1,7 +1,6 @@
 ﻿using Miki.Exceptions;
 using Miki.Localization;
 using Miki.Bot.Models;
-using Miki.Models;
 
 namespace Miki.Bot.Models.Exceptions
 {

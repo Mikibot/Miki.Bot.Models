@@ -2,9 +2,9 @@
 using ProtoBuf;
 using System.Threading.Tasks;
 
-namespace Miki.Models
+namespace Miki.Bot.Models
 {
-	[ProtoContract]
+    [ProtoContract]
 	public class CommandUsage
 	{
 		[ProtoMember(1)]
