@@ -1,6 +1,8 @@
-﻿using Miki.Bot.Models.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
 using Miki.Exceptions;
 using System;
+using System.Threading.Tasks;
 
 namespace Miki.Bot.Models
 {
@@ -22,8 +24,20 @@ namespace Miki.Bot.Models
 					throw new InsufficientCurrencyException(CurrentBalance, Math.Abs(amount));
 				}
 			}
-
 			CurrentBalance += amount;
 		}
-	}
+
+        public static async Task<bool> ForUserAsync(DbContext context, ulong id)
+            => await ForUserAsync(context, (long)id);
+        public static async Task<bool> ForUserAsync(DbContext context, long id)
+        {
+            var donator = await context.Set<IsDonator>()
+                .AsNoTracking().SingleOrDefaultAsync(x => x.UserId == id);
+            if(donator == null)
+            {
+                return false;
+            }
+            return donator.ValidUntil > DateTime.UtcNow;
+        }
+    }
 }
