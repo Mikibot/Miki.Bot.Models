@@ -15,6 +15,7 @@ namespace Miki.Bot.Models
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
+        public DbSet<CustomCommand> CustomCommands { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
         public DbSet<EventMessage> EventMessages { get; set; }
@@ -25,6 +26,7 @@ namespace Miki.Bot.Models
         public DbSet<GlobalPasta> Pastas { get; set; }
         public DbSet<ProfileVisuals> ProfileVisuals { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Timer> Timers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
@@ -88,10 +90,15 @@ namespace Miki.Bot.Models
 			#region Connections
 			var conn = modelBuilder.Entity<Connection>();
 			conn.HasKey(x => x.UserId);
-			#endregion Connections
+            #endregion Connections
 
-			#region DonatorKey
-			var donatorKey = modelBuilder.Entity<DonatorKey>();
+            #region Custom Commands
+            var commands = modelBuilder.Entity<CustomCommand>();
+            commands.HasKey(x => new { x.guildId, x.commandName });
+            #endregion
+
+            #region DonatorKey
+            var donatorKey = modelBuilder.Entity<DonatorKey>();
 			donatorKey.HasKey(x => x.Key);
 			donatorKey.Property(x => x.Key).HasDefaultValueSql("uuid_generate_v4()");
 			donatorKey.Property("StatusTime").HasDefaultValueSql("interval '31 days'");
@@ -298,10 +305,15 @@ namespace Miki.Bot.Models
 			modelBuilder.Entity<PastaVote>()
 				.HasKey(c => new { c.Id, c.UserId });
 
-			#endregion Pasta Vote
+            #endregion Pasta Vote
 
-			#region Queries
-			modelBuilder.Query<RankObject>().ToView("mview_glob_rank_exp");
+            #region Timer
+            var timers = modelBuilder.Entity<Timer>();
+            timers.HasKey(x => new { x.GuildId, x.UserId });
+            #endregion
+
+            #region Queries
+            modelBuilder.Query<RankObject>().ToView("mview_glob_rank_exp");
 			#endregion
 
 			modelBuilder.HasDefaultSchema("dbo");

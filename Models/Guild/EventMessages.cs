@@ -17,7 +17,7 @@ namespace Miki.Bot.Models
 	[Table("EventMessages")]
 	public class EventMessage
 	{
-		private static Dictionary<Tuple<long, short>, string> eventMessages = new Dictionary<Tuple<long, short>, string>();
+		private static readonly Dictionary<Tuple<long, short>, string> _eventMessages = new Dictionary<Tuple<long, short>, string>();
 
 		[Key]
 		[Column("ChannelId", Order = 0)]
@@ -33,7 +33,7 @@ namespace Miki.Bot.Models
 
 		public static async Task<string> GetAsync(DbContext context, long channelId, short eventType)
 		{
-			if (eventMessages.TryGetValue(new Tuple<long, short>(channelId, eventType), out string x))
+			if (_eventMessages.TryGetValue(new Tuple<long, short>(channelId, eventType), out string x))
 			{
 				return x;
 			}
@@ -44,7 +44,7 @@ namespace Miki.Bot.Models
 
 				if (eventMsg != null)
 				{
-					eventMessages.Add(new Tuple<long, short>(channelId, eventType), eventMsg.Message);
+					_eventMessages.Add(new Tuple<long, short>(channelId, eventType), eventMsg.Message);
 				}
 
 				return eventMsg.Message;

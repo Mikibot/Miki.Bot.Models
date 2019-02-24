@@ -94,9 +94,8 @@ namespace Miki.Bot.Models
 
 		public static async Task<User> GetAsync(DbContext context, long id, string name)
 		{
-			User user = null;
-
-			user = await context.Set<User>().FindAsync(id);
+			var user = await context.Set<User>()
+                .FindAsync(id);
 
 			if (user == null)
 			{
