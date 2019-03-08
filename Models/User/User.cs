@@ -56,6 +56,8 @@ namespace Miki.Bot.Models
 		public List<GlobalPasta> Pastas { get; set; }
 		public List<LocalExperience> LocalExperience { get; set; }
 
+        public List<Item> Inventory { get; set; }
+
 		[NotMapped]
 		public Connection Connections { get; set; }
 
