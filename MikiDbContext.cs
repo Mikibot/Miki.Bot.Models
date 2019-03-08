@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Miki.Bot.Models.Models.Authorization;
+using Miki.Bot.Models.Models.User;
 using Miki.Bot.Models.Queries;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,12 @@ namespace Miki.Bot.Models
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<BackgroundsOwned> BackgroundsOwned { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<ChannelLanguage> ChannelLanguages { get; set; }
+        public DbSet<CommandState> CommandStates { get; set; }
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
+        public DbSet<Identifier> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
         public DbSet<EventMessage> EventMessages { get; set; }
@@ -23,6 +27,7 @@ namespace Miki.Bot.Models
         public DbSet<GuildUser> GuildUsers { get; set; }
         public DbSet<LevelRole> LevelRoles { get; set; }
         public DbSet<Marriage> Marriages { get; set; }
+        public DbSet<ModuleState> ModuleStates { get; set; }
         public DbSet<GlobalPasta> Pastas { get; set; }
         public DbSet<ProfileVisuals> ProfileVisuals { get; set; }
         public DbSet<Setting> Settings { get; set; }
@@ -31,7 +36,7 @@ namespace Miki.Bot.Models
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
 
-        public MikiDbContext()
+        private MikiDbContext()
         { }
         public MikiDbContext(DbContextOptions options)
             : base(options)
@@ -40,20 +45,17 @@ namespace Miki.Bot.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			#region Achievements
-
 			var achievement = modelBuilder.Entity<Achievement>();
 
-			achievement.HasKey(c => new { c.UserId, c.Name });
-			achievement.Property(x => x.UnlockedAt).HasDefaultValueSql("now()");
-
+            achievement
+                .HasKey(c => new { c.UserId, c.Name });
+            
             #endregion Achievements
 
             #region APIToken
             modelBuilder.Entity<APIApplication>(model =>
             {
                 model.HasKey(x => x.ApplicationId);
-                model.Property(x => x.ApplicationSecret)
-                    .HasDefaultValue(Guid.NewGuid());
                 model.HasOne(x => x.Data);
             });
             #endregion
@@ -76,10 +78,15 @@ namespace Miki.Bot.Models
             #region BackgroundsOwned
             var backgroundsOwned = modelBuilder.Entity<BackgroundsOwned>();
 			backgroundsOwned.HasKey(x => new { x.UserId, x.BackgroundId });
-			#endregion BackgroundsOwned
+            #endregion BackgroundsOwned
 
-			#region Command Usage
-			var commandUsage = modelBuilder.Entity<CommandUsage>();
+            #region CommandState
+            var commandState = modelBuilder.Entity<CommandState>();
+            commandState.HasKey(x => new { x.Name, x.ChannelId });
+            #endregion
+
+            #region Command Usage
+            var commandUsage = modelBuilder.Entity<CommandUsage>();
 			commandUsage
 				.HasKey(c => new { c.UserId, c.Name });
 			commandUsage
@@ -94,7 +101,7 @@ namespace Miki.Bot.Models
 
             #region Custom Commands
             var commands = modelBuilder.Entity<CustomCommand>();
-            commands.HasKey(x => new { x.guildId, x.commandName });
+            commands.HasKey(x => new { x.GuildId, x.CommandName });
             #endregion
 
             #region DonatorKey
@@ -111,11 +118,26 @@ namespace Miki.Bot.Models
 			eventMessage
 				.HasKey(c => new { c.ChannelId, c.EventType });
 
-			#endregion Event Message
+            #endregion Event Message
 
-			#region Local Experience
+            #region Identifier
+            var identifier = modelBuilder.Entity<Identifier>();
+            identifier.HasKey(x => new { x.GuildId, x.DefaultValue });
+            #endregion
 
-			var localExperience = modelBuilder.Entity<LocalExperience>();
+            #region ModuleState
+            var moduleState = modelBuilder.Entity<ModuleState>();
+            moduleState.HasKey(x => new { x.Name, x.GuildId });
+            #endregion
+
+            #region ChannelLanguage
+            var channelLanguage = modelBuilder.Entity<ChannelLanguage>();
+            channelLanguage.HasKey(x => new { x.EntityId });
+            #endregion
+
+            #region Local Experience
+
+            var localExperience = modelBuilder.Entity<LocalExperience>();
 
 			localExperience
 				.HasKey(c => new { c.ServerId, c.UserId });
@@ -138,7 +160,7 @@ namespace Miki.Bot.Models
 				.HasDefaultValue(false);
 
 			guildUser.Property(x => x.LastRivalRenewed)
-				.HasDefaultValueSql("now() - INTERVAL '1 day'");
+				.HasDefaultValue(DateTime.MinValue);
 
 			guildUser.Property(x => x.MinimalExperienceToGetRewards)
 				.HasDefaultValue(100);
@@ -174,29 +196,15 @@ namespace Miki.Bot.Models
 			#endregion Level Role
 
 			#region Marriage
-
 			var Marriage = modelBuilder.Entity<Marriage>();
-
 			Marriage.Property(x => x.MarriageId)
-				.ValueGeneratedOnAdd();
-
-			Marriage.HasKey(x => x.MarriageId);
-
-			Marriage.Property(x => x.TimeOfProposal)
-               .HasDefaultValue(DateTime.UtcNow);
-
+                .ValueGeneratedOnAdd();
+            Marriage.HasKey(x => x.MarriageId);
             #endregion Marriage
 
             #region Global Pasta
-
             var globalPasta = modelBuilder.Entity<GlobalPasta>();
-
-			globalPasta
-				.HasKey(c => c.Id);
-
-			globalPasta
-				.Property(x => x.CreatedAt)
-                .HasDefaultValue(DateTime.UtcNow);
+			globalPasta.HasKey(c => c.Id);
             #endregion Global Pasta
 
             #region ProfileVisuals
@@ -233,9 +241,6 @@ namespace Miki.Bot.Models
 
 			user.Property(x => x.Currency)
 				.HasDefaultValue(0);
-
-			user.Property(x => x.DateCreated)
-                .HasDefaultValue(DateTime.UtcNow);
 
             user.Property(x => x.HeaderUrl)
 				.HasDefaultValue("default");
@@ -276,16 +281,22 @@ namespace Miki.Bot.Models
 				.HasForeignKey(x => x.CreatorId)
 				.HasPrincipalKey(x => x.Id);
 
-			#endregion User
+            #endregion User
 
-			#region IsDonator
+            #region IsBanned
+            var isBanned = modelBuilder.Entity<IsBanned>();
+            isBanned.HasKey(x => new { x.BanId, x.UserId });
+            isBanned.HasIndex(x => new { x.UserId });
+            isBanned.Property(x => x.BanId).ValueGeneratedOnAdd();
+            #endregion
 
-			var isDonator = modelBuilder.Entity<IsDonator>();
+            #region IsDonator
+
+            var isDonator = modelBuilder.Entity<IsDonator>();
 			isDonator.HasKey(x => x.UserId);
 			isDonator.Property(x => x.UserId).ValueGeneratedNever();
 
 			isDonator.Property(x => x.TotalPaidCents).HasDefaultValue(0);
-			isDonator.Property(x => x.ValidUntil).HasDefaultValue(DateTime.UtcNow);
 
 			#endregion IsDonator
 

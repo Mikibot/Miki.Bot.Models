@@ -6,10 +6,10 @@ namespace Miki.Bot.Models
 {
     public class CustomCommand
     {
-        public long guildId { get; set; }
+        public long GuildId { get; set; }
 
-        public string commandName { get; set; }
+        public string CommandName { get; set; }
 
-        public string commandBody { get; set; }
+        public string CommandBody { get; set; }
     }
 }

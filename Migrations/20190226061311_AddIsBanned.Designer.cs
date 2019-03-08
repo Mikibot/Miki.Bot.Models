@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Miki.Core.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    partial class MikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190226061311_AddIsBanned")]
+    partial class AddIsBanned
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,9 @@ namespace Miki.Core.Migrations
 
                     b.Property<short>("Rank");
 
-                    b.Property<DateTime>("UnlockedAt");
+                    b.Property<DateTime>("UnlockedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("UserId", "Name");
 
@@ -172,7 +176,9 @@ namespace Miki.Core.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 26, 6, 13, 11, 313, DateTimeKind.Utc).AddTicks(2576));
 
                     b.Property<long>("CreatorId");
 
@@ -207,7 +213,7 @@ namespace Miki.Core.Migrations
 
                     b.Property<DateTime>("LastRivalRenewed")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                        .HasDefaultValueSql("now() - INTERVAL '1 day'");
 
                     b.Property<int>("MinimalExperienceToGetRewards")
                         .ValueGeneratedOnAdd()
@@ -256,7 +262,9 @@ namespace Miki.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("ValidUntil");
+                    b.Property<DateTime>("ValidUntil")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 26, 6, 13, 11, 324, DateTimeKind.Utc).AddTicks(4549));
 
                     b.HasKey("UserId");
 
@@ -318,7 +326,9 @@ namespace Miki.Core.Migrations
 
                     b.Property<DateTime>("TimeOfMarriage");
 
-                    b.Property<DateTime>("TimeOfProposal");
+                    b.Property<DateTime>("TimeOfProposal")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 26, 6, 13, 11, 312, DateTimeKind.Utc).AddTicks(9165));
 
                     b.HasKey("MarriageId");
 
@@ -330,7 +340,9 @@ namespace Miki.Core.Migrations
                     b.Property<long>("ApplicationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ApplicationSecret");
+                    b.Property<Guid>("ApplicationSecret")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new Guid("72d314d0-e555-4952-b6fe-c31829562ae1"));
 
                     b.Property<long?>("DataApplicationId");
 
@@ -480,7 +492,9 @@ namespace Miki.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 26, 6, 13, 11, 314, DateTimeKind.Utc).AddTicks(8393));
 
                     b.Property<int>("DblVotes")
                         .ValueGeneratedOnAdd()

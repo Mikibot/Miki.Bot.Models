@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Miki.Core.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    partial class MikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190224192132_CustomCommands")]
+    partial class CustomCommands
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,9 @@ namespace Miki.Core.Migrations
 
                     b.Property<short>("Rank");
 
-                    b.Property<DateTime>("UnlockedAt");
+                    b.Property<DateTime>("UnlockedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("UserId", "Name");
 
@@ -59,34 +63,6 @@ namespace Miki.Core.Migrations
                     b.HasKey("UserId", "GuildId");
 
                     b.ToTable("BankAccounts");
-                });
-
-            modelBuilder.Entity("Miki.Bot.Models.ChannelLanguage", b =>
-                {
-                    b.Property<long>("EntityId")
-                        .HasColumnName("EntityId");
-
-                    b.Property<string>("Language")
-                        .HasColumnName("Language");
-
-                    b.HasKey("EntityId");
-
-                    b.ToTable("ChannelLanguage");
-                });
-
-            modelBuilder.Entity("Miki.Bot.Models.CommandState", b =>
-                {
-                    b.Property<string>("Name");
-
-                    b.Property<long>("ChannelId");
-
-                    b.Property<long>("GuildId");
-
-                    b.Property<bool>("State");
-
-                    b.HasKey("Name", "ChannelId");
-
-                    b.ToTable("CommandStates");
                 });
 
             modelBuilder.Entity("Miki.Bot.Models.CommandUsage", b =>
@@ -125,13 +101,13 @@ namespace Miki.Core.Migrations
 
             modelBuilder.Entity("Miki.Bot.Models.CustomCommand", b =>
                 {
-                    b.Property<long>("GuildId");
+                    b.Property<long>("guildId");
 
-                    b.Property<string>("CommandName");
+                    b.Property<string>("commandName");
 
-                    b.Property<string>("CommandBody");
+                    b.Property<string>("commandBody");
 
-                    b.HasKey("GuildId", "CommandName");
+                    b.HasKey("guildId", "commandName");
 
                     b.ToTable("CustomCommands");
                 });
@@ -172,7 +148,9 @@ namespace Miki.Core.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 24, 19, 21, 31, 568, DateTimeKind.Utc).AddTicks(4635));
 
                     b.Property<long>("CreatorId");
 
@@ -207,7 +185,7 @@ namespace Miki.Core.Migrations
 
                     b.Property<DateTime>("LastRivalRenewed")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+                        .HasDefaultValueSql("now() - INTERVAL '1 day'");
 
                     b.Property<int>("MinimalExperienceToGetRewards")
                         .ValueGeneratedOnAdd()
@@ -231,19 +209,6 @@ namespace Miki.Core.Migrations
                     b.ToTable("GuildUsers");
                 });
 
-            modelBuilder.Entity("Miki.Bot.Models.Identifier", b =>
-                {
-                    b.Property<long>("GuildId");
-
-                    b.Property<string>("DefaultValue");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("GuildId", "DefaultValue");
-
-                    b.ToTable("Identifiers");
-                });
-
             modelBuilder.Entity("Miki.Bot.Models.IsDonator", b =>
                 {
                     b.Property<long>("UserId");
@@ -256,7 +221,9 @@ namespace Miki.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("ValidUntil");
+                    b.Property<DateTime>("ValidUntil")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 24, 19, 21, 31, 587, DateTimeKind.Utc).AddTicks(2807));
 
                     b.HasKey("UserId");
 
@@ -318,7 +285,9 @@ namespace Miki.Core.Migrations
 
                     b.Property<DateTime>("TimeOfMarriage");
 
-                    b.Property<DateTime>("TimeOfProposal");
+                    b.Property<DateTime>("TimeOfProposal")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 24, 19, 21, 31, 568, DateTimeKind.Utc).AddTicks(363));
 
                     b.HasKey("MarriageId");
 
@@ -330,7 +299,9 @@ namespace Miki.Core.Migrations
                     b.Property<long>("ApplicationId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ApplicationSecret");
+                    b.Property<Guid>("ApplicationSecret")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new Guid("8bb5eb1d-3860-4053-b8a3-1b5e6f2f7606"));
 
                     b.Property<long?>("DataApplicationId");
 
@@ -360,37 +331,6 @@ namespace Miki.Core.Migrations
                     b.HasKey("ApplicationId");
 
                     b.ToTable("APIApplicationData");
-                });
-
-            modelBuilder.Entity("Miki.Bot.Models.Models.User.IsBanned", b =>
-                {
-                    b.Property<long>("BanId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("UserId");
-
-                    b.Property<DateTime>("ExpirationDate");
-
-                    b.Property<DateTime>("TimeOfBan");
-
-                    b.HasKey("BanId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("IsBanned");
-                });
-
-            modelBuilder.Entity("Miki.Bot.Models.ModuleState", b =>
-                {
-                    b.Property<string>("Name");
-
-                    b.Property<long>("GuildId");
-
-                    b.Property<bool>("State");
-
-                    b.HasKey("Name", "GuildId");
-
-                    b.ToTable("ModuleStates");
                 });
 
             modelBuilder.Entity("Miki.Bot.Models.PastaVote", b =>
@@ -480,7 +420,9 @@ namespace Miki.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(0);
 
-                    b.Property<DateTime>("DateCreated");
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(new DateTime(2019, 2, 24, 19, 21, 31, 571, DateTimeKind.Utc).AddTicks(965));
 
                     b.Property<int>("DblVotes")
                         .ValueGeneratedOnAdd()
