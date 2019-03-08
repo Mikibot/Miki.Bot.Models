@@ -6,6 +6,8 @@ namespace Miki.Bot.Models
 {
     public class ItemResource
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -17,6 +19,8 @@ namespace Miki.Bot.Models
     public class Item
     {
         public long Id { get; set; }
+
+        public long UserId { get; set; }
 
         public int Amount { get; set; }
 

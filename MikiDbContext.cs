@@ -298,11 +298,22 @@ namespace Miki.Bot.Models
 
 			isDonator.Property(x => x.TotalPaidCents).HasDefaultValue(0);
 
-			#endregion IsDonator
+            #endregion IsDonator
 
-			#region UserMarriedTo
+            #region Item
+            var item = modelBuilder.Entity<Item>();
+            item.HasKey(x => new { x.Id, x.UserId });
+            item.HasOne(x => x.Resource);
+            #endregion
 
-			var usermarried = modelBuilder.Entity<UserMarriedTo>();
+            #region ItemResource 
+            var itemResource = modelBuilder.Entity<ItemResource>();
+            itemResource.HasKey(x => x.Id);
+            #endregion
+
+            #region UserMarriedTo
+
+            var usermarried = modelBuilder.Entity<UserMarriedTo>();
 
 			usermarried.HasKey(x => new { x.AskerId, x.ReceiverId });
 
