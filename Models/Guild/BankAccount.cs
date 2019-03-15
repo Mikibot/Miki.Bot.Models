@@ -29,7 +29,7 @@ namespace Miki.Bot.Models
 		public static async Task<BankAccount> GetAsync(DbContext context, long userId, long guildId)
 		{
 			var account = await context.Set<BankAccount>()
-				.FindAsync(guildId, userId);
+				.FindAsync(userId, guildId);
 
 			if (account == null)
 			{
@@ -55,7 +55,6 @@ namespace Miki.Bot.Models
 			{
 				throw new InsufficientCurrencyException(Currency, amount);
 			}
-
 			Currency -= amount;
 		}
 	}
