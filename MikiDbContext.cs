@@ -33,6 +33,7 @@ namespace Miki.Bot.Models
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Timer> Timers { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<IsBanned> IsBanned { get; set; }
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
 
