@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Models.User;
 using Miki.Bot.Models.Queries;
 using ProtoBuf;
 using System;
@@ -107,7 +108,7 @@ namespace Miki.Bot.Models
 		public static async Task<List<User>> SearchUserAsync(DbContext context, string name)
 		{
 			return await context.Set<User>()
-				.Where(x => x.Name.ToLower() == name.ToLower())
+				.Where(x => x.Name.ToLowerInvariant() == name.ToLowerInvariant())
 				.ToListAsync();
 		}
 
@@ -167,7 +168,14 @@ namespace Miki.Bot.Models
 			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
 			return b;
 		}
-	}
+
+        public async Task<bool> IsBannedAsync(DbContext context)
+        {
+            var ban = await context.Set<IsBanned>()
+                .SingleOrDefaultAsync(x => x.UserId == Id && x.ExpirationDate > DateTime.UtcNow);
+            return ban != null;
+        }
+    }
 
 	// TODO: move to own file
 	[ProtoContract]
