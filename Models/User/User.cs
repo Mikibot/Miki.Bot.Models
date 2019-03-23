@@ -49,7 +49,7 @@ namespace Miki.Bot.Models
 		[ProtoMember(12)]
 		public int Reputation { get; set; }
 
-		[ProtoMember(13)]
+        [Obsolete]
 		public bool Banned { get; set; }
 
 		public List<Achievement> Achievements { get; set; }
