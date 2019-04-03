@@ -286,6 +286,14 @@ namespace Miki.Bot.Models
 
             #endregion User
 
+            #region UserLog
+
+            var userLog = modelBuilder.Entity<UserLog>();
+            userLog.HasKey(x => x.LogId);
+            userLog.HasIndex(x => x.UserId);
+
+            #endregion
+
             #region IsBanned
             var isBanned = modelBuilder.Entity<IsBanned>();
             isBanned.HasKey(x => new { x.BanId, x.UserId });
