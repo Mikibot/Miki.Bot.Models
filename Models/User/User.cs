@@ -75,7 +75,7 @@ namespace Miki.Bot.Models
 				Currency = 0,
 				AvatarUrl = "default",
 				HeaderUrl = "default",
-				LastDailyTime = DateTime.UtcNow - TimeSpan.FromDays(1),
+				LastDailyTime = DateTime.UtcNow.AddDays(-1),
 				MarriageSlots = 5,
 				Name = name,
 				Title = "",
@@ -106,54 +106,33 @@ namespace Miki.Bot.Models
 		}
 
 		public static async Task<List<User>> SearchUserAsync(DbContext context, string name)
-		{
-			return await context.Set<User>()
+		    => await context.Set<User>()
 				.Where(x => x.Name.ToLowerInvariant() == name.ToLowerInvariant())
 				.ToListAsync();
-		}
 
 		public static int CalculateLevel(int exp)
-		{
-			return (int)Math.Sqrt(exp / 10) + 1;
-		}
+		    => (int)Math.Sqrt(exp / 10) + 1;
+		
 
-		public static int CalculateLevelExperience(int level)
-		{
-			return (level * level * 10);
-		}
+        public static int CalculateLevelExperience(int level)
+            => level * level * 10;
 
 		public async Task<int> GetGlobalReputationRankAsync(DbContext context)
-		{
-			int x = 0;
-
-			x = await context.Set<User>()
+		    => 1 + await context.Set<User>()
 				.Where(u => u.Reputation > Reputation)
 				.CountAsync();
 
-			return x + 1;
-		}
-
 		public async Task<int> GetGlobalCommandsRankAsync(DbContext context)
-		{
-			int x = 0;
-
-			x = await context.Set<User>()
+		    => 1 + await context.Set<User>()
 				.Where(u => u.Total_Commands > Total_Commands)
 				.CountAsync();
 
-			return x + 1;
-		}
 
 		public async Task<int> GetGlobalMekosRankAsync(DbContext context)
-		{
-			int x = 0;
-
-			x = await context.Set<User>()
+		    => 1 + await context.Set<User>()
 				.Where(u => u.Currency > Currency)
 				.CountAsync();
-
-			return x + 1;
-		}
+		
 
 		public async Task<int?> GetGlobalRankAsync(DbContext context)
 		{
