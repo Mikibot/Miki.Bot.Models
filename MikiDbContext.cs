@@ -2,6 +2,8 @@
 using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Models.User;
 using Miki.Bot.Models.Queries;
+using Miki.Framework.Commands.Localization.Models;
+using Miki.Framework.Commands.Prefixes.Models;
 using Miki.Models.User;
 using System;
 using System.Collections.Generic;
