@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Framework.Commands.Permissions.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +12,7 @@ namespace Miki.Bot.Models
 		public long UserId { get; set; }
 		public int Experience { get; set; }
 
-		public User User { get; set; }
+        public User User { get; set; }
 
 		public static async Task<LocalExperience> CreateAsync(DbContext context, long ServerId, long userId, string name)
 		{

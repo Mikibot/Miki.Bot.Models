@@ -3,6 +3,7 @@ using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Models.User;
 using Miki.Bot.Models.Queries;
 using Miki.Framework.Commands.Localization.Models;
+using Miki.Framework.Commands.Permissions.Models;
 using Miki.Framework.Commands.Prefixes.Models;
 using Miki.Models.User;
 using System;
@@ -40,6 +41,7 @@ namespace Miki.Bot.Models
         public DbSet<IsBanned> IsBanned { get; set; }
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         private MikiDbContext()
         { }
@@ -341,6 +343,13 @@ namespace Miki.Bot.Models
 				.HasKey(c => new { c.Id, c.UserId });
 
             #endregion Pasta Vote
+
+            #region Permissions
+
+            var permissions = modelBuilder.Entity<Permission>();
+            permissions.HasKey(x => new { x.UserId, x.GuildId });
+
+            #endregion
 
             #region Timer
             var timers = modelBuilder.Entity<Timer>();
