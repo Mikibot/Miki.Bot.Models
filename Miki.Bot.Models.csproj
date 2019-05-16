@@ -23,5 +23,6 @@
     <ProjectReference Include="..\..\Miki.Framework\Miki.Framework.Commands.Localization\Miki.Framework.Commands.Localization.csproj" />
     <ProjectReference Include="..\..\Miki.Framework\Miki.Framework.Commands.Permissions\Miki.Framework.Commands.Permissions.csproj" />
     <ProjectReference Include="..\..\Miki.Framework\Miki.Framework.Commands.Prefixes\Miki.Framework.Commands.Prefixes.csproj" />
+    <ProjectReference Include="..\..\Miki.Framework\Miki.Framework.Commands.States\Miki.Framework.Commands.States.csproj" />
   </ItemGroup>
 </Project>
