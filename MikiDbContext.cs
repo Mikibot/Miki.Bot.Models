@@ -348,7 +348,7 @@ namespace Miki.Bot.Models
             #region Permissions
 
             var permissions = modelBuilder.Entity<Permission>();
-            permissions.HasKey(x => new { x.UserId, x.GuildId });
+            permissions.HasIndex(x => x.GuildId);
 
             #endregion
 
