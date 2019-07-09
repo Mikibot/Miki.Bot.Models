@@ -5,7 +5,6 @@ using Miki.Bot.Models.Queries;
 using Miki.Framework.Commands.Localization.Models;
 using Miki.Framework.Commands.Permissions.Models;
 using Miki.Framework.Commands.Prefixes.Models;
-using Miki.Framework.Commands.States;
 using Miki.Models.User;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,6 @@ namespace Miki.Bot.Models
         public DbSet<BackgroundsOwned> BackgroundsOwned { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<ChannelLanguage> ChannelLanguages { get; set; }
-        public DbSet<CommandState> CommandStates { get; set; }
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
@@ -87,11 +85,6 @@ namespace Miki.Bot.Models
             var backgroundsOwned = modelBuilder.Entity<BackgroundsOwned>();
 			backgroundsOwned.HasKey(x => new { x.UserId, x.BackgroundId });
             #endregion BackgroundsOwned
-
-            #region CommandState
-            var commandState = modelBuilder.Entity<CommandState>();
-            commandState.HasKey(x => new { x.Name, x.ChannelId });
-            #endregion
 
             #region Command Usage
             var commandUsage = modelBuilder.Entity<CommandUsage>();
@@ -233,11 +226,17 @@ namespace Miki.Bot.Models
 			modelBuilder.Entity<Setting>()
 				.HasKey(c => new { c.EntityId, c.SettingId });
 
-			#endregion Setting
+            #endregion Setting
 
-			#region User
+            #region Permissions
+            var permissionsModel = modelBuilder.Entity<Permission>();
+            permissionsModel.HasKey(x => new { x.EntityId, x.CommandName, x.GuildId });
+            permissionsModel.HasIndex(x => x.GuildId);
+            #endregion
 
-			var user = modelBuilder.Entity<User>();
+            #region User
+
+            var user = modelBuilder.Entity<User>();
 
 			user.HasKey(c => c.Id);
 
@@ -344,13 +343,6 @@ namespace Miki.Bot.Models
 				.HasKey(c => new { c.Id, c.UserId });
 
             #endregion Pasta Vote
-
-            #region Permissions
-
-            var permissions = modelBuilder.Entity<Permission>();
-            permissions.HasIndex(x => x.GuildId);
-
-            #endregion
 
             #region Timer
             var timers = modelBuilder.Entity<Timer>();
