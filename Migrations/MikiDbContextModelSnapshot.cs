@@ -61,21 +61,6 @@ namespace Miki.Core.Migrations
                     b.ToTable("BankAccounts");
                 });
 
-            modelBuilder.Entity("Miki.Bot.Models.CommandState", b =>
-                {
-                    b.Property<string>("Name");
-
-                    b.Property<long>("ChannelId");
-
-                    b.Property<long>("GuildId");
-
-                    b.Property<bool>("State");
-
-                    b.HasKey("Name", "ChannelId");
-
-                    b.ToTable("CommandStates");
-                });
-
             modelBuilder.Entity("Miki.Bot.Models.CommandUsage", b =>
                 {
                     b.Property<long>("UserId");
@@ -561,19 +546,21 @@ namespace Miki.Core.Migrations
 
             modelBuilder.Entity("Miki.Framework.Commands.Permissions.Models.Permission", b =>
                 {
-                    b.Property<long>("UserId");
+                    b.Property<long>("EntityId");
+
+                    b.Property<string>("CommandName");
 
                     b.Property<long>("GuildId");
 
-                    b.Property<long?>("LocalExperienceServerId");
+                    b.Property<int>("Status");
 
-                    b.Property<long?>("LocalExperienceUserId");
+                    b.Property<int>("Type");
 
-                    b.Property<int>("PermissionLevel");
+                    b.HasKey("EntityId", "CommandName", "GuildId");
 
-                    b.HasKey("UserId", "GuildId");
+                    b.HasAlternateKey("CommandName", "EntityId", "GuildId");
 
-                    b.HasIndex("LocalExperienceServerId", "LocalExperienceUserId");
+                    b.HasIndex("GuildId");
 
                     b.ToTable("Permissions");
                 });
@@ -675,13 +662,6 @@ namespace Miki.Core.Migrations
                         .WithOne("Participants")
                         .HasForeignKey("Miki.Bot.Models.UserMarriedTo", "MarriageId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Miki.Framework.Commands.Permissions.Models.Permission", b =>
-                {
-                    b.HasOne("Miki.Bot.Models.LocalExperience")
-                        .WithMany("Permissions")
-                        .HasForeignKey("LocalExperienceServerId", "LocalExperienceUserId");
                 });
 #pragma warning restore 612, 618
         }
