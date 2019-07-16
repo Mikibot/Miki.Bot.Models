@@ -12,18 +12,8 @@ namespace Miki.Core.Migrations
                 schema: "dbo",
                 table: "Achievements");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Achievements_Users_UserId",
-                schema: "dbo",
-                table: "Achievements");
-
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Achievements",
-                schema: "dbo",
-                table: "Achievements");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Achievements_UserId",
                 schema: "dbo",
                 table: "Achievements");
 
