@@ -243,9 +243,6 @@ namespace Miki.Bot.Models
 			user.Property(x => x.AvatarUrl)
 				.HasDefaultValue("default");
 
-			user.Property(x => x.Banned)
-				.HasDefaultValue(false);
-
 			user.Property(x => x.Currency)
 				.HasDefaultValue(0);
 
@@ -350,7 +347,9 @@ namespace Miki.Bot.Models
             #endregion
 
             #region Queries
-            modelBuilder.Query<RankObject>().ToView("mview_glob_rank_exp");
+            modelBuilder
+                .Query<RankObject>()
+                .ToView("mview_glob_rank_exp");
 			#endregion
 
 			modelBuilder.HasDefaultSchema("dbo");
