@@ -16,7 +16,7 @@ namespace Miki.Core.Migrations
                 name: "PK_Achievements",
                 schema: "dbo",
                 table: "Achievements");
-            
+
             migrationBuilder.AlterColumn<long>(
                 name: "UserId",
                 schema: "dbo",

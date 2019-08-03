@@ -2,6 +2,9 @@
 using Miki.Bot.Models.Models.Authorization;
 using Miki.Bot.Models.Models.User;
 using Miki.Bot.Models.Queries;
+using Miki.Framework.Commands.Localization.Models;
+using Miki.Framework.Commands.Permissions.Models;
+using Miki.Framework.Commands.Prefixes.Models;
 using Miki.Models.User;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,6 @@ namespace Miki.Bot.Models
         public DbSet<BackgroundsOwned> BackgroundsOwned { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
         public DbSet<ChannelLanguage> ChannelLanguages { get; set; }
-        public DbSet<CommandState> CommandStates { get; set; }
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
@@ -38,6 +40,7 @@ namespace Miki.Bot.Models
         public DbSet<IsBanned> IsBanned { get; set; }
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
         private MikiDbContext()
         { }
@@ -82,11 +85,6 @@ namespace Miki.Bot.Models
             var backgroundsOwned = modelBuilder.Entity<BackgroundsOwned>();
 			backgroundsOwned.HasKey(x => new { x.UserId, x.BackgroundId });
             #endregion BackgroundsOwned
-
-            #region CommandState
-            var commandState = modelBuilder.Entity<CommandState>();
-            commandState.HasKey(x => new { x.Name, x.ChannelId });
-            #endregion
 
             #region Command Usage
             var commandUsage = modelBuilder.Entity<CommandUsage>();
@@ -228,19 +226,22 @@ namespace Miki.Bot.Models
 			modelBuilder.Entity<Setting>()
 				.HasKey(c => new { c.EntityId, c.SettingId });
 
-			#endregion Setting
+            #endregion Setting
 
-			#region User
+            #region Permissions
+            var permissionsModel = modelBuilder.Entity<Permission>();
+            permissionsModel.HasKey(x => new { x.EntityId, x.CommandName, x.GuildId });
+            permissionsModel.HasIndex(x => x.GuildId);
+            #endregion
 
-			var user = modelBuilder.Entity<User>();
+            #region User
+
+            var user = modelBuilder.Entity<User>();
 
 			user.HasKey(c => c.Id);
 
 			user.Property(x => x.AvatarUrl)
 				.HasDefaultValue("default");
-
-			user.Property(x => x.Banned)
-				.HasDefaultValue(false);
 
 			user.Property(x => x.Currency)
 				.HasDefaultValue(0);
@@ -346,7 +347,9 @@ namespace Miki.Bot.Models
             #endregion
 
             #region Queries
-            modelBuilder.Query<RankObject>().ToView("mview_glob_rank_exp");
+            modelBuilder
+                .Query<RankObject>()
+                .ToView("mview_glob_rank_exp");
 			#endregion
 
 			modelBuilder.HasDefaultSchema("dbo");
