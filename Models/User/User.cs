@@ -81,7 +81,8 @@ namespace Miki.Bot.Models
 				Title = "",
 				Total_Commands = 0,
 				Total_Experience = 0,
-				Reputation = 0
+				Reputation = 0,
+                DateCreated = DateTime.UtcNow
 			};
 
 			await context.Set<User>().AddAsync(user);
