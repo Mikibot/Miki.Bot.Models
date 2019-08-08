@@ -22,6 +22,7 @@ namespace Miki.Bot.Models
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
+        public DbSet<Config> Configurations { get; set; }
         public DbSet<Identifier> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
@@ -350,9 +351,14 @@ namespace Miki.Bot.Models
             modelBuilder
                 .Query<RankObject>()
                 .ToView("mview_glob_rank_exp");
-			#endregion
+            #endregion
 
-			modelBuilder.HasDefaultSchema("dbo");
+            #region Configuration
+            modelBuilder.Entity<Config>()
+                .HasKey(c => new { c.Id });
+            #endregion
+
+            modelBuilder.HasDefaultSchema("dbo");
 		}
 	}
 }
