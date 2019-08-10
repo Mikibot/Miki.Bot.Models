@@ -26,10 +26,16 @@ namespace Miki.Bot.Models
 		[Column("Value")]
 		public int Value { get; set; }
 
-		public static async Task<int> GetAsync(DbContext context, ulong id, DatabaseSettingId settingId)
+		public static async Task<int> GetAsync(
+            DbContext context, 
+            ulong id, 
+            DatabaseSettingId settingId)
 		=> await GetAsync(context, (long)id, settingId);
 
-		public static async Task<int> GetAsync(DbContext context, long id, DatabaseSettingId settingId)
+		public static async Task<int> GetAsync(
+            DbContext context, 
+            long id, 
+            DatabaseSettingId settingId)
 		{
 			Setting s = await context.Set<Setting>()
 				.FindAsync(id, settingId);
@@ -46,7 +52,11 @@ namespace Miki.Bot.Models
 			return s.Value;
 		}
 
-		public static async Task UpdateAsync(DbContext context, long id, DatabaseSettingId settingId, int value)
+		public static async Task UpdateAsync(
+            DbContext context, 
+            long id, 
+            DatabaseSettingId settingId, 
+            int value)
 		{
 			Setting s = await context.Set<Setting>().FindAsync(id, settingId);
 			if (s == null)
@@ -64,7 +74,11 @@ namespace Miki.Bot.Models
 			}
 		}
 
-		public static async Task UpdateAsync(DbContext context, ulong id, DatabaseSettingId settingId, int value)
+		public static async Task UpdateAsync(
+            DbContext context, 
+            ulong id, 
+            DatabaseSettingId settingId, 
+            int value)
 			=> await UpdateAsync(context, (long)id, settingId, value);
 	}
 }

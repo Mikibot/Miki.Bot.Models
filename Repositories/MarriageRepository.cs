@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories
 {
-	public class MarriageRepository : IAsyncReadOnlyRepository<Marriage>, IDisposable
+	public class MarriageRepository : IAsyncReadOnlyRepository<Marriage>
 	{
 		private readonly DbContext _dbContext;
 		private readonly DbSet<Marriage> _marriageSet;
@@ -33,8 +33,8 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task DivorceAllMarriagesAsync(long me)
 		{
-			List<UserMarriedTo> Marriages = await InternalGetMarriagesAsync(me);
-			_marriageSet.RemoveRange(Marriages.Select(x => x.Marriage));
+			List<UserMarriedTo> marriages = await InternalGetMarriagesAsync(me);
+			_marriageSet.RemoveRange(marriages.Select(x => x.Marriage));
 			await _dbContext.SaveChangesAsync();
 		}
 
@@ -131,7 +131,6 @@ namespace Miki.Bot.Models.Repositories
 		/// <summary>
 		/// Gets the proposals received by userid
 		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="userid"></param>
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetProposalsReceivedAsync(long userid)
@@ -172,21 +171,16 @@ namespace Miki.Bot.Models.Repositories
 			return allInstances;
 		}
 
-		public async Task<int> CountAsync()
-		{
-			return await _marriageSet.CountAsync();
-		}
+		public Task<int> CountAsync()
+        {
+            return _marriageSet.CountAsync();
+        }
 
-		public async Task<Marriage> GetAsync(params object[] id)
+		public Task<Marriage> GetAsync(params object[] id)
 		{
-			return await _marriageSet
+			return _marriageSet
 				.Include(x => x.Participants)
 				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]);
 		}
-
-		public void Dispose()
-		{
-			_dbContext.Dispose();
-		}
-	}
+    }
 }
