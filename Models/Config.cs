@@ -1,12 +1,65 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Miki.Logging;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
 
 namespace Miki.Bot.Models
 {
     [Table("Configuration")]
     public class Config
     {
+        public static async Task<Config> InsertNewConfigAsync(string connStr)
+        {
+            var builder = new DbContextOptionsBuilder<MikiDbContext>();
+            builder.UseNpgsql(Environment.GetEnvironmentVariable(connStr), b => b.MigrationsAssembly("Miki.Bot.Models"));
+            var dbContext = new MikiDbContext(builder.Options);
+
+            var configuration = new Config();
+
+            await dbContext.Configurations.AddAsync(configuration);
+
+            await dbContext.SaveChangesAsync();
+
+            Log.Debug("New Config inserted into database with Id: " + configuration.Id);
+
+            return configuration;
+        }
+
+        public static async Task<Config> GetOrInsertAsync(string connStr, string configId = null)
+        {
+            if(connStr == null)
+            {
+                Log.Error("Cannot connect to database, ensure you have configured the database connection string");
+                return null;
+            }
+
+            var builder = new DbContextOptionsBuilder<MikiDbContext>();
+            builder.UseNpgsql(Environment.GetEnvironmentVariable(connStr), b => b.MigrationsAssembly("Miki.Bot.Models"));
+            var dbContext = new MikiDbContext(builder.Options);
+
+            Config configuration = null;
+
+            if (!string.IsNullOrWhiteSpace(configId) && await dbContext.Configurations.AnyAsync(x => x.Id.ToString() == configId))
+            {
+                configuration = await dbContext.Configurations.FirstOrDefaultAsync(x => x.Id.ToString() == configId);
+            }
+            else
+            {
+                if (await dbContext.Configurations.CountAsync() == 0)
+                {
+                    configuration = await InsertNewConfigAsync(connStr);
+                }
+                else
+                {
+                    configuration = await dbContext.Configurations.FirstOrDefaultAsync();
+                }
+            }
+
+            return configuration;
+        }
+
         [Key]
         [Column("Id")]
         public Guid Id { get; set; } = new Guid();
