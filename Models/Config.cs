@@ -12,7 +12,7 @@ namespace Miki.Bot.Models
     {
         [Key]
         [Column("Id")]
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; };
 
         /// <summary>
         /// Discord API Token
@@ -73,29 +73,17 @@ namespace Miki.Bot.Models
         
         [Column("BunnyCdnKey")]
         public string BunnyCdnKey { get; internal set; }
-        public static async Task<Config> InsertNewConfigAsync(string connStr)
+
+        public Config()
         {
-            var builder = new DbContextOptionsBuilder<MikiDbContext>();
-            builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            var dbContext = new MikiDbContext(builder.Options);
-
-            var configuration = new Config();
-
-            await dbContext.Configurations.AddAsync(configuration);
-
-            await dbContext.SaveChangesAsync();
-
-            Log.Debug("New Config inserted into database with Id: " + configuration.Id);
-
-            return configuration;
+            Id = new Guid();
         }
 
         public static async Task<Config> GetOrInsertAsync(string connStr, string configId = null)
         {
             if (connStr == null)
             {
-                Log.Error("Cannot connect to database, ensure you have configured the database connection string");
-                return null;
+                throw new ArgumentNullException("Cannot connect to database, ensure you have configured the database connection string");
             }
 
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
@@ -110,7 +98,7 @@ namespace Miki.Bot.Models
             }
             else
             {
-                if (await dbContext.Configurations.CountAsync() == 0)
+                if (!await dbContext.Configurations.AnyAsync())
                 {
                     configuration = await InsertNewConfigAsync(connStr);
                 }
@@ -119,6 +107,23 @@ namespace Miki.Bot.Models
                     configuration = await dbContext.Configurations.FirstOrDefaultAsync();
                 }
             }
+
+            return configuration;
+        }
+
+        public static async Task<Config> InsertNewConfigAsync(string connStr)
+        {
+            var builder = new DbContextOptionsBuilder<MikiDbContext>();
+            builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
+            var dbContext = new MikiDbContext(builder.Options);
+
+            var configuration = new Config();
+
+            await dbContext.Configurations.AddAsync(configuration);
+
+            await dbContext.SaveChangesAsync();
+
+            Log.Debug("New Config inserted into database with Id: " + configuration.Id);
 
             return configuration;
         }

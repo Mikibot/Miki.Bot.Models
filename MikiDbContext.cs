@@ -353,11 +353,6 @@ namespace Miki.Bot.Models
                 .ToView("mview_glob_rank_exp");
             #endregion
 
-            #region Configuration
-            modelBuilder.Entity<Config>()
-                .HasKey(c => new { c.Id });
-            #endregion
-
             modelBuilder.HasDefaultSchema("dbo");
 		}
 	}
