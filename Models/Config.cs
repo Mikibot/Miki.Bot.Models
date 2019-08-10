@@ -76,7 +76,7 @@ namespace Miki.Bot.Models
         public static async Task<Config> InsertNewConfigAsync(string connStr)
         {
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
-            builder.UseNpgsql(Environment.GetEnvironmentVariable(connStr), b => b.MigrationsAssembly("Miki.Bot.Models"));
+            builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
             var dbContext = new MikiDbContext(builder.Options);
 
             var configuration = new Config();
