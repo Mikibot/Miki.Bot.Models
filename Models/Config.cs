@@ -12,7 +12,7 @@ namespace Miki.Bot.Models
     {
         [Key]
         [Column("Id")]
-        public Guid Id { get; set; };
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Discord API Token
