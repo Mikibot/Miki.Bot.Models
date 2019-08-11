@@ -466,9 +466,7 @@ namespace Miki.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue("default");
 
-                    b.Property<bool>("Banned")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(false);
+                    b.Property<bool>("Banned");
 
                     b.Property<int>("Currency")
                         .ValueGeneratedOnAdd()
@@ -576,6 +574,18 @@ namespace Miki.Core.Migrations
                     b.HasKey("GuildId", "DefaultValue");
 
                     b.ToTable("Identifiers");
+                });
+
+            modelBuilder.Entity("Miki.Framework.Commands.Scopes.Models.Scope", b =>
+                {
+                    b.Property<string>("ScopeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("UserId");
+
+                    b.HasKey("ScopeId");
+
+                    b.ToTable("Scopes");
                 });
 
             modelBuilder.Entity("Miki.Models.User.UserLog", b =>

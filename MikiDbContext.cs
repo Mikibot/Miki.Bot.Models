@@ -1,18 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Bot.Models.Models.Authorization;
-using Miki.Bot.Models.Models.User;
-using Miki.Bot.Models.Queries;
-using Miki.Framework.Commands.Localization.Models;
-using Miki.Framework.Commands.Permissions.Models;
-using Miki.Framework.Commands.Prefixes.Models;
-using Miki.Models.User;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	public class MikiDbContext : DbContext
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Bot.Models.Models.Authorization;
+    using Miki.Bot.Models.Models.User;
+    using Miki.Bot.Models.Queries;
+    using Miki.Framework.Commands.Localization.Models;
+    using Miki.Framework.Commands.Permissions.Models;
+    using Miki.Framework.Commands.Prefixes.Models;
+    using Miki.Models.User;
+    using System;
+    using Miki.Framework.Commands.Scopes.Models;
+
+    public class MikiDbContext : DbContext
 	{
         public DbSet<APIApplication> Applications { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
@@ -34,6 +33,7 @@ namespace Miki.Bot.Models
         public DbSet<GlobalPasta> Pastas { get; set; }
         public DbSet<ProfileVisuals> ProfileVisuals { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Scope> Scopes { get; set; }    
         public DbSet<Timer> Timers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserLog> UserLogs { get; set; }
