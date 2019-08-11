@@ -7,6 +7,7 @@ namespace Miki.Core.Migrations
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
+            migrationBuilder.Sql("create extension if not exists \"uuid-ossp\";");
 			migrationBuilder.CreateTable(
 				name: "DonatorKey",
 				schema: "dbo",
@@ -37,7 +38,9 @@ namespace Miki.Core.Migrations
 
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(
+            migrationBuilder.Sql("drop extension if not exists \"uuid-ossp\";");
+
+            migrationBuilder.DropTable(
 				name: "DonatorKey",
 				schema: "dbo");
 

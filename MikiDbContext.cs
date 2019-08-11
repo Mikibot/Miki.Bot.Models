@@ -229,6 +229,17 @@
 
             #endregion Setting
 
+            #region Scopes
+
+            var scopeModel = modelBuilder.Entity<Scope>();
+            scopeModel.HasKey(x => new
+            {
+                x.ScopeId,
+                x.UserId
+            });
+
+            #endregion
+
             #region Permissions
             var permissionsModel = modelBuilder.Entity<Permission>();
             permissionsModel.HasKey(x => new { x.EntityId, x.CommandName, x.GuildId });
