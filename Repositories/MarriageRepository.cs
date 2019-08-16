@@ -171,12 +171,7 @@ namespace Miki.Bot.Models.Repositories
 			return allInstances;
 		}
 
-		public Task<int> CountAsync()
-        {
-            return _marriageSet.CountAsync();
-        }
-
-		public Task<Marriage> GetAsync(params object[] id)
+        public Task<Marriage> GetAsync(params object[] id)
 		{
 			return _marriageSet
 				.Include(x => x.Participants)

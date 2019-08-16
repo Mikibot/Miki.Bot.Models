@@ -13,8 +13,6 @@ namespace Miki.Bot.Models.Repositories
 
 	public interface IAsyncReadOnlyRepository<T>
 	{
-		Task<int> CountAsync();
-
-		Task<T> GetAsync(params object[] id);
+        Task<T> GetAsync(params object[] id);
 	}
 }
