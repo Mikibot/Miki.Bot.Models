@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-
-namespace Miki.Bot.Models.Repositories
+﻿namespace Miki.Bot.Models.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+
     public class AchievementRepository : IAsyncRepository<Achievement>
     {
-        DbSet<Achievement> set;
+        private readonly DbSet<Achievement> set;
 
         public AchievementRepository(DbContext ctx)
         {
@@ -34,17 +33,33 @@ namespace Miki.Bot.Models.Repositories
 
         public Task AddAsync(Achievement entity)
         {
-            throw new NotImplementedException();
+            set.Add(entity);
+            return Task.CompletedTask;
         }
 
-        public Task EditAsync(Achievement entity)
+        public async Task EditAsync(Achievement entity)
         {
-            throw new NotImplementedException();
+            var achievement = await GetAsync(entity.UserId, entity.Name);
+            if (achievement == null)
+            {
+                throw new InvalidOperationException("Can not edit Achievement that is null");
+            }
+            set.Update(entity);
         }
 
         public Task DeleteAsync(Achievement entity)
         {
-            throw new NotImplementedException();
+            set.Remove(entity);
+            return Task.CompletedTask;
+        }
+
+        public async Task<IReadOnlyList<Achievement>> ListAsync(long userId)
+        {
+            return await set.Where(x => x.UserId == userId)
+                .GroupBy(x => x.Name)
+                .Select(grp => grp.Aggregate((max, cur) => 
+                    (max == null || cur.Rank > max.Rank) ? cur : max))
+                .ToListAsync();
         }
     }
 }
