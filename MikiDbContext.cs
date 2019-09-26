@@ -1,5 +1,6 @@
 ﻿namespace Miki.Bot.Models
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
     using Miki.Bot.Models.Models.Authorization;
     using Miki.Bot.Models.Models.User;
@@ -7,9 +8,8 @@
     using Miki.Framework.Commands.Localization.Models;
     using Miki.Framework.Commands.Permissions.Models;
     using Miki.Framework.Commands.Prefixes.Models;
-    using Miki.Models.User;
-    using System;
     using Miki.Framework.Commands.Scopes.Models;
+    using Miki.Models.User;
 
     public class MikiDbContext : DbContext
 	{
@@ -242,7 +242,8 @@
 
             #region Permissions
             var permissionsModel = modelBuilder.Entity<Permission>();
-            permissionsModel.HasKey(x => new { x.EntityId, x.CommandName, x.GuildId });
+            permissionsModel.HasKey(x => x.PermissionId);
+            permissionsModel.HasIndex(x => new {x.EntityId, x.CommandName, x.GuildId});
             permissionsModel.HasIndex(x => x.GuildId);
             #endregion
 

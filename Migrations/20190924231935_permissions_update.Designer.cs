@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Miki.Core.Migrations
+namespace Miki.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    partial class MikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190924231935_permissions_update")]
+    partial class permissions_update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

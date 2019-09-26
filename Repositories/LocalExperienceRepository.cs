@@ -22,11 +22,11 @@ namespace Miki.Bot.Models.Repositories
 			_guildId = guildId;
 		}
 
-		public async Task AddAsync(LocalExperience entity)
+		public ValueTask AddAsync(LocalExperience entity)
 		{
-			await _dbSet.AddAsync(entity);
-			await _dbContext.SaveChangesAsync();
-		}
+			_dbSet.Add(entity);
+            return default;
+        }
 
 		public async Task<int> CountAsync()
 		{
@@ -37,19 +37,19 @@ namespace Miki.Bot.Models.Repositories
 			return await _dbSet.CountAsync(x => x.ServerId == _guildId.Value);
 		}
 
-		public async Task DeleteAsync(LocalExperience entity)
+		public ValueTask DeleteAsync(LocalExperience entity)
 		{
 			_dbSet.Remove(entity);
-			await _dbContext.SaveChangesAsync();
-		}
+            return default;
+        }
 
-		public async Task EditAsync(LocalExperience entity)
+		public ValueTask EditAsync(LocalExperience entity)
 		{
 			_dbSet.Update(entity);
-			await _dbContext.SaveChangesAsync();
+            return default;
 		}
 
-		public async Task<LocalExperience> GetAsync(params object[] id)
+		public async ValueTask<LocalExperience> GetAsync(params object[] id)
 		{
 			return await _dbSet.FindAsync(id);
 		}

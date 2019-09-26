@@ -1,21 +1,21 @@
-﻿using ProtoBuf;
-using System;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace Miki.Bot.Models
 {
-	[ProtoContract]
+	[DataContract]
 	public class Achievement
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public long UserId { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public string Name { get; set; }
 
-		[ProtoMember(3)]
+		[DataMember(Order = 3)]
 		public short Rank { get; set; }
 
-		[ProtoMember(4)]
+		[DataMember(Order = 4)]
 		public DateTime UnlockedAt { get; set; }
 	}
 }

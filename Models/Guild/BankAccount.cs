@@ -1,24 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Miki.Bot.Models.Exceptions;
 using Miki.Exceptions;
-using ProtoBuf;
 using System.Threading.Tasks;
 
 namespace Miki.Bot.Models
 {
-	[ProtoContract]
+	[DataContract]
 	public class BankAccount
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public long UserId { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public long GuildId { get; set; }
 
-		[ProtoMember(3)]
+		[DataMember(Order = 3)]
 		public long Currency { get; set; }
 
-		[ProtoMember(4)]
+		[DataMember(Order = 4)]
 		public long TotalDeposited { get; set; }
 
 		public static async Task<BankAccount> GetAsync(DbContext context, ulong userId, ulong guildId)

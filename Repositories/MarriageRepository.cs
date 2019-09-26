@@ -58,9 +58,11 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<UserMarriedTo> GetMarriageAsync(long receiver, long asker)
 		{
-			UserMarriedTo m = null;
-			m = await InternalGetMarriageAsync(receiver, asker);
-			if (m == null) m = await InternalGetMarriageAsync(asker, receiver);
+            UserMarriedTo m = await InternalGetMarriageAsync(receiver, asker);
+            if (m == null)
+            {
+                m = await InternalGetMarriageAsync(asker, receiver);
+            }
 			return m;
 		}
 
@@ -72,8 +74,7 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<UserMarriedTo> GetEntryAsync(long receiver, long asker)
 		{
-			UserMarriedTo m = null;
-			m = await _userMarriedSet
+             UserMarriedTo m = await _userMarriedSet
 				.Include(x => x.Marriage)
 				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver)
 					|| (x.AskerId == receiver && x.ReceiverId == asker));
@@ -102,21 +103,22 @@ namespace Miki.Bot.Models.Repositories
 		/// <summary>
 		/// gets specific proposal
 		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="askerid"></param>
 		/// <param name="userid"></param>
 		/// <returns></returns>
-		private async Task<UserMarriedTo> InternalGetProposalAsync(DbContext context, long askerid, long userid)
+		private async Task<UserMarriedTo> InternalGetProposalAsync(
+            long askerid, 
+            long userid)
 		{
 			return await _userMarriedSet
 				.Include(x => x.Marriage)
-				.FirstOrDefaultAsync(x => (x.AskerId == askerid || x.ReceiverId == userid) && x.Marriage.IsProposing);
+				.FirstOrDefaultAsync(x => (x.AskerId == askerid || x.ReceiverId == userid) 
+                                          && x.Marriage.IsProposing);
 		}
 
 		/// <summary>
 		/// gets the proposals sent to userid
 		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="asker"></param>
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetProposalsSentAsync(long asker)
@@ -145,7 +147,6 @@ namespace Miki.Bot.Models.Repositories
 		/// <summary>
 		/// Gets marriage instance of receiver and asker
 		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="receiver"></param>
 		/// <param name="asker"></param>
 		/// <returns></returns>
@@ -159,7 +160,6 @@ namespace Miki.Bot.Models.Repositories
 		/// <summary>
 		/// Gets all marriages the user id is married to
 		/// </summary>
-		/// <param name="context"></param>
 		/// <param name="userid"></param>
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetMarriagesAsync(long userid)
@@ -171,11 +171,11 @@ namespace Miki.Bot.Models.Repositories
 			return allInstances;
 		}
 
-        public Task<Marriage> GetAsync(params object[] id)
+        public ValueTask<Marriage> GetAsync(params object[] id)
 		{
-			return _marriageSet
-				.Include(x => x.Participants)
-				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]);
+			return new ValueTask<Marriage>(
+                _marriageSet.Include(x => x.Participants)
+				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]));
 		}
     }
 }

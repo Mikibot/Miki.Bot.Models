@@ -15,14 +15,15 @@
             set = ctx.Set<Achievement>();
         }
 
-        public Task<Achievement> GetAsync(long userId, string name)
+        public ValueTask<Achievement> GetAsync(long userId, string name)
         {
-            return set.Where(x => x.Name == name
-                           && x.UserId == userId)
+            return new ValueTask<Achievement>(
+                set.Where(x => x.Name == name
+                            && x.UserId == userId)
                 .OrderByDescending(x => x.Rank)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync());
         }
-        public Task<Achievement> GetAsync(params object[] id)
+        public ValueTask<Achievement> GetAsync(params object[] id)
         {
             if (id.Length != 2)
             {
@@ -31,13 +32,13 @@
             return GetAsync((long)id[0], (string)id[1]);
         }
 
-        public Task AddAsync(Achievement entity)
+        public ValueTask AddAsync(Achievement entity)
         {
             set.Add(entity);
-            return Task.CompletedTask;
+            return default;
         }
 
-        public async Task EditAsync(Achievement entity)
+        public async ValueTask EditAsync(Achievement entity)
         {
             var achievement = await GetAsync(entity.UserId, entity.Name);
             if (achievement == null)
@@ -47,10 +48,10 @@
             set.Update(entity);
         }
 
-        public Task DeleteAsync(Achievement entity)
+        public ValueTask DeleteAsync(Achievement entity)
         {
             set.Remove(entity);
-            return Task.CompletedTask;
+            return default;
         }
 
         public async Task<IReadOnlyList<Achievement>> ListAsync(long userId)

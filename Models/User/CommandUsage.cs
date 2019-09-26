@@ -1,19 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProtoBuf;
+﻿using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace Miki.Bot.Models
 {
-    [ProtoContract]
+    [DataContract]
 	public class CommandUsage
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public long UserId { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public string Name { get; set; }
 
-		[ProtoMember(3)]
+		[DataMember(Order = 3)]
 		public int Amount { get; set; }
 
 		public User User { get; set; }

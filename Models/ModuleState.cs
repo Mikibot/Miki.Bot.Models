@@ -1,17 +1,17 @@
-﻿using ProtoBuf;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	[ProtoContract]
+    using System.Runtime.Serialization;
+
+    [DataContract]
 	public class ModuleState
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public string Name { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public long GuildId { get; set; }
 
-		[ProtoMember(3)]
+		[DataMember(Order = 3)]
 		public bool State { get; set; }
 	}
 }

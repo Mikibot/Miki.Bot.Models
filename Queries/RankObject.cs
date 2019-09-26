@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Miki.Bot.Models.Queries
+﻿namespace Miki.Bot.Models.Queries
 {
 	public class RankObject
 	{

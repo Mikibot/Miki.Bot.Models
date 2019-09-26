@@ -18,7 +18,7 @@ namespace Miki.Bot.Models.Repositories
 			_dbContext = context;
 		}
 
-		public async Task AddAsync(User entity)
+		public async ValueTask AddAsync(User entity)
 		{
 			await _dbSet.AddAsync(entity);
 			await _dbContext.SaveChangesAsync();
@@ -29,19 +29,19 @@ namespace Miki.Bot.Models.Repositories
 			return await _dbSet.CountAsync();
 		}
 
-		public async Task DeleteAsync(User entity)
+		public ValueTask DeleteAsync(User entity)
 		{
 			_dbSet.Remove(entity);
-			await _dbContext.SaveChangesAsync();
+            return default;
 		}
 
-		public async Task EditAsync(User entity)
+		public ValueTask EditAsync(User entity)
 		{
 			_dbSet.Update(entity);
-			await _dbContext.SaveChangesAsync();
-		}
+            return default;
+        }
 
-		public Task<User> GetAsync(params object[] id)
+		public ValueTask<User> GetAsync(params object[] id)
 		{
 			return _dbSet.FindAsync(id);
 		}

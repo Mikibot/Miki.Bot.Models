@@ -4,15 +4,15 @@ namespace Miki.Bot.Models.Repositories
 {
 	public interface IAsyncRepository<T> : IAsyncReadOnlyRepository<T>
 	{
-		Task AddAsync(T entity);
+        ValueTask AddAsync(T entity);
 
-		Task EditAsync(T entity);
+        ValueTask EditAsync(T entity);
 
-		Task DeleteAsync(T entity);
+		ValueTask DeleteAsync(T entity);
 	}
 
 	public interface IAsyncReadOnlyRepository<T>
 	{
-        Task<T> GetAsync(params object[] id);
+        ValueTask<T> GetAsync(params object[] id);
 	}
 }

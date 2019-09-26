@@ -1,4 +1,6 @@
-﻿namespace Miki.Bot.Models
+﻿using System.Runtime.Serialization;
+
+namespace Miki.Bot.Models
 {
     using System;
     using System.Collections.Generic;
@@ -8,45 +10,44 @@
     using Microsoft.EntityFrameworkCore;
     using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
-    using ProtoBuf;
 
-    [ProtoContract]
+    [DataContract]
 	public class User
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public long Id { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public string Name { get; set; }
 
-		[ProtoMember(3)]
+		[DataMember(Order = 3)]
 		public string Title { get; set; }
 
-		[ProtoMember(4)]
+		[DataMember(Order = 4)]
 		public int Total_Commands { get; set; }
 
-		[ProtoMember(5)]
+		[DataMember(Order = 5)]
 		public int Total_Experience { get; set; }
 
-		[ProtoMember(6)]
+		[DataMember(Order = 6)]
 		public int Currency { get; set; }
 
-		[ProtoMember(7)]
+		[DataMember(Order = 7)]
 		public int MarriageSlots { get; set; }
 
-		[ProtoMember(8)]
+		[DataMember(Order = 8)]
 		public string AvatarUrl { get; set; }
 
-		[ProtoMember(9)]
+		[DataMember(Order = 9)]
 		public string HeaderUrl { get; set; }
 
-		[ProtoMember(10)]
+		[DataMember(Order = 10)]
 		public DateTime LastDailyTime { get; set; }
 
-		[ProtoMember(11)]
+		[DataMember(Order = 11)]
 		public DateTime DateCreated { get; set; }
 
-		[ProtoMember(12)]
+		[DataMember(Order = 12)]
 		public int Reputation { get; set; }
 
         [Obsolete]
@@ -62,7 +63,7 @@
 		[NotMapped]
 		public Connection Connections { get; set; }
 
-		[ProtoMember(14)]
+		[DataMember(Order = 14)]
 		public int DblVotes { get; set; }
 
 		public int Level => CalculateLevel(Total_Experience);
@@ -158,13 +159,13 @@
     }
 
 	// TODO: move to own file
-	[ProtoContract]
+	[DataContract]
 	public class ReputationObject
 	{
-		[ProtoMember(1)]
+		[DataMember(Order = 1)]
 		public DateTime LastReputationGiven { get; set; }
 
-		[ProtoMember(2)]
+		[DataMember(Order = 2)]
 		public short ReputationPointsLeft { get; set; }
 	}
 }
