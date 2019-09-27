@@ -2,11 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Miki.Core.Migrations
+namespace Miki.Bot.Models.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
     partial class MikiDbContextModelSnapshot : ModelSnapshot
@@ -21,7 +19,7 @@ namespace Miki.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Miki.Bot.Models.Achievement", b =>
-                {
+                {   
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 

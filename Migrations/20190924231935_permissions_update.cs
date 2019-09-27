@@ -29,8 +29,7 @@ namespace Miki.Migrations
                 schema: "dbo",
                 table: "Permissions",
                 nullable: false,
-                defaultValue: 0L)
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                defaultValue: 0L);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Permissions",
