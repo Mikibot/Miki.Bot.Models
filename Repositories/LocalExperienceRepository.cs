@@ -1,57 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models.Repositories
+﻿namespace Miki.Bot.Models.Repositories
 {
-	public class LocalExperienceRepository : IAsyncRepository<LocalExperience>
-	{
-		private readonly DbContext _dbContext;
-		private readonly DbSet<LocalExperience> _dbSet;
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Patterns.Repositories;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
-		private readonly long? _guildId;
+    public class LocalExperienceRepository : IAsyncRepository<LocalExperience>
+	{
+		private readonly DbSet<LocalExperience> set;
 
 		public LocalExperienceRepository(DbContext context)
 		{
-			_dbContext = context;
-			_dbSet = context.Set<LocalExperience>();
-		}
-
-		public LocalExperienceRepository(DbContext context, long guildId)
-			: this(context)
-		{
-			_guildId = guildId;
+			set = context.Set<LocalExperience>();
 		}
 
 		public ValueTask AddAsync(LocalExperience entity)
 		{
-			_dbSet.Add(entity);
+			set.Add(entity);
             return default;
         }
 
-		public async Task<int> CountAsync()
-		{
-			if (_guildId == null)
-			{
-				return await _dbSet.CountAsync();
-			}
-			return await _dbSet.CountAsync(x => x.ServerId == _guildId.Value);
-		}
-
 		public ValueTask DeleteAsync(LocalExperience entity)
 		{
-			_dbSet.Remove(entity);
+			set.Remove(entity);
             return default;
         }
 
 		public ValueTask EditAsync(LocalExperience entity)
 		{
-			_dbSet.Update(entity);
+			set.Update(entity);
             return default;
 		}
 
 		public async ValueTask<LocalExperience> GetAsync(params object[] id)
 		{
-			return await _dbSet.FindAsync(id);
+			return await set.FindAsync(id);
 		}
-	}
+
+        public ValueTask<IEnumerable<LocalExperience>> ListAsync()
+        {
+            return new ValueTask<IEnumerable<LocalExperience>>(set);
+        }
+    }
 }

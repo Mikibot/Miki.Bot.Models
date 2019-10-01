@@ -1,57 +1,56 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models.Repositories
+﻿namespace Miki.Bot.Models.Repositories
 {
-	public class UserRepository : IAsyncRepository<User>
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Patterns.Repositories;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
+    public class UserRepository : IAsyncRepository<User>
 	{
-		private readonly DbContext _dbContext;
-		private readonly DbSet<User> _dbSet;
+		private readonly DbSet<User> set;
 
 		public UserRepository(DbContext context)
 		{
-			_dbSet = context.Set<User>();
-			_dbContext = context;
+			set = context.Set<User>();
 		}
 
-		public async ValueTask AddAsync(User entity)
+		public ValueTask AddAsync(User entity)
 		{
-			await _dbSet.AddAsync(entity);
-			await _dbContext.SaveChangesAsync();
-		}
-
-		public async Task<int> CountAsync()
-		{
-			return await _dbSet.CountAsync();
+			set.Add(entity);
+            return default;
 		}
 
 		public ValueTask DeleteAsync(User entity)
 		{
-			_dbSet.Remove(entity);
+			set.Remove(entity);
             return default;
 		}
 
 		public ValueTask EditAsync(User entity)
 		{
-			_dbSet.Update(entity);
+			set.Update(entity);
             return default;
         }
 
 		public ValueTask<User> GetAsync(params object[] id)
 		{
-			return _dbSet.FindAsync(id);
+			return set.FindAsync(id);
 		}
 
 		public async Task<List<User>> GetLeaderboardsAsync<TKey>(Expression<Func<User, TKey>> sortPredicate, int offset = 0, int amount = 100)
 		{
-			return await _dbSet.OrderByDescending(sortPredicate)
+			return await set.OrderByDescending(sortPredicate)
 				.Skip(offset)
 				.Take(amount)
 				.ToListAsync();
 		}
-	}
+
+        public ValueTask<IEnumerable<User>> ListAsync()
+        {
+            return new ValueTask<IEnumerable<User>>(set);
+        }
+    }
 }

@@ -1,12 +1,9 @@
-﻿using Miki.Localization;
-using Miki.Localization.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Miki.Bot.Models.Exceptions
+﻿namespace Miki.Bot.Models.Exceptions
 {
-	public class ArgumentLessThanZeroException : LocalizedException
+    using Miki.Localization.Exceptions;
+    using Miki.Localization.Models;
+
+    public class ArgumentLessThanZeroException : LocalizedException
 	{
 		public override IResource LocaleResource => new LanguageResource("error_argument_less_than_zero");
 	}

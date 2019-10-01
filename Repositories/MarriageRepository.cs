@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Miki.Patterns.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Miki.Bot.Models.Repositories
 {
-	public class MarriageRepository : IAsyncReadOnlyRepository<Marriage>
+	public class MarriageRepository : IAsyncRepository<Marriage>
 	{
 		private readonly DbContext _dbContext;
 		private readonly DbSet<Marriage> _marriageSet;
@@ -177,5 +178,25 @@ namespace Miki.Bot.Models.Repositories
                 _marriageSet.Include(x => x.Participants)
 				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]));
 		}
+
+        public ValueTask<IEnumerable<Marriage>> ListAsync()
+        {
+            return new ValueTask<IEnumerable<Marriage>>(_marriageSet);
+        }
+
+        public ValueTask AddAsync(Marriage entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask EditAsync(Marriage entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask DeleteAsync(Marriage entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

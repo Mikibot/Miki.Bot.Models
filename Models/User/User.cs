@@ -138,7 +138,7 @@ namespace Miki.Bot.Models
 
 		public async Task<int?> GetGlobalRankAsync(DbContext context)
 		{
-			var rank = await context.Query<RankObject>()
+            var rank = await context.Set<RankObject>()
 				.FirstOrDefaultAsync(x => x.Id == Id);
 			return rank?.Rank;
 		}

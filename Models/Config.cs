@@ -88,7 +88,7 @@ namespace Miki.Bot.Models
 
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
             builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            var dbContext = new MikiDbContext(builder.Options);
+            using var dbContext = new MikiDbContext(builder.Options);
 
             Config configuration = null;
 
@@ -115,7 +115,7 @@ namespace Miki.Bot.Models
         {
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
             builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            var dbContext = new MikiDbContext(builder.Options);
+            using var dbContext = new MikiDbContext(builder.Options);
 
             var configuration = new Config();
 

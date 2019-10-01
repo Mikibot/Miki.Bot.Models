@@ -242,8 +242,7 @@
 
             #region Permissions
             var permissionsModel = modelBuilder.Entity<Permission>();
-            permissionsModel.HasKey(x => x.PermissionId);
-            permissionsModel.HasIndex(x => new {x.EntityId, x.CommandName, x.GuildId});
+            permissionsModel.HasKey(x => new {x.EntityId, x.CommandName, x.GuildId});
             permissionsModel.HasIndex(x => x.GuildId);
             #endregion
 
@@ -361,7 +360,8 @@
 
             #region Queries
             modelBuilder
-                .Query<RankObject>()
+                .Entity<RankObject>()
+                .HasNoKey()
                 .ToView("mview_glob_rank_exp");
             #endregion
 

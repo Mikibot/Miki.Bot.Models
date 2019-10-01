@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Miki.Patterns.Repositories;
 
     public class AchievementRepository : IAsyncRepository<Achievement>
     {
@@ -61,6 +62,11 @@
                 .Select(grp => grp.Aggregate((max, cur) => 
                     (max == null || cur.Rank > max.Rank) ? cur : max))
                 .ToListAsync();
+        }
+
+        public ValueTask<IEnumerable<Achievement>> ListAsync()
+        {
+            return new ValueTask<IEnumerable<Achievement>>(set);
         }
     }
 }

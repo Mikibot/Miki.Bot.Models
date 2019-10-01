@@ -1,10 +1,11 @@
-﻿using Miki.Exceptions;
-using Miki.Localization;
-using Miki.Bot.Models;
-
-namespace Miki.Bot.Models.Exceptions
+﻿namespace Miki.Bot.Models.Exceptions
 {
-	public class DuplicatePastaException : PastaException
+    using Miki.Exceptions;
+    using Miki.Localization;
+    using Miki.Bot.Models;
+    using Miki.Localization.Models;
+
+    public class DuplicatePastaException : PastaException
 	{
 		public override IResource LocaleResource
 			=> new LanguageResource("miki_module_pasta_create_error_already_exist", $"`{pasta.Id}`");
