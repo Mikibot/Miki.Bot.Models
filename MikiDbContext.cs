@@ -22,7 +22,7 @@
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
         public DbSet<Config> Configurations { get; set; }
-        public DbSet<Identifier> Identifiers { get; set; }
+        public DbSet<Prefix> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
         public DbSet<EventMessage> EventMessages { get; set; }
@@ -122,8 +122,8 @@
 
             #endregion Event Message
 
-            #region Identifier
-            var identifier = modelBuilder.Entity<Identifier>();
+            #region Prefix
+            var identifier = modelBuilder.Entity<Prefix>();
             identifier.HasKey(x => new { x.GuildId, x.DefaultValue });
             #endregion
 

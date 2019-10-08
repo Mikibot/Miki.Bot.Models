@@ -48,7 +48,7 @@ namespace Miki.Core.Migrations
                     b.ToTable("CommandStates");
                 });
 
-            modelBuilder.Entity("Miki.Framework.Models.Identifier", b =>
+            modelBuilder.Entity("Miki.Framework.Models.Prefix", b =>
                 {
                     b.Property<long>("GuildId");
 

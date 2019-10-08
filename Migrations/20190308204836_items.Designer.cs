@@ -233,7 +233,7 @@ namespace Miki.Core.Migrations
                     b.ToTable("GuildUsers");
                 });
 
-            modelBuilder.Entity("Miki.Bot.Models.Identifier", b =>
+            modelBuilder.Entity("Miki.Bot.Models.Prefix", b =>
                 {
                     b.Property<long>("GuildId");
 

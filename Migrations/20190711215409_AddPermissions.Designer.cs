@@ -567,7 +567,7 @@ namespace Miki.Core.Migrations
                     b.ToTable("Permissions");
                 });
 
-            modelBuilder.Entity("Miki.Framework.Commands.Prefixes.Models.Identifier", b =>
+            modelBuilder.Entity("Miki.Framework.Commands.Prefixes.Models.Prefix", b =>
                 {
                     b.Property<long>("GuildId");
 
