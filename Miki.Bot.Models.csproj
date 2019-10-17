@@ -18,11 +18,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <PackageReference Include="protobuf-net" Version="2.4.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Miki.Framework\Miki.Framework.Commands.Localization\Miki.Framework.Commands.Localization.csproj" />
-    <ProjectReference Include="..\Miki.Framework\Miki.Framework.Commands.Permissions\Miki.Framework.Commands.Permissions.csproj" />
-    <ProjectReference Include="..\Miki.Framework\Miki.Framework.Commands.Prefixes\Miki.Framework.Commands.Prefixes.csproj" />
-    <ProjectReference Include="..\miki.framework\Miki.Framework.Commands.Scopes\Miki.Framework.Commands.Scopes.csproj" />
-  </ItemGroup>
 </Project>

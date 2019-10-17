@@ -4,12 +4,8 @@
     using Miki.Bot.Models.Models.Authorization;
     using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
-    using Miki.Framework.Commands.Localization.Models;
-    using Miki.Framework.Commands.Permissions.Models;
-    using Miki.Framework.Commands.Prefixes.Models;
     using Miki.Models.User;
     using System;
-    using Miki.Framework.Commands.Scopes.Models;
 
     public class MikiDbContext : DbContext
 	{
@@ -17,12 +13,10 @@
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<BackgroundsOwned> BackgroundsOwned { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
-        public DbSet<ChannelLanguage> ChannelLanguages { get; set; }
         public DbSet<CommandUsage> CommandUsages { get; set; }
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
         public DbSet<Config> Configurations { get; set; }
-        public DbSet<Identifier> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
         public DbSet<EventMessage> EventMessages { get; set; }
@@ -34,14 +28,12 @@
         public DbSet<GlobalPasta> Pastas { get; set; }
         public DbSet<ProfileVisuals> ProfileVisuals { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<Scope> Scopes { get; set; }    
         public DbSet<Timer> Timers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserLog> UserLogs { get; set; }
         public DbSet<IsBanned> IsBanned { get; set; }
         public DbSet<UserMarriedTo> UsersMarriedTo { get; set; }
         public DbSet<PastaVote> Votes { get; set; }
-        public DbSet<Permission> Permissions { get; set; }
 
         private MikiDbContext()
         { }
@@ -122,19 +114,9 @@
 
             #endregion Event Message
 
-            #region Identifier
-            var identifier = modelBuilder.Entity<Identifier>();
-            identifier.HasKey(x => new { x.GuildId, x.DefaultValue });
-            #endregion
-
             #region ModuleState
             var moduleState = modelBuilder.Entity<ModuleState>();
             moduleState.HasKey(x => new { x.Name, x.GuildId });
-            #endregion
-
-            #region ChannelLanguage
-            var channelLanguage = modelBuilder.Entity<ChannelLanguage>();
-            channelLanguage.HasKey(x => new { x.EntityId });
             #endregion
 
             #region Local Experience
@@ -228,23 +210,6 @@
 				.HasKey(c => new { c.EntityId, c.SettingId });
 
             #endregion Setting
-
-            #region Scopes
-
-            var scopeModel = modelBuilder.Entity<Scope>();
-            scopeModel.HasKey(x => new
-            {
-                x.ScopeId,
-                x.UserId
-            });
-
-            #endregion
-
-            #region Permissions
-            var permissionsModel = modelBuilder.Entity<Permission>();
-            permissionsModel.HasKey(x => new { x.EntityId, x.CommandName, x.GuildId });
-            permissionsModel.HasIndex(x => x.GuildId);
-            #endregion
 
             #region User
 

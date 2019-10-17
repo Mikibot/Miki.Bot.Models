@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Miki.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -122,8 +121,6 @@ namespace Miki.Bot.Models
             await dbContext.Configurations.AddAsync(configuration);
 
             await dbContext.SaveChangesAsync();
-
-            Log.Debug("New Config inserted into database with Id: " + configuration.Id);
 
             return configuration;
         }
