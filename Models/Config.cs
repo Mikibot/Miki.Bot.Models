@@ -83,15 +83,14 @@ namespace Miki.Bot.Models
         {
             if (connStr == null)
             {
-                throw new ArgumentNullException("Cannot connect to database, ensure you have configured the database connection string");
+                throw new ArgumentNullException(nameof(connStr));
             }
 
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
             builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            using var dbContext = new MikiDbContext(builder.Options);
+            await using var dbContext = new MikiDbContext(builder.Options);
 
-            Config configuration = null;
-
+            Config configuration;
             if (!string.IsNullOrWhiteSpace(configId) && await dbContext.Configurations.AnyAsync(x => x.Id.ToString() == configId))
             {
                 configuration = await dbContext.Configurations.FirstOrDefaultAsync(x => x.Id.ToString() == configId);
@@ -115,7 +114,7 @@ namespace Miki.Bot.Models
         {
             var builder = new DbContextOptionsBuilder<MikiDbContext>();
             builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            using var dbContext = new MikiDbContext(builder.Options);
+            await using var dbContext = new MikiDbContext(builder.Options);
 
             var configuration = new Config();
 

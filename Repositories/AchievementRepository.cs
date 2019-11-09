@@ -4,12 +4,22 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Framework;
     using Microsoft.EntityFrameworkCore;
     using Miki.Patterns.Repositories;
 
     public class AchievementRepository : IAsyncRepository<Achievement>
     {
         private readonly DbSet<Achievement> set;
+
+        public class Factory : IRepositoryFactory<Achievement>
+        {
+            /// <inheritdoc />
+            public IAsyncRepository<Achievement> Build(DbContext context)
+            {
+                return new AchievementRepository(context);
+            }
+        }
 
         public AchievementRepository(DbContext ctx)
         {
