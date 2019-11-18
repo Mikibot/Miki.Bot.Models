@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Bot.Models.Exceptions;
-using Miki.Exceptions;
-using System;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Bot.Models.Exceptions;
+    using System;
+    using System.Threading.Tasks;
+
     public class IsDonator
 	{
 		public long UserId { get; set; }
-
-		public int TotalPaidCents { get; set; }
+        public int TotalPaidCents { get; set; }
 		public int CurrentBalance { get; set; }
 		public DateTime ValidUntil { get; set; }
 		public int KeysRedeemed { get; set; }

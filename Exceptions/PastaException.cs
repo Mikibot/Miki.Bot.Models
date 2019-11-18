@@ -1,15 +1,15 @@
-﻿using Miki.Bot.Models;
-using Miki.Localization.Exceptions;
-
-namespace Miki.Exceptions
+﻿namespace Miki.Bot.Models.Exceptions
 {
-	public abstract class PastaException : LocalizedException
-	{
-		protected GlobalPasta pasta;
+    using Bot.Models;
+    using Localization.Exceptions;
 
-		public PastaException(GlobalPasta pasta) : base()
+    public abstract class PastaException : LocalizedException
+	{
+		protected GlobalPasta Pasta;
+
+		protected PastaException(GlobalPasta pasta) : base()
 		{
-			this.pasta = pasta;
+			this.Pasta = pasta;
 		}
 	}
 }

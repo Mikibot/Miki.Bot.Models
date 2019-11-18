@@ -9,11 +9,11 @@ using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using System;
 
-namespace Miki.Core.Migrations
+namespace Miki.Bot.Models.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
     [Migration("20180121124726_initial")]
-    partial class initial
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

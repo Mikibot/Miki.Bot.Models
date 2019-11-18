@@ -9,15 +9,15 @@ namespace Miki.Bot.Models.Repositories
 {
 	public class MarriageRepository : IAsyncRepository<Marriage>
 	{
-		private readonly DbContext _dbContext;
-		private readonly DbSet<Marriage> _marriageSet;
-		private readonly DbSet<UserMarriedTo> _userMarriedSet;
+		private readonly DbContext dbContext;
+		private readonly DbSet<Marriage> marriageSet;
+		private readonly DbSet<UserMarriedTo> userMarriedSet;
 
 		public MarriageRepository(DbContext context)
 		{
-			_dbContext = context;
-			_marriageSet = context.Set<Marriage>();
-			_userMarriedSet = context.Set<UserMarriedTo>();
+			dbContext = context;
+			marriageSet = context.Set<Marriage>();
+			userMarriedSet = context.Set<UserMarriedTo>();
 		}
 
 		public async Task DeclineAllProposalsAsync(long me)
@@ -26,17 +26,17 @@ namespace Miki.Bot.Models.Repositories
 
 			proposals.AddRange(await InternalGetProposalsSentAsync(me));
 
-			_marriageSet.RemoveRange(proposals.Select(x => x.Marriage).ToList());
-			_userMarriedSet.RemoveRange(proposals);
+			marriageSet.RemoveRange(proposals.Select(x => x.Marriage).ToList());
+			userMarriedSet.RemoveRange(proposals);
 
-			await _dbContext.SaveChangesAsync();
+			await dbContext.SaveChangesAsync();
 		}
 
 		public async Task DivorceAllMarriagesAsync(long me)
 		{
 			List<UserMarriedTo> marriages = await InternalGetMarriagesAsync(me);
-			_marriageSet.RemoveRange(marriages.Select(x => x.Marriage));
-			await _dbContext.SaveChangesAsync();
+			marriageSet.RemoveRange(marriages.Select(x => x.Marriage));
+			await dbContext.SaveChangesAsync();
 		}
 
 		public async Task<bool> ExistsAsync(ulong id1, ulong id2)
@@ -75,7 +75,7 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task<UserMarriedTo> GetEntryAsync(long receiver, long asker)
 		{
-             UserMarriedTo m = await _userMarriedSet
+             UserMarriedTo m = await userMarriedSet
 				.Include(x => x.Marriage)
 				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver)
 					|| (x.AskerId == receiver && x.ReceiverId == asker));
@@ -84,21 +84,21 @@ namespace Miki.Bot.Models.Repositories
 
 		public async Task ProposeAsync(long asker, long receiver)
 		{
-			Marriage m = _dbContext.Set<Marriage>().Add(new Marriage()
+			Marriage m = dbContext.Set<Marriage>().Add(new Marriage()
 			{
 				IsProposing = true,
 				TimeOfProposal = DateTime.Now,
 				TimeOfMarriage = DateTime.Now,
 			}).Entity;
 
-			_userMarriedSet.Add(new UserMarriedTo()
+			userMarriedSet.Add(new UserMarriedTo()
 			{
 				MarriageId = m.MarriageId,
 				ReceiverId = receiver,
 				AskerId = asker
 			});
 
-			await _dbContext.SaveChangesAsync();
+			await dbContext.SaveChangesAsync();
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace Miki.Bot.Models.Repositories
             long askerid, 
             long userid)
 		{
-			return await _userMarriedSet
+			return await userMarriedSet
 				.Include(x => x.Marriage)
 				.FirstOrDefaultAsync(x => (x.AskerId == askerid || x.ReceiverId == userid) 
                                           && x.Marriage.IsProposing);
@@ -124,7 +124,7 @@ namespace Miki.Bot.Models.Repositories
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetProposalsSentAsync(long asker)
 		{
-			var allInstances = await _userMarriedSet
+			var allInstances = await userMarriedSet
 				.Include(x => x.Marriage)
 				.Where(x => x.AskerId == asker && x.Marriage.IsProposing)
 				.ToListAsync();
@@ -138,7 +138,7 @@ namespace Miki.Bot.Models.Repositories
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetProposalsReceivedAsync(long userid)
 		{
-			var allInstances = await _userMarriedSet
+			var allInstances = await userMarriedSet
 				.Include(x => x.Marriage)
 				.Where(x => x.ReceiverId == userid && x.Marriage.IsProposing)
 				.ToListAsync();
@@ -153,7 +153,7 @@ namespace Miki.Bot.Models.Repositories
 		/// <returns></returns>
 		private async Task<UserMarriedTo> InternalGetMarriageAsync(long receiver, long asker)
 		{
-			return await _userMarriedSet
+			return await userMarriedSet
 				.Include(x => x.Marriage)
 				.FirstOrDefaultAsync(x => x.ReceiverId == receiver && x.AskerId == asker && !x.Marriage.IsProposing);
 		}
@@ -165,7 +165,7 @@ namespace Miki.Bot.Models.Repositories
 		/// <returns></returns>
 		private async Task<List<UserMarriedTo>> InternalGetMarriagesAsync(long userid)
 		{
-			var allInstances = await _userMarriedSet
+			var allInstances = await userMarriedSet
 				.Include(x => x.Marriage)
 				.Where(x => (x.ReceiverId == userid || x.AskerId == userid) && !x.Marriage.IsProposing)
 				.ToListAsync();
@@ -175,13 +175,13 @@ namespace Miki.Bot.Models.Repositories
         public ValueTask<Marriage> GetAsync(params object[] id)
 		{
 			return new ValueTask<Marriage>(
-                _marriageSet.Include(x => x.Participants)
+                marriageSet.Include(x => x.Participants)
 				.SingleOrDefaultAsync(x => x.MarriageId == (long)id[0]));
 		}
 
         public ValueTask<IEnumerable<Marriage>> ListAsync()
         {
-            return new ValueTask<IEnumerable<Marriage>>(_marriageSet);
+            return new ValueTask<IEnumerable<Marriage>>(marriageSet);
         }
 
         public ValueTask AddAsync(Marriage entity)

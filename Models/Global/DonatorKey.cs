@@ -1,21 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Bot.Models.Exceptions;
-using System;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	public class DonatorKey
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Bot.Models.Exceptions;
+    using System;
+    using System.Threading.Tasks;
+    using Patterns.Repositories;
+
+    public class DonatorKey
 	{
 		public Guid Key { get; set; }
 
 		public TimeSpan StatusTime { get; set; }
 
-        public static async Task<DonatorKey> GetKeyAsync(DbContext context, Guid key)
+        public static async Task<DonatorKey> GetKeyAsync(IAsyncRepository<DonatorKey> context, Guid key)
         {
-            DonatorKey entity = await context.Set<DonatorKey>()
-                .FindAsync(key);
-
+            DonatorKey entity = await context.GetAsync(key);
             if(entity == null)
             {
                 throw new DonatorKeyNullException();

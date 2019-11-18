@@ -55,7 +55,7 @@
 			var achievement = modelBuilder.Entity<Achievement>();
 
             achievement
-                .HasKey(c => new { c.UserId, c.Name });
+                .HasKey(c => new { c.UserId, c.Name, c.Rank });
             
             #endregion Achievements
 

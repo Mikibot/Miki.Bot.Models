@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Logging;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Threading.Tasks;
+
     [Table("Configuration")]
     public class Config
     {
@@ -64,67 +63,64 @@ namespace Miki.Bot.Models
 
         [Column("CdnSecretKey")]
         public string CdnSecretKey { get; internal set; } = "";
-        
+
         [Column("RabbitUrl")]
         public string RabbitUrl { get; internal set; } = "amqp://localhost";
-        
+
         [Column("DanbooruCredentials")]
         public string DanbooruCredentials { get; internal set; } = "";
-        
+
         [Column("BunnyCdnKey")]
         public string BunnyCdnKey { get; internal set; }
+    }
 
-        public Config()
+    public class ConfigService : IAsyncDisposable
+    {
+        private readonly DbContext context;
+        private readonly DbSet<Config> set;
+
+        public ConfigService(DbContext context)
         {
-            Id = new Guid();
+            this.context = context;
+            set = context.Set<Config>();
         }
 
-        public static async Task<Config> GetOrInsertAsync(string connStr, string configId = null)
+        public async Task<Config> GetOrInsertAsync(Guid? id = null)
         {
-            if (connStr == null)
+            Guid configGuid = id ?? new Guid();
+
+            if (await set.AnyAsync(x => x.Id == configGuid))
             {
-                throw new ArgumentNullException(nameof(connStr));
+                return await set.FirstOrDefaultAsync(x => x.Id == configGuid);
             }
 
-            var builder = new DbContextOptionsBuilder<MikiDbContext>();
-            builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            await using var dbContext = new MikiDbContext(builder.Options);
+            if (!await set.AnyAsync())
+            {
+                return await InsertNewConfigAsync(configGuid);
+            }
 
-            Config configuration;
-            if (!string.IsNullOrWhiteSpace(configId) && await dbContext.Configurations.AnyAsync(x => x.Id.ToString() == configId))
+            return await set.FirstOrDefaultAsync();
+        }
+
+        public async Task<Config> InsertNewConfigAsync(Guid newId)
+        {
+            var configuration = new Config
             {
-                configuration = await dbContext.Configurations.FirstOrDefaultAsync(x => x.Id.ToString() == configId);
-            }
-            else
-            {
-                if (!await dbContext.Configurations.AnyAsync())
-                {
-                    configuration = await InsertNewConfigAsync(connStr);
-                }
-                else
-                {
-                    configuration = await dbContext.Configurations.FirstOrDefaultAsync();
-                }
-            }
+                Id = newId
+            };
+
+            set.Add(configuration);
+
+            await context.SaveChangesAsync();
 
             return configuration;
         }
 
-        public static async Task<Config> InsertNewConfigAsync(string connStr)
+        /// <inheritdoc />
+        public ValueTask DisposeAsync()
         {
-            var builder = new DbContextOptionsBuilder<MikiDbContext>();
-            builder.UseNpgsql(connStr, b => b.MigrationsAssembly("Miki.Bot.Models"));
-            await using var dbContext = new MikiDbContext(builder.Options);
-
-            var configuration = new Config();
-
-            await dbContext.Configurations.AddAsync(configuration);
-
-            await dbContext.SaveChangesAsync();
-
-            Log.Debug("New Config inserted into database with Id: " + configuration.Id);
-
-            return configuration;
+            return context.DisposeAsync();
         }
     }
 }
+

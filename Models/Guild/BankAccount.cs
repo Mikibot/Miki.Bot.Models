@@ -1,12 +1,11 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
-using Miki.Bot.Models.Exceptions;
-using Miki.Exceptions;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	[DataContract]
+    using System.Runtime.Serialization;
+    using Microsoft.EntityFrameworkCore;
+    using Miki.Bot.Models.Exceptions;
+    using System.Threading.Tasks;
+
+    [DataContract]
 	public class BankAccount
 	{
 		[DataMember(Order = 1)]

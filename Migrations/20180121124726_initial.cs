@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Bot.Models.Migrations
 {
-	public partial class initial : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+    using System;
+
+    public partial class Initial : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
