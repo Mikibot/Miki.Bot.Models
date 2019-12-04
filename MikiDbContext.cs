@@ -22,6 +22,7 @@
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
         public DbSet<Config> Configurations { get; set; }
+        public DbSet<DailyStreak> DailyStreaks { get; set; } 
         public DbSet<Prefix> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
@@ -105,6 +106,14 @@
             var commands = modelBuilder.Entity<CustomCommand>();
             commands.HasKey(x => new { x.GuildId, x.CommandName });
             #endregion
+
+            #region Daily Streaks
+            var dailyStreak = modelBuilder.Entity<DailyStreak>();
+
+            dailyStreak
+                .HasKey(c => new { c.UserId });
+
+            #endregion Achievements
 
             #region DonatorKey
             var donatorKey = modelBuilder.Entity<DonatorKey>();
