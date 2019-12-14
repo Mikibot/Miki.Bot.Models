@@ -11,6 +11,7 @@ namespace Miki.Bot.Models
     using Microsoft.EntityFrameworkCore;
     using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
+    using Miki.Framework;
     using Patterns.Repositories;
 
     [DataContract]
@@ -163,7 +164,8 @@ namespace Miki.Bot.Models
 			return b;
 		}
 
-
+        public Task<bool> IsBannedAsync(IContext context)
+            => IsBannedAsync(context.GetService<IAsyncRepository<IsBanned>>()); 
         public async Task<bool> IsBannedAsync(IAsyncRepository<IsBanned> context)
         {
             var list = await context.ListAsync();
@@ -171,6 +173,7 @@ namespace Miki.Bot.Models
                 .SingleOrDefaultAsync(x => x.UserId == Id && x.ExpirationDate > DateTime.UtcNow);
             return ban != null;
         }
+
         [Obsolete]
         public async Task<bool> IsBannedAsync(DbContext context)
         {

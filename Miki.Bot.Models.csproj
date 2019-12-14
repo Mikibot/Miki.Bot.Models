@@ -15,7 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.0.0" />
-    <PackageReference Include="Miki.Framework.Commands.Localization" Version="2.0.0" />
+    <PackageReference Include="Miki.Framework" Version="2.0.1" />
+    <PackageReference Include="Miki.Framework.Commands.Localization" Version="2.0.1" />
     <PackageReference Include="Miki.Framework.Commands.Permissions" Version="2.0.0" />
     <PackageReference Include="Miki.Framework.Commands.Prefixes" Version="2.0.0" />
     <PackageReference Include="Miki.Framework.Commands.Scopes" Version="2.0.0" />

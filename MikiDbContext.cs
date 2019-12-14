@@ -45,6 +45,7 @@
 
         private MikiDbContext()
         { }
+
         public MikiDbContext(DbContextOptions options)
             : base(options)
         { }
