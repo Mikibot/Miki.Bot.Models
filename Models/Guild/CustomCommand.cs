@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
     public class CustomCommand
     {

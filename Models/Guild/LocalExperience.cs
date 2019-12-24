@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+	using Microsoft.EntityFrameworkCore;
+	using System.Linq;
+	using System.Threading.Tasks;
+
 	public class LocalExperience
 	{
 		public long ServerId { get; set; }

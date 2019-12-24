@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Core.Migrations
 {
+	using Microsoft.EntityFrameworkCore.Migrations;
+	using System;
+
 	public partial class add_donator_status : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

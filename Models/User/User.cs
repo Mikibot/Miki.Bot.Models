@@ -1,18 +1,13 @@
-﻿using System.Runtime.Serialization;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-    using System;
+	using System.Runtime.Serialization;
+	using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Threading.Tasks;
-    using Exceptions;
     using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
-    using Miki.Framework;
-    using Patterns.Repositories;
 
     [DataContract]
 	public class User
@@ -95,40 +90,8 @@ namespace Miki.Bot.Models
 			return user;
 		}
 
-        [Obsolete]
-		public static async Task<User> GetAsync(DbContext context, ulong id, string name)
-			=> await GetAsync(context, (long)id, name);
-        [Obsolete]
-        public static async Task<User> GetAsync(DbContext context, long id, string name)
-		{
-			var user = await context.Set<User>()
-                .FindAsync(id);
-
-			if (user == null)
-			{
-				return await CreateAsync(context, id, name);
-			}
-
-            if (await user.IsBannedAsync(context))
-            {
-                throw new UserBannedException(user);
-            }
-            return user;
-		}
-
-        public static async Task<List<User>> SearchUserAsync(
-            DbContext context,
-            string name)
-        {
-            return await context.Set<User>()
-                .Where(x => string.Equals(
-                    x.Name, name, StringComparison.InvariantCultureIgnoreCase))
-                .ToListAsync();
-        }
-
         public static int CalculateLevel(int exp)
 		    => (int)Math.Sqrt(exp / 10) + 1;
-		
 
         public static int CalculateLevelExperience(int level)
             => level * level * 10;
@@ -142,8 +105,6 @@ namespace Miki.Bot.Models
 		    => 1 + await context.Set<User>()
 				.Where(u => u.Total_Commands > Total_Commands)
 				.CountAsync();
-
-
 		public async Task<int> GetGlobalMekosRankAsync(DbContext context)
 		    => 1 + await context.Set<User>()
 				.Where(u => u.Currency > Currency)
@@ -163,24 +124,6 @@ namespace Miki.Bot.Models
 			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
 			return b;
 		}
-
-        public Task<bool> IsBannedAsync(IContext context)
-            => IsBannedAsync(context.GetService<IAsyncRepository<IsBanned>>()); 
-        public async Task<bool> IsBannedAsync(IAsyncRepository<IsBanned> context)
-        {
-            var list = await context.ListAsync();
-            var ban = await list.AsQueryable()
-                .SingleOrDefaultAsync(x => x.UserId == Id && x.ExpirationDate > DateTime.UtcNow);
-            return ban != null;
-        }
-
-        [Obsolete]
-        public async Task<bool> IsBannedAsync(DbContext context)
-        {
-            var ban = await context.Set<IsBanned>()
-                .SingleOrDefaultAsync(x => x.UserId == Id && x.ExpirationDate > DateTime.UtcNow);
-            return ban != null;
-        }
     }
 
 	// TODO: move to own file

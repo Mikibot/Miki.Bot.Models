@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+	using Microsoft.EntityFrameworkCore;
+	using System.Threading.Tasks;
+
 	public class LevelRole
 	{
 		public long GuildId { get; set; }
