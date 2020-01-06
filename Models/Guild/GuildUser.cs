@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Bot.Models.Exceptions;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+	using Microsoft.EntityFrameworkCore;
+	using Miki.Bot.Models.Exceptions;
+	using System;
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	using System.Linq;
+	using System.Threading.Tasks;
+
 	[Table("GuildUsers")]
 	public class GuildUser
 	{

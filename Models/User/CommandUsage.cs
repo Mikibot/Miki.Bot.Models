@@ -1,10 +1,10 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-    [DataContract]
+	using System.Runtime.Serialization;
+	using Microsoft.EntityFrameworkCore;
+	using System.Threading.Tasks;
+
+	[DataContract]
 	public class CommandUsage
 	{
 		[DataMember(Order = 1)]
