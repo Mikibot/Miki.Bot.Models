@@ -111,8 +111,6 @@
             #region DonatorKey
             var donatorKey = modelBuilder.Entity<DonatorKey>();
 			donatorKey.HasKey(x => x.Key);
-			donatorKey.Property(x => x.Key).HasDefaultValueSql("uuid_generate_v4()");
-			donatorKey.Property("StatusTime").HasDefaultValueSql("interval '31 days'");
 			#endregion DonatorKey
 
 			#region Event Message
@@ -292,11 +290,6 @@
 			user.HasMany(x => x.LocalExperience)
 				.WithOne(x => x.User)
 				.HasForeignKey(x => x.UserId)
-				.HasPrincipalKey(x => x.Id);
-
-			user.HasMany(x => x.Pastas)
-				.WithOne(x => x.User)
-				.HasForeignKey(x => x.CreatorId)
 				.HasPrincipalKey(x => x.Id);
 
             #endregion User
