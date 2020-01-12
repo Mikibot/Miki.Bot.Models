@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Core.Migrations
 {
-	public partial class rename_days_donated : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+    public partial class rename_days_donated : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
