@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Core.Migrations
 {
-	public partial class NpgsqlFixes : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    public partial class NpgsqlFixes : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
