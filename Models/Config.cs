@@ -67,6 +67,9 @@
         [Column("RabbitUrl")]
         public string RabbitUrl { get; internal set; } = "amqp://localhost";
 
+        /// <summary>
+        /// Actually used to store the imgur api key, because I didn't want to do another migration for this.
+        /// </summary>
         [Column("DanbooruCredentials")]
         public string DanbooruCredentials { get; internal set; } = "";
 

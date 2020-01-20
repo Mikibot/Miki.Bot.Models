@@ -48,13 +48,5 @@
                 .FindAsync(serverId, userId);
 			return localExperience;
 		}
-
-		public async Task<int> GetRankAsync(DbContext context)
-		{
-			int x = await context.Set<LocalExperience>()
-				.Where(e => e.ServerId == ServerId && e.Experience > Experience)
-				.CountAsync();
-			return x + 1;
-		}
-	}
+    }
 }

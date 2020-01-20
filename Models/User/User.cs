@@ -95,29 +95,7 @@
 
         public static int CalculateLevelExperience(int level)
             => level * level * 10;
-
-		public async Task<int> GetGlobalReputationRankAsync(DbContext context)
-		    => 1 + await context.Set<User>()
-				.Where(u => u.Reputation > Reputation)
-				.CountAsync();
-
-		public async Task<int> GetGlobalCommandsRankAsync(DbContext context)
-		    => 1 + await context.Set<User>()
-				.Where(u => u.Total_Commands > Total_Commands)
-				.CountAsync();
-		public async Task<int> GetGlobalMekosRankAsync(DbContext context)
-		    => 1 + await context.Set<User>()
-				.Where(u => u.Currency > Currency)
-				.CountAsync();
-		
-
-		public async Task<int?> GetGlobalRankAsync(DbContext context)
-		{
-            var rank = await context.Set<RankObject>()
-				.FirstOrDefaultAsync(x => x.Id == Id);
-			return rank?.Rank;
-		}
-
+        
 		public async Task<bool> IsDonatorAsync(DbContext context)
 		{
 			IsDonator d = await context.Set<IsDonator>().FindAsync(Id);
