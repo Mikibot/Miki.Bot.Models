@@ -234,8 +234,8 @@
             var scopeModel = modelBuilder.Entity<Scope>();
             scopeModel.HasKey(x => new
             {
-                x.ScopeId,
-                x.UserId
+                x.UserId,
+                x.ScopeId
             });
 
             #endregion
