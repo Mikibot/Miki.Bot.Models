@@ -7,30 +7,32 @@ using System;
 namespace Miki.Bot.Models
 {
     [DataContract]
-	public class DailyStreak
+	public class Daily
 	{
 		[DataMember(Order = 1)]
 		public long UserId { get; set; }
 
-		[DataMember(Order = 2)]
-		public long CurrentStreak { get; set; }
+        [DataMember(Order = 2)]
+        public long CurrentStreak { get; set; }
 
-		[DataMember(Order = 3)]
-		public DateTime LastStreakTime { get; set; }
+        [DataMember(Order = 3)]
+        public long LongestStreak { get; set; }
 
-        public static async Task<DailyStreak> GetAsync(DbContext context, long userId)
+		[DataMember(Order = 4)]
+		public DateTime LastClaimTime { get; set; }
+
+        public static async Task<Daily> GetAsync(DbContext context, long userId)
         {
-            DailyStreak streak = await context.Set<DailyStreak>()
+            Daily streak = await context.Set<Daily>()
                 .FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (streak == null)
             {
-                streak = (await context.Set<DailyStreak>()
-                    .AddAsync(new DailyStreak()
+                streak = (await context.Set<Daily>()
+                    .AddAsync(new Daily()
                     {
                         UserId = userId,
-                        CurrentStreak = 0,
-                        LastStreakTime = DateTime.UtcNow.AddHours(-23)
+                        LastClaimTime = DateTime.UtcNow.AddHours(-23)
                     })).Entity;
                 await context.SaveChangesAsync();
             }

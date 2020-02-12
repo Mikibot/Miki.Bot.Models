@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Miki.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    [Migration("20191130175931_DailyStreakDatabaseMigration")]
-    partial class DailyStreakDatabaseMigration
+    [Migration("20200118145943_DailyDatabaseMigration")]
+    partial class DailyDatabaseMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -191,6 +191,24 @@ namespace Miki.Migrations
                     b.HasKey("GuildId", "CommandName");
 
                     b.ToTable("CustomCommands");
+                });
+
+            modelBuilder.Entity("Miki.Bot.Models.Daily", b =>
+                {
+                    b.Property<long>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("CurrentStreak")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("LastClaimTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Dailies");
                 });
 
             modelBuilder.Entity("Miki.Bot.Models.DonatorKey", b =>

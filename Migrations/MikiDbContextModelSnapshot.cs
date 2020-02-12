@@ -191,6 +191,24 @@ namespace Miki.Bot.Models.Migrations
                     b.ToTable("CustomCommands");
                 });
 
+            modelBuilder.Entity("Miki.Bot.Models.Daily", b =>
+                {
+                    b.Property<long>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("CurrentStreak")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("LastClaimTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Dailies");
+                });
+
             modelBuilder.Entity("Miki.Bot.Models.DonatorKey", b =>
                 {
                     b.Property<Guid>("Key")
