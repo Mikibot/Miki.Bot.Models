@@ -110,10 +110,8 @@
 
             #region Daily
             var dailies = modelBuilder.Entity<Daily>();
-
             dailies.HasKey(c => new { c.UserId });
-
-            #endregion Achievements
+            #endregion Daily
 
             #region DonatorKey
             var donatorKey = modelBuilder.Entity<DonatorKey>();
