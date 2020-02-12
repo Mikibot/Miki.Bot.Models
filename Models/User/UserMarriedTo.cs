@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	public class UserMarriedTo
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Threading.Tasks;
+
+    public class UserMarriedTo
 	{
         /// <summary>
         /// The creator of the proposal.

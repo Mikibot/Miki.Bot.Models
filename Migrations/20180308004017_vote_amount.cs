@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Core.Migrations
 {
-	public partial class vote_amount : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+
+    public partial class vote_amount : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{

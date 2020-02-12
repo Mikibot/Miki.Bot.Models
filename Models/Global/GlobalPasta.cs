@@ -42,49 +42,6 @@
 		/// Global usage counter.
 		/// </summary>
 		public int TimesUsed { get; set; }
-
-		/// <summary>
-		/// Many to One database connection to User
-		/// </summary>
-		public User User { get; set; }
-
-		public static async Task AddAsync(DbContext context, string id, string text, long creator)
-		{
-			GlobalPasta pasta = await context.Set<GlobalPasta>()
-				.FindAsync(id);
-
-			if (pasta != null)
-			{
-				throw new DuplicatePastaException(pasta);
-			}
-
-			await context.Set<GlobalPasta>()
-				.AddAsync(new GlobalPasta()
-				{
-					Id = id,
-					Text = text,
-					CreatorId = creator,
-					CreatedAt = DateTime.Now
-				});
-		}
-
-		public async Task<int> GetScoreAsync(DbContext context)
-		{
-			var votes = await GetVotesAsync(context);
-			return votes.Upvotes - votes.Downvotes;
-		}
-
-		public async Task<VoteCount> GetVotesAsync(DbContext context)
-		{
-			VoteCount c = new VoteCount();
-			c.Upvotes = await context.Set<PastaVote>()
-				.Where(x => x.Id == Id && x.PositiveVote == true)
-				.CountAsync();
-			c.Downvotes = await context.Set<PastaVote>()
-				.Where(x => x.Id == Id && x.PositiveVote == false)
-				.CountAsync();
-			return c;
-		}
 	}
 
 	public class PastaSearchResult

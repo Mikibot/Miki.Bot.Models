@@ -2,22 +2,24 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Miki.Bot.Models.Migrations
+namespace Miki.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    partial class MikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200126035418_AddOptionalConfig")]
+    partial class AddOptionalConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("dbo")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Miki.Bot.Models.Achievement", b =>
@@ -132,9 +134,9 @@ namespace Miki.Bot.Models.Migrations
                         .HasColumnName("MikiApiKey")
                         .HasColumnType("text");
 
-                    b.Property<OptionalValues>("OptionalValues")
+                    b.Property<string>("OptionalValuesJson")
                         .HasColumnName("OptionalValues")
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<string>("RabbitUrl")
                         .HasColumnName("RabbitUrl")
@@ -193,24 +195,6 @@ namespace Miki.Bot.Models.Migrations
                     b.HasKey("GuildId", "CommandName");
 
                     b.ToTable("CustomCommands");
-                });
-
-            modelBuilder.Entity("Miki.Bot.Models.Daily", b =>
-                {
-                    b.Property<long>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<long>("CurrentStreak")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("LastClaimTime")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Dailies");
                 });
 
             modelBuilder.Entity("Miki.Bot.Models.DonatorKey", b =>

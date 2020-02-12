@@ -2,6 +2,7 @@
 {
     using System;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
     using Miki.Bot.Models.Models.Authorization;
     using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
@@ -49,7 +50,7 @@
 
         public MikiDbContext(DbContextOptions options)
             : base(options)
-        { }
+        { } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -116,8 +117,6 @@
             #region DonatorKey
             var donatorKey = modelBuilder.Entity<DonatorKey>();
 			donatorKey.HasKey(x => x.Key);
-			donatorKey.Property(x => x.Key).HasDefaultValueSql("uuid_generate_v4()");
-			donatorKey.Property("StatusTime").HasDefaultValueSql("interval '31 days'");
 			#endregion DonatorKey
 
 			#region Event Message
@@ -241,8 +240,8 @@
             var scopeModel = modelBuilder.Entity<Scope>();
             scopeModel.HasKey(x => new
             {
-                x.ScopeId,
-                x.UserId
+                x.UserId,
+                x.ScopeId
             });
 
             #endregion
@@ -297,11 +296,6 @@
 			user.HasMany(x => x.LocalExperience)
 				.WithOne(x => x.User)
 				.HasForeignKey(x => x.UserId)
-				.HasPrincipalKey(x => x.Id);
-
-			user.HasMany(x => x.Pastas)
-				.WithOne(x => x.User)
-				.HasForeignKey(x => x.CreatorId)
 				.HasPrincipalKey(x => x.Id);
 
             #endregion User

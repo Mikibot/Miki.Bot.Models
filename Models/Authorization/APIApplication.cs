@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Miki.Bot.Models.Models.Authorization
+﻿namespace Miki.Bot.Models.Models.Authorization
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public enum APIPermissions : long
     {
         Default = 0,

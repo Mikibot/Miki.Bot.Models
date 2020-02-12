@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Miki.Migrations
+﻿namespace Miki.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class Configuration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

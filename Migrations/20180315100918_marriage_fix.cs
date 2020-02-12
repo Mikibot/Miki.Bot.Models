@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
+﻿
 namespace Miki.Core.Migrations
 {
-	public partial class marriage_fix : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+    
+    public partial class marriage_fix : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{

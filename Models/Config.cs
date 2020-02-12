@@ -67,60 +67,30 @@
         [Column("RabbitUrl")]
         public string RabbitUrl { get; internal set; } = "amqp://localhost";
 
+        /// <summary>
+        /// Actually used to store the imgur api key, because I didn't want to do another migration for this.
+        /// </summary>
         [Column("DanbooruCredentials")]
         public string DanbooruCredentials { get; internal set; } = "";
 
         [Column("BunnyCdnKey")]
         public string BunnyCdnKey { get; internal set; }
+
+        /// <summary>
+        /// Optional Value JSON payload.
+        /// </summary>
+        [Column("OptionalValues", TypeName = "jsonb")]
+        public OptionalValues OptionalValues { get; internal set; }
     }
 
-    public class ConfigService : IAsyncDisposable
+    public class OptionalValues
     {
-        private readonly DbContext context;
-        private readonly DbSet<Config> set;
+        /// <summary>
+        /// osu! game api key.
+        /// </summary>
+        public string OsuApiKey { get; set; }
 
-        public ConfigService(DbContext context)
-        {
-            this.context = context;
-            set = context.Set<Config>();
-        }
-
-        public async Task<Config> GetOrInsertAsync(Guid? id = null)
-        {
-            Guid configGuid = id ?? new Guid();
-
-            if (await set.AnyAsync(x => x.Id == configGuid))
-            {
-                return await set.FirstOrDefaultAsync(x => x.Id == configGuid);
-            }
-
-            if (!await set.AnyAsync())
-            {
-                return await InsertNewConfigAsync(configGuid);
-            }
-
-            return await set.FirstOrDefaultAsync();
-        }
-
-        public async Task<Config> InsertNewConfigAsync(Guid newId)
-        {
-            var configuration = new Config
-            {
-                Id = newId
-            };
-
-            set.Add(configuration);
-
-            await context.SaveChangesAsync();
-
-            return configuration;
-        }
-
-        /// <inheritdoc />
-        public ValueTask DisposeAsync()
-        {
-            return context.DisposeAsync();
-        }
+        public string ImgurApiKey { get; set; }
     }
 }
 

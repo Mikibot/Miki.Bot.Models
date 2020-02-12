@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Miki.Patterns.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Miki.Bot.Models.Repositories
+﻿namespace Miki.Bot.Models.Repositories
 {
+	using Microsoft.EntityFrameworkCore;
+	using Miki.Patterns.Repositories;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+
 	public class MarriageRepository : IAsyncRepository<Marriage>
 	{
 		private readonly DbContext dbContext;
