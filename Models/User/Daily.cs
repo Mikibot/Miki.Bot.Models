@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Miki.Logging;
 
 namespace Miki.Bot.Models
 {
@@ -13,22 +14,22 @@ namespace Miki.Bot.Models
 		public long UserId { get; set; }
 
         [DataMember(Order = 2)]
-        public long CurrentStreak { get; set; }
+        public int CurrentStreak { get; set; }
 
         [DataMember(Order = 3)]
-        public long LongestStreak { get; set; }
+        public int LongestStreak { get; set; }
 
 		[DataMember(Order = 4)]
 		public DateTime LastClaimTime { get; set; }
 
         public static async Task<Daily> GetAsync(DbContext context, long userId)
         {
-            Daily streak = await context.Set<Daily>()
+            Daily daily = await context.Set<Daily>()
                 .FirstOrDefaultAsync(x => x.UserId == userId);
 
-            if (streak == null)
+            if (daily == null)
             {
-                streak = (await context.Set<Daily>()
+                daily = (await context.Set<Daily>()
                     .AddAsync(new Daily()
                     {
                         UserId = userId,
@@ -37,7 +38,7 @@ namespace Miki.Bot.Models
                 await context.SaveChangesAsync();
             }
 
-            return streak;
+            return daily;
         }
     }
 }

@@ -14,20 +14,13 @@ namespace Miki.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<long>(nullable: false),
-                    CurrentStreak = table.Column<long>(defaultValue: 0, nullable: false),
-                    LongestStreak = table.Column<long>(defaultValue: 20, nullable: false),
+                    CurrentStreak = table.Column<int>(defaultValue: 0, nullable: false),
+                    LongestStreak = table.Column<int>(defaultValue: 0, nullable: false),
                     LastClaimTime = table.Column<DateTime>(defaultValue: DateTime.UtcNow, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dailies", x => new { x.UserId });
-                    table.ForeignKey(
-                        name: "FK_Dailies_UserID",
-                        column: x => x.UserId,
-                        principalSchema: "dbo",
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
         }
 

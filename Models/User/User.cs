@@ -39,6 +39,7 @@
 		[DataMember(Order = 9)]
 		public string HeaderUrl { get; set; }
 
+        [Obsolete("The last claim time is now stored in DailyService.")]
 		[DataMember(Order = 10)]
 		public DateTime LastDailyTime { get; set; }
 

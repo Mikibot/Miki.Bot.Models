@@ -201,7 +201,10 @@ namespace Miki.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<long>("CurrentStreak")
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
+
+                    b.Property<long>("LongestStreak")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastClaimTime")
                         .HasColumnType("timestamp without time zone");
