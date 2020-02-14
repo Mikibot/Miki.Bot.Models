@@ -23,17 +23,6 @@
 
 		public Marriage Marriage { get; set; }
 
-        public static async Task<UserMarriedTo> CreateAsync(DbContext context, long askerId, long receiverId)
-        {
-            var marriage = await context.Set<Marriage>()
-                 .AddAsync(new Marriage { IsProposing = true, TimeOfMarriage = DateTime.UtcNow, TimeOfProposal = DateTime.UtcNow });
-
-            var userMarriedTo = await context.Set<UserMarriedTo>()
-                .AddAsync(new UserMarriedTo { AskerId = askerId, ReceiverId = receiverId, MarriageId = marriage.Entity.MarriageId });
-
-            return userMarriedTo.Entity;
-        }
-
 		public ulong GetOther(ulong id)
 			=> (ulong)GetOther((long)id);
 
@@ -41,11 +30,5 @@
 		{
 			return AskerId == id ? ReceiverId : AskerId;
 		}
-
-		public void Remove(DbContext context)
-		{
-			context.Set<UserMarriedTo>()
-                .Remove(this);
-		}
-	}
+    }
 }
