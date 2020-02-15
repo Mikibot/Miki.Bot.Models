@@ -37,21 +37,16 @@
 		public bool Banned { get; set; } = false;
 
 		#region Config
-
-		public int MinimalExperienceToGetRewards { get; set; }
+        public int MinimalExperienceToGetRewards { get; set; }
 		public bool VisibleOnLeaderboards { get; set; } = true;
+        #endregion Config
 
-		#endregion Config
-
-		// move to db?
-		private readonly long[] GuildHousePrices = new[]
-		{
+		private readonly long[] GuildHousePrices = {
 			10000, 50000, 200000, 800000, 2000000, 8000000, 20000000,
 			100000000, 1000000000, 5000000000, 15000000000
 		};
 
-        private readonly float[] GuildHouseRates = new[]
-		{
+        private readonly float[] GuildHouseRates = {
 			1f, 1.5f, 2f, 2.4f, 2.8f, 3.1f, 3.4f, 3.7f, 4f, 4.2f, 4.4f, 4.6f
 		};
 
@@ -68,25 +63,25 @@
 		public int CalculateLevel(int exp)
 		{
 			int experience = exp;
-			int Level = 0;
+			int level = 0;
 			int output = 0;
 			while (experience >= output)
 			{
-				output = CalculateNextLevelIteration(output, Level);
-				Level++;
+				output = CalculateNextLevelIteration(output, level);
+				level++;
 			}
-			return Level;
+			return level;
 		}
 
 		public int CalculateMaxExperience(int localExp)
 		{
 			int experience = localExp;
-			int Level = 0;
+			int level = 0;
 			int output = 0;
 			while (experience >= output)
 			{
-				output = CalculateNextLevelIteration(output, Level);
-				Level++;
+				output = CalculateNextLevelIteration(output, level);
+				level++;
 			}
 			return output;
 		}

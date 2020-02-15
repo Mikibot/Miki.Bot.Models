@@ -43,10 +43,10 @@
             return GetAsync((long)id[0], (string)id[1]);
         }
 
-        public ValueTask AddAsync(Achievement entity)
+        public async ValueTask<Achievement> AddAsync(Achievement entity)
         {
-            set.Add(entity);
-            return default;
+            var entry = await set.AddAsync(entity);
+            return entry.Entity;
         }
 
         public async ValueTask EditAsync(Achievement entity)

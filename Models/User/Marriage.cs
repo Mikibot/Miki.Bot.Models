@@ -10,12 +10,6 @@
 		public DateTime TimeOfMarriage { get; set; }
 		public DateTime TimeOfProposal { get; set; }
 
-		public void AcceptProposal()
-		{
-			TimeOfMarriage = DateTime.Now;
-			IsProposing = false;
-		}
-
 		public ulong GetOther(ulong id)
 			=> (ulong)GetOther((long)id);
 
