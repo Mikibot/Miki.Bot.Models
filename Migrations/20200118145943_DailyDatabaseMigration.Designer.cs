@@ -2,22 +2,24 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Miki.Bot.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Miki.Bot.Models.Migrations
+namespace Miki.Migrations
 {
     [DbContext(typeof(MikiDbContext))]
-    partial class MikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200118145943_DailyDatabaseMigration")]
+    partial class DailyDatabaseMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("dbo")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Miki.Bot.Models.Achievement", b =>
@@ -132,10 +134,6 @@ namespace Miki.Bot.Models.Migrations
                         .HasColumnName("MikiApiKey")
                         .HasColumnType("text");
 
-                    b.Property<OptionalValues>("OptionalValues")
-                        .HasColumnName("OptionalValues")
-                        .HasColumnType("jsonb");
-
                     b.Property<string>("RabbitUrl")
                         .HasColumnName("RabbitUrl")
                         .HasColumnType("text");
@@ -203,7 +201,10 @@ namespace Miki.Bot.Models.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<long>("CurrentStreak")
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
+
+                    b.Property<long>("LongestStreak")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastClaimTime")
                         .HasColumnType("timestamp without time zone");
@@ -217,10 +218,13 @@ namespace Miki.Bot.Models.Migrations
                 {
                     b.Property<Guid>("Key")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<TimeSpan>("StatusTime")
-                        .HasColumnType("interval");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("interval")
+                        .HasDefaultValueSql("interval '31 days'");
 
                     b.HasKey("Key");
 
@@ -266,12 +270,9 @@ namespace Miki.Bot.Models.Migrations
                     b.Property<int>("TimesUsed")
                         .HasColumnType("integer");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Pastas");
                 });
@@ -768,6 +769,8 @@ namespace Miki.Bot.Models.Migrations
 
                     b.HasKey("EntityId", "CommandName", "GuildId");
 
+                    b.HasAlternateKey("CommandName", "EntityId", "GuildId");
+
                     b.HasIndex("GuildId");
 
                     b.ToTable("Permissions");
@@ -857,9 +860,11 @@ namespace Miki.Bot.Models.Migrations
 
             modelBuilder.Entity("Miki.Bot.Models.GlobalPasta", b =>
                 {
-                    b.HasOne("Miki.Bot.Models.User", null)
+                    b.HasOne("Miki.Bot.Models.User", "User")
                         .WithMany("Pastas")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Miki.Bot.Models.Item", b =>

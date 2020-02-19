@@ -23,6 +23,7 @@
         public DbSet<Connection> Connections { get; set; }
         public DbSet<CustomCommand> CustomCommands { get; set; }
         public DbSet<Config> Configurations { get; set; }
+        public DbSet<Daily> Dailies { get; set; } 
         public DbSet<Prefix> Identifiers { get; set; }
         public DbSet<IsDonator> IsDonator { get; set; }
         public DbSet<DonatorKey> DonatorKey { get; set; }
@@ -107,6 +108,11 @@
             var commands = modelBuilder.Entity<CustomCommand>();
             commands.HasKey(x => new { x.GuildId, x.CommandName });
             #endregion
+
+            #region Daily
+            var dailies = modelBuilder.Entity<Daily>();
+            dailies.HasKey(x => new { x.UserId });
+            #endregion Daily
 
             #region DonatorKey
             var donatorKey = modelBuilder.Entity<DonatorKey>();
