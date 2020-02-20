@@ -2,7 +2,6 @@
 {
     using System;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
     using Miki.Bot.Models.Models.Authorization;
     using Miki.Bot.Models.Models.User;
     using Miki.Bot.Models.Queries;
@@ -47,7 +46,6 @@
 
         private MikiDbContext()
         { }
-
         public MikiDbContext(DbContextOptions options)
             : base(options)
         { } 
