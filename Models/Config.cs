@@ -91,6 +91,8 @@
         public string OsuApiKey { get; set; }
 
         public string ImgurApiKey { get; set; }
+
+        public string DanbooruApiKey { get; set; }
     }
 }
 
