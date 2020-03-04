@@ -75,7 +75,6 @@
 				Currency = 0,
 				AvatarUrl = "default",
 				HeaderUrl = "default",
-				LastDailyTime = DateTime.UtcNow.AddDays(-1),
 				MarriageSlots = 5,
 				Name = name,
 				Title = "",
