@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Creates a localizable entity with a resource name of "verb_{Value}".
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class VerbAttribute : Attribute
     {
