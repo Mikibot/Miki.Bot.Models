@@ -61,7 +61,7 @@
 			Setting s = await context.Set<Setting>().FindAsync(id, settingId);
 			if (s == null)
 			{
-				await context.AddAsync(new Setting()
+				await context.AddAsync(new Setting
 				{
 					EntityId = id,
 					SettingId = settingId,
