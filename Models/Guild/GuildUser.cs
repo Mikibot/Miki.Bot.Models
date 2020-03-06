@@ -107,7 +107,7 @@
 		}
 
 		public async Task<int> GetGlobalRankAsync(DbContext context)
-			=> await context.Set<GuildUser>()
+			=> 1 + await context.Set<GuildUser>()
 				.Where(x => x.Experience > Experience)
 				.CountAsync();
 
