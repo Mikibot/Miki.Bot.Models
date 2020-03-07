@@ -18,10 +18,11 @@
         {
             this.argumentName = argumentName;
         }
+
         public ArgumentMissingException(Type argumentType)
         {
             var attr = argumentType.GetCustomAttribute<VerbAttribute>();
-            argumentName = attr != null ? attr.Value 
+            argumentName = attr != null ? attr.Value
                 : GetVerbFromBaseType(argumentType);
         }
 
