@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Miki.Core.Migrations
+﻿namespace Miki.Core.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class ModelIterations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

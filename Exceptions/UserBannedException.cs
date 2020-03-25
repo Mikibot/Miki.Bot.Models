@@ -1,7 +1,7 @@
 ﻿namespace Miki.Bot.Models.Exceptions
 {
     using Miki.Bot.Models;
-    using Miki.Localization.Models;
+    using Miki.Localization;
 
     public class UserBannedException : UserException
     {

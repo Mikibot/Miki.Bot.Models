@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-
-namespace Miki.Migrations
+﻿namespace Miki.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+    
     public partial class DailyDatabaseMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -3,14 +3,14 @@
     using System;
 
     /// <summary>
-    /// Creates a localizable entity with a resource name of "verb_{Value}".
+    /// Creates a localizable entity with a resource name of "entity_{Value}".
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class VerbAttribute : Attribute
+    public class EntityAttribute : Attribute
     {
         public string Value { get; set; }
 
-        public VerbAttribute(string verb)
+        public EntityAttribute(string verb)
         {
             Value = verb;
         }

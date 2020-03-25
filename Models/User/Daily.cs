@@ -1,12 +1,10 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
-using System;
-using Miki.Logging;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
+    using System.Runtime.Serialization;
+    using Microsoft.EntityFrameworkCore;
+    using System.Threading.Tasks;
+    using System;
+    
     [DataContract]
 	public class Daily
 	{
@@ -21,24 +19,5 @@ namespace Miki.Bot.Models
 
 		[DataMember(Order = 4)]
 		public DateTime LastClaimTime { get; set; }
-
-        public static async Task<Daily> GetAsync(DbContext context, long userId)
-        {
-            Daily daily = await context.Set<Daily>()
-                .FirstOrDefaultAsync(x => x.UserId == userId);
-
-            if (daily == null)
-            {
-                daily = (await context.Set<Daily>()
-                    .AddAsync(new Daily()
-                    {
-                        UserId = userId,
-                        LastClaimTime = DateTime.UtcNow.AddHours(-23)
-                    })).Entity;
-                await context.SaveChangesAsync();
-            }
-
-            return daily;
-        }
     }
 }

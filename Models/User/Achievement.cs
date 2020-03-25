@@ -1,9 +1,9 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace Miki.Bot.Models
+﻿namespace Miki.Bot.Models
 {
-	[DataContract]
+    using System;
+    using System.Runtime.Serialization;
+
+    [DataContract]
 	public class Achievement
 	{
 		[DataMember(Order = 1)]

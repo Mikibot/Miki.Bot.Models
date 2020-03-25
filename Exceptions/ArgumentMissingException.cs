@@ -4,7 +4,7 @@
     using System.Reflection;
     using Miki.Bot.Models.Attributes;
     using Miki.Localization.Exceptions;
-    using Miki.Localization.Models;
+    using Miki.Localization;
 
     public class ArgumentMissingException : LocalizedException
     {
@@ -21,7 +21,7 @@
 
         public ArgumentMissingException(Type argumentType)
         {
-            var attr = argumentType.GetCustomAttribute<VerbAttribute>();
+            var attr = argumentType.GetCustomAttribute<EntityAttribute>();
             argumentName = attr != null ? attr.Value
                 : GetVerbFromBaseType(argumentType);
         }
@@ -30,7 +30,7 @@
         {
             if(t.IsAssignableFrom(typeof(string)))
             {
-                return "verb_word";
+                return "entity_word";
             }
 
             if(t.IsAssignableFrom(typeof(int))
@@ -43,15 +43,15 @@
                || t.IsAssignableFrom(typeof(double))
                || t.IsAssignableFrom(typeof(decimal)))
             {
-                return "verb_number";
+                return "entity_number";
             }
 
             if(t.IsAssignableFrom(typeof(bool)))
             {
-                return "verb_switch";
+                return "entity_switch";
             }
 
-            return "verb_object";
+            return "entity_object";
         }
     }
 }

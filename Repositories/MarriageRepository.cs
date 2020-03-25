@@ -1,11 +1,11 @@
 ﻿namespace Miki.Bot.Models.Repositories
 {
-	using Miki.Patterns.Repositories;
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Miki.Patterns.Repositories;
     using Miki.Framework;
 
     public class MarriageService
@@ -63,10 +63,10 @@
 		public async Task<bool> ExistsMarriageAsync(long id1, long id2)
 			=> await GetMarriageAsync(id1, id2) != null;
 
-		public async Task<List<UserMarriedTo>> GetProposalsSent(long asker)
+		public async Task<List<UserMarriedTo>> GetProposalsSentAsync(long asker)
 			=> await InternalGetProposalsSentAsync(asker);
 
-		public async Task<List<UserMarriedTo>> GetProposalsReceived(long userid)
+		public async Task<List<UserMarriedTo>> GetProposalsReceivedAsync(long userid)
 			=> await InternalGetProposalsReceivedAsync(userid);
 
 		public async Task<UserMarriedTo> GetMarriageAsync(ulong receiver, ulong asker)
@@ -99,12 +99,12 @@
 
 		public async Task<UserMarriedTo> GetEntryAsync(long receiver, long asker)
 		{
-             UserMarriedTo m = await (await marriedToRepository.ListAsync())
+             UserMarriedTo marriedTo = await (await marriedToRepository.ListAsync())
                  .AsQueryable()
 				.Include(x => x.Marriage)
-				.FirstOrDefaultAsync(x => (x.AskerId == asker && x.ReceiverId == receiver)
-					|| (x.AskerId == receiver && x.ReceiverId == asker));
-			return m;
+				.FirstOrDefaultAsync(x => x.AskerId == asker && x.ReceiverId == receiver
+					|| x.AskerId == receiver && x.ReceiverId == asker);
+			return marriedTo;
 		}
 
 		public async Task ProposeAsync(long asker, long receiver)
@@ -128,16 +128,7 @@
                 .ConfigureAwait(false);
         }
 
-		private async Task<UserMarriedTo> InternalGetProposalAsync(long askerid, long userid)
-		{
-			return await (await marriedToRepository.ListAsync())
-                .AsQueryable()
-				.Include(x => x.Marriage)
-				.FirstOrDefaultAsync(x => (x.AskerId == askerid || x.ReceiverId == userid) 
-                                          && x.Marriage.IsProposing);
-		}
-
-		private async Task<List<UserMarriedTo>> InternalGetProposalsSentAsync(long asker)
+        private async Task<List<UserMarriedTo>> InternalGetProposalsSentAsync(long asker)
 		{
 			var allInstances = await (await marriedToRepository.ListAsync())
                 .AsQueryable()
