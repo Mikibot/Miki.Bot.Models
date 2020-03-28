@@ -93,6 +93,11 @@
         public string ImgurApiKey { get; set; }
 
         public string DanbooruApiKey { get; set; }
+
+        /// <summary>
+        /// Split.io sdk key for experimentation and feature flagging.
+        /// </summary>
+        public string SplitioSdkKey { get; set; }
     }
 }
 
