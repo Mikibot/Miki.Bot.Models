@@ -8,11 +8,13 @@
     [AttributeUsage(AttributeTargets.Class)]
     public class EntityAttribute : Attribute
     {
-        public string Value { get; set; }
+        private readonly string innerValue;
+
+        public string Value => $"entity_{innerValue}";
 
         public EntityAttribute(string verb)
         {
-            Value = verb;
+            innerValue = verb;
         }
     }
 }

@@ -23,7 +23,7 @@
                 .FirstOrDefault();
             if(entityAttribute == null)
             {
-                return new LanguageResource("entity_generic");
+                return new LanguageResource("entity_object");
             }
 
             return new LanguageResource(entityAttribute.Value);
