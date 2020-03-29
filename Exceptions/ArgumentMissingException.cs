@@ -12,7 +12,7 @@
 
         /// <inheritdoc />
         public override IResource LocaleResource
-            => new LanguageResource("errors_missing_argument", new LanguageResource(argumentName));
+            => new LanguageResource("error_missing_argument", new LanguageResource(argumentName));
 
         public ArgumentMissingException(string argumentName)
         {
