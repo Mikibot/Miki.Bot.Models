@@ -7,8 +7,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Queries;
+    using Miki.Bot.Models.Attributes;
 
+	[Entity("user")]
     [DataContract]
 	public class User
 	{
