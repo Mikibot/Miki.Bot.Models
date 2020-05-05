@@ -1,13 +1,11 @@
 ﻿namespace Miki.Bot.Models
 {
-	using System.Runtime.Serialization;
 	using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Attributes;
+	using System.Collections.Generic;
+	using System.Runtime.Serialization;
+	using System.Threading.Tasks;
+	using Microsoft.EntityFrameworkCore;
+	using Miki.Bot.Models.Attributes;
 
 	[Entity("user")]
     [DataContract]
@@ -52,16 +50,10 @@
 
         [Obsolete]
 		public bool Banned { get; set; }
-
-		public List<Achievement> Achievements { get; set; }
-		public List<CommandUsage> CommandsUsed { get; set; }
-		public List<GlobalPasta> Pastas { get; set; }
+        
+        public List<CommandUsage> CommandsUsed { get; set; }
 		public List<LocalExperience> LocalExperience { get; set; }
 
-        public List<Item> Inventory { get; set; }
-
-		[NotMapped]
-		public Connection Connections { get; set; }
 
 		[DataMember(Order = 14)]
 		public int DblVotes { get; set; }
@@ -70,7 +62,7 @@
 
 		public static async Task<User> CreateAsync(DbContext context, long id, string name)
 		{
-			User user = new User()
+			User user = new User
 			{
 				Id = id,
 				Currency = 0,
@@ -96,23 +88,5 @@
 
         public static int CalculateLevelExperience(int level)
             => level * level * 10;
-        
-		public async Task<bool> IsDonatorAsync(DbContext context)
-		{
-			IsDonator d = await context.Set<IsDonator>().FindAsync(Id);
-			bool b = (d?.ValidUntil ?? new DateTime(0)) > DateTime.Now;
-			return b;
-		}
     }
-
-	// TODO: move to own file
-	[DataContract]
-	public class ReputationObject
-	{
-		[DataMember(Order = 1)]
-		public DateTime LastReputationGiven { get; set; }
-
-		[DataMember(Order = 2)]
-		public short ReputationPointsLeft { get; set; }
-	}
 }
