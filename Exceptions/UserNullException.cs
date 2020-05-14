@@ -1,9 +1,9 @@
-﻿namespace Miki.Bot.Models.Exceptions
-{
-    using System;
-    using Miki.Localization.Exceptions;
-    using Miki.Localization;
+﻿using System;
+using Miki.Localization.Exceptions;
+using Miki.Localization;
 
+namespace Miki.Bot.Models.Exceptions
+{
     [Obsolete("Use 'EntityNullException<User>' instead.")]
     public class UserNullException : LocalizedException
 	{

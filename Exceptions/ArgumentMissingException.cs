@@ -1,11 +1,11 @@
-﻿namespace Miki.Bot.Models.Exceptions
-{
-    using System;
-    using System.Reflection;
-    using Miki.Bot.Models.Attributes;
-    using Miki.Localization.Exceptions;
-    using Miki.Localization;
+﻿using System;
+using System.Reflection;
+using Miki.Bot.Models.Attributes;
+using Miki.Localization.Exceptions;
+using Miki.Localization;
 
+namespace Miki.Bot.Models.Exceptions
+{
     public class ArgumentMissingException : LocalizedException
     {
         private readonly string argumentName;

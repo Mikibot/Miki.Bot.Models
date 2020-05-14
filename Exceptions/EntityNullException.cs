@@ -1,11 +1,11 @@
-﻿namespace Miki.Bot.Models.Exceptions
-{
-    using System.Linq;
-    using System.Reflection;
-    using Miki.Bot.Models.Attributes;
-    using Miki.Localization.Exceptions;
-    using Miki.Localization;
+﻿using System.Linq;
+using System.Reflection;
+using Miki.Bot.Models.Attributes;
+using Miki.Localization.Exceptions;
+using Miki.Localization;
 
+namespace Miki.Bot.Models.Exceptions
+{
     /// <summary>
     /// Localized exception for if an entity is null. Requires that the type has a
     /// <see cref="EntityAttribute"/> attached to the type.

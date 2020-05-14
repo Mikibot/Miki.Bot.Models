@@ -1,8 +1,8 @@
-﻿namespace Miki.Bot.Models.Exceptions
+﻿using Miki.Localization.Exceptions;
+using Miki.Localization;
+
+namespace Miki.Bot.Models.Exceptions
 {
-    using Miki.Localization.Exceptions;
-    using Miki.Localization;
-	
     public class InsufficientCurrencyException : LocalizedException
 	{
 		public override IResource LocaleResource

@@ -1,7 +1,7 @@
-﻿namespace Miki.Bot.Models
-{
-    using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
+namespace Miki.Bot.Models
+{
     [DataContract]
 	public class ModuleState
 	{

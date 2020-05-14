@@ -1,8 +1,8 @@
-﻿namespace Miki.Bot.Models.Models.Core
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
+namespace Miki.Bot.Models.Models.Core
+{
     /// <summary>
     /// Paginated interface to abstractify paged queries.
     /// </summary>

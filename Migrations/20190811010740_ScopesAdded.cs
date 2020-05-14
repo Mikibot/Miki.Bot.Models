@@ -1,7 +1,7 @@
-﻿namespace Miki.Migrations
-{
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Miki.Migrations
+{
     public partial class ScopesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

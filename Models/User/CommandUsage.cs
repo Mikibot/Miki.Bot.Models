@@ -1,9 +1,9 @@
-﻿namespace Miki.Bot.Models
-{
-	using System.Runtime.Serialization;
-	using Microsoft.EntityFrameworkCore;
-	using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
+namespace Miki.Bot.Models
+{
 	[DataContract]
 	public class CommandUsage
 	{

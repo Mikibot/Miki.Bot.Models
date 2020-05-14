@@ -1,8 +1,8 @@
-﻿namespace Miki.Core.Migrations
-{
-	using Microsoft.EntityFrameworkCore.Migrations;
-	using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
+namespace Miki.Core.Migrations
+{
 	public partial class remove_rep : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

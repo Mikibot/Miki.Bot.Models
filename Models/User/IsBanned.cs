@@ -1,9 +1,9 @@
-﻿namespace Miki.Bot.Models.Models.User
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
+namespace Miki.Bot.Models.Models.User
+{
     public class IsBanned
     {
         public long BanId { get; set; }

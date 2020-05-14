@@ -1,12 +1,12 @@
-﻿namespace Miki.Bot.Models
-{
-	using System;
-	using System.Collections.Generic;
-	using System.Runtime.Serialization;
-	using System.Threading.Tasks;
-	using Microsoft.EntityFrameworkCore;
-	using Miki.Bot.Models.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Attributes;
 
+namespace Miki.Bot.Models
+{
 	[Entity("user")]
     [DataContract]
 	public class User

@@ -1,7 +1,7 @@
-﻿namespace Miki.Bot.Models.Attributes
-{
-    using System;
+﻿using System;
 
+namespace Miki.Bot.Models.Attributes
+{
     /// <summary>
     /// Creates a localizable entity with a resource name of "entity_{Value}".
     /// </summary>

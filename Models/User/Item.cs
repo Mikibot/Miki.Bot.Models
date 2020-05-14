@@ -1,9 +1,9 @@
-﻿namespace Miki.Bot.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
+namespace Miki.Bot.Models
+{
     public class ItemResource
     {
         public long Id { get; set; }

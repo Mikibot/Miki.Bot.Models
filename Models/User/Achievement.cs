@@ -1,8 +1,8 @@
-﻿namespace Miki.Bot.Models
-{
-    using System;
-    using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
+namespace Miki.Bot.Models
+{
     [DataContract]
 	public class Achievement
 	{

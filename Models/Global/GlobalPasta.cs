@@ -1,12 +1,11 @@
-﻿namespace Miki.Bot.Models
+﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Miki.Bot.Models
 {
-    using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Exceptions;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    
-    
     /// <summary>
     /// Pasta model.
     /// Keeps track all pasta data, transformations and accessors.

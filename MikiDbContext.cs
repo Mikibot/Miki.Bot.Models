@@ -1,16 +1,16 @@
-﻿namespace Miki.Bot.Models
-{
-    using System;
-    using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Models.Authorization;
-    using Miki.Bot.Models.Models.User;
-    using Miki.Bot.Models.Queries;
-    using Miki.Framework.Commands.Localization.Models;
-    using Miki.Framework.Commands.Permissions.Models;
-    using Miki.Framework.Commands.Prefixes.Models;
-    using Miki.Framework.Commands.Scopes.Models;
-    using Miki.Models.User;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Models.Authorization;
+using Miki.Bot.Models.Models.User;
+using Miki.Bot.Models.Queries;
+using Miki.Framework.Commands.Localization.Models;
+using Miki.Framework.Commands.Permissions.Models;
+using Miki.Framework.Commands.Prefixes.Models;
+using Miki.Framework.Commands.Scopes.Models;
+using Miki.Models.User;
 
+namespace Miki.Bot.Models
+{
     public class MikiDbContext : DbContext
 	{
         public DbSet<APIApplication> Applications { get; set; }

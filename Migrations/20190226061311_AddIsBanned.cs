@@ -1,9 +1,9 @@
-﻿namespace Miki.Core.Migrations
-{
-    using System;
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+namespace Miki.Core.Migrations
+{
     public partial class AddIsBanned : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

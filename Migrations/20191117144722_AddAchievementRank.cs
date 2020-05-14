@@ -1,8 +1,8 @@
-﻿namespace Miki.Migrations
-{
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+namespace Miki.Migrations
+{
     public partial class AddAchievementRank : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

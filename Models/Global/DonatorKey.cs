@@ -1,11 +1,11 @@
-﻿namespace Miki.Bot.Models
-{
-    using Microsoft.EntityFrameworkCore;
-    using Miki.Bot.Models.Exceptions;
-    using System;
-    using System.Threading.Tasks;
-    using Patterns.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Miki.Bot.Models.Exceptions;
+using System;
+using System.Threading.Tasks;
+using Miki.Patterns.Repositories;
 
+namespace Miki.Bot.Models
+{
     public class DonatorKey
 	{
 		public Guid Key { get; set; }

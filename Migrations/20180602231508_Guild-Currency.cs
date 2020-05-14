@@ -1,7 +1,7 @@
-﻿namespace Miki.Bot.Models.Migrations
-{
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Miki.Bot.Models.Migrations
+{
     public partial class GuildCurrency : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

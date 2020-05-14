@@ -1,8 +1,8 @@
-﻿namespace Miki.Migrations
-{
-    using System;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Miki.Migrations
+{
     public partial class RemoveDirectSQL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

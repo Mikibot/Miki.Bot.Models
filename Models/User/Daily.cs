@@ -1,10 +1,10 @@
-﻿namespace Miki.Bot.Models
+﻿using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System;
+
+namespace Miki.Bot.Models
 {
-    using System.Runtime.Serialization;
-    using Microsoft.EntityFrameworkCore;
-    using System.Threading.Tasks;
-    using System;
-    
     [DataContract]
 	public class Daily
 	{

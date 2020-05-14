@@ -1,7 +1,7 @@
-﻿namespace Miki.Bot.Models
-{
-	using System;
+﻿using System;
 
+namespace Miki.Bot.Models
+{
 	public class Marriage
 	{
 		public long MarriageId { get; set; }

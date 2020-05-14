@@ -1,8 +1,8 @@
-﻿namespace Miki.Bot.Models.Migrations
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+
+namespace Miki.Bot.Models.Migrations
 {
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using System;
-    
     public partial class donate_fixes : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,9 +1,9 @@
-﻿namespace Miki.Core.Migrations
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using System;
+
+namespace Miki.Core.Migrations
 {
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-    using System;
-    
     public partial class backgroundsowned : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

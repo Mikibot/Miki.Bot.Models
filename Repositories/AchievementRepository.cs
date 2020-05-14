@@ -1,13 +1,13 @@
-﻿namespace Miki.Bot.Models.Repositories
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Framework;
-    using Microsoft.EntityFrameworkCore;
-    using Miki.Patterns.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Miki.Framework;
+using Microsoft.EntityFrameworkCore;
+using Miki.Patterns.Repositories;
 
+namespace Miki.Bot.Models.Repositories
+{
     public class AchievementRepository : IAsyncRepository<Achievement>
     {
         private readonly DbSet<Achievement> set;

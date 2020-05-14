@@ -1,7 +1,7 @@
-﻿namespace Miki.Core.Migrations
-{
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Miki.Core.Migrations
+{
     public partial class state_rework : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

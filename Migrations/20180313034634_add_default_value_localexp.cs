@@ -1,8 +1,8 @@
-﻿namespace Miki.Core.Migrations
-{
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
+namespace Miki.Core.Migrations
+{
     public partial class add_default_value_localexp : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

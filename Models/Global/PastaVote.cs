@@ -1,10 +1,10 @@
-﻿namespace Miki.Bot.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
+
+namespace Miki.Bot.Models
 {
-    using Microsoft.EntityFrameworkCore;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Threading.Tasks;
-    
     [Table("Votes")]
 	public class PastaVote
 	{

@@ -1,7 +1,7 @@
-﻿namespace Miki.Core.Migrations
-{
-	using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Miki.Core.Migrations
+{
 	public partial class fix_key_marriage : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,8 +1,8 @@
-﻿namespace Miki.Bot.Models.Exceptions
-{
-    using Miki.Bot.Models;
-    using Miki.Localization;
+﻿using Miki.Bot.Models;
+using Miki.Localization;
 
+namespace Miki.Bot.Models.Exceptions
+{
     public class UserBannedException : UserException
     {
         public override IResource LocaleResource 

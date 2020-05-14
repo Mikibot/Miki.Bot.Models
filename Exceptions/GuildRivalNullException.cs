@@ -1,9 +1,9 @@
-﻿namespace Miki.Bot.Models.Exceptions
+﻿using Miki.Localization.Exceptions;
+using Miki.Localization;
+using System;
+
+namespace Miki.Bot.Models.Exceptions
 {
-    using Miki.Localization.Exceptions;
-    using Miki.Localization;
-    using System;
-    
     class GuildRivalNullException : LocalizedException
 	{
 		public override IResource LocaleResource 

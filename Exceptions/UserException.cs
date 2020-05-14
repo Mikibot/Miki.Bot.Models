@@ -1,8 +1,7 @@
-﻿
+﻿using Miki.Localization.Exceptions;
+
 namespace Miki.Bot.Models.Exceptions
 {
-    using Miki.Localization.Exceptions;
-	
     public abstract class UserException : LocalizedException
 	{
 		protected User User { get; }

@@ -1,10 +1,10 @@
-﻿namespace Miki.Models.User
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.Serialization;
-    using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 
+namespace Miki.Models.User
+{
     public enum UserAction
     {
         ACHIEVEMENT_GAIN,
