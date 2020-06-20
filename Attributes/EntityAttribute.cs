@@ -12,9 +12,9 @@ namespace Miki.Bot.Models.Attributes
 
         public string Value => $"entity_{innerValue}";
 
-        public EntityAttribute(string verb)
+        public EntityAttribute(string noun)
         {
-            innerValue = verb;
+            innerValue = noun;
         }
     }
 }
