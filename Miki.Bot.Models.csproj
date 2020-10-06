@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.6" />
-    <PackageReference Include="Miki.Discord" Version="4.0.0-rc.8" />
+    <PackageReference Include="Miki.Discord" Version="4.0.0-rc.11" />
     <PackageReference Include="Miki.Framework" Version="2.5.0-rc.1" />
     <PackageReference Include="Miki.Framework.Commands.Localization" Version="2.5.0-rc.1" />
     <PackageReference Include="Miki.Framework.Commands.Permissions" Version="2.5.0-rc.1" />
